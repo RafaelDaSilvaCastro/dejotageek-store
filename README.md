@@ -8,5 +8,6 @@ React;
   *tailwind
   *React Router DOM
 PostgresSQL;
-Java String Boot;
+  *DBeaver;
+Java Spring Boot;
 
