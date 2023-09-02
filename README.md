@@ -9,5 +9,5 @@ React;
   *React Router DOM
 PostgresSQL;
   *DBeaver;
-Java Spring Boot;
+Java Spring Boot.
 
