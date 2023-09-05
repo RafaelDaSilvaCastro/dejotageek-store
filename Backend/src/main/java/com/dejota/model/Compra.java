@@ -8,6 +8,7 @@ public class Compra extends EntityId  {
 
     private List<Produto> produtosComprados = new ArrayList<>();
     private Usuario usuario;
+    private Transacao transacao;
 
     public Compra() {
     }
