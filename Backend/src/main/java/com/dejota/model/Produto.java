@@ -4,7 +4,6 @@ public class Produto extends EntityId {
 
     private String nome;
     private String descricao;
-    private Integer codigo;
     private Double preco;
     private Integer estoque;
     private Categoria categoria;
