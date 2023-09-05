@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Compra extends Transacao {
+public class Compra extends EntityId  {
 
     private List<Produto> produtosComprados = new ArrayList<>();
     private Usuario usuario;
