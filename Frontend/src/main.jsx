@@ -10,30 +10,36 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './Pages/Login/Login.jsx';
 import Stock from './Pages/Stock/Stock.jsx';
 import PageError from './Pages/PageError/PageError.jsx';
+import AuthenticationLayout from './AutenticationLayout.jsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     children: [
       {
-        path:"/",  //Define a rota do Stock como rota principal
-        element: <Login/>
+        path: "/",  //Define a rota do Login como rota principal
+        element: <Login />
       },
       {
-        path:"stock",
-        element: <Stock/>
-      },
-      {
-        path: "*",
-        element: <PageError/>,
-      },
+        element: <AuthenticationLayout />,
+        children: [
+          {
+            path: "stock",
+            element: <Stock />
+          },
+          {
+            path: "*",
+            element: <PageError />,
+          },
+        ]
+      }
     ]
-  }  
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
   </React.StrictMode>,
 )
