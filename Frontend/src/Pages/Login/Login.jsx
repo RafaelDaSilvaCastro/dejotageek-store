@@ -1,6 +1,6 @@
 function Login() {
   return (
-    <body class="bg-branco-hover h-screen font-roboto">
+    <section class="h-screen font-roboto">
       <main class="flex flex-col justify-center items-center h-screen">
         <div class="drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] px-20 rounded-xl py-28 bg-branco-hover flex flex-col justify-center items-center gap-3">
           <div class="flex mb-6">
@@ -27,7 +27,7 @@ function Login() {
           </p>
         </div>
       </main>
-    </body>
+    </section>
   );
 }
 

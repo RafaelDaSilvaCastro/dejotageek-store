@@ -19,6 +19,10 @@ export default {
       },
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
+        bubblegumSans: ["Bubblegum Sans", "Roboto"]
+      },
+      fontSize: {
+        '10xl': '15rem'
       },
     },
   },

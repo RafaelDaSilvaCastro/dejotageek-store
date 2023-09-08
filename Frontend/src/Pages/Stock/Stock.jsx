@@ -1,8 +1,7 @@
-function Stock(){
-  return(
-  <>
-    <h1>Stock!</h1>
-  </>
+function Stock() {
+  return (
+    <div>
+    </div>
   );
 }
 
