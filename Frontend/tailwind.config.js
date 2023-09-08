@@ -15,14 +15,21 @@ export default {
         },
         vermelho: {
           botao: "#CE3838",
+          botaoHover: "#A81414",
+        },
+        azul: {
+          botao: "#2079FF",
+        },
+        cinza: {
+          aviso: "#8F8F8F",
         },
       },
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
-        bubblegumSans: ["Bubblegum Sans", "Roboto"]
+        bubblegumSans: ["Bubblegum Sans", "Roboto"],
       },
       fontSize: {
-        '10xl': '15rem'
+        "10xl": "15rem",
       },
     },
   },
