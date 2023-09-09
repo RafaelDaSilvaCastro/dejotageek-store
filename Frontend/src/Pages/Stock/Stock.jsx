@@ -5,7 +5,7 @@ function Stock() {
   return (
     <div>
       <PesquisaFiltro />
-      <ul className="grid grid-cols-7 gap-4 justify-items-center items-center border-b border-cinza-claro pt-10 pb-2">
+      <ul className="grid grid-cols-7 gap-4 justify-items-center items-center border-b border-cinza-claro pt-16 pb-2">
         <li className="">Imagem</li>
         <li className="">Nome</li>
         <li className="">Código</li>

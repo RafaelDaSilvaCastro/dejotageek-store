@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      height: {
+        barraCinza: "34rem",
+      },
       dropShadow: {
         lowshadow: "0 3px 10px rgba(0, 0, 0, 0.25)",
       },
