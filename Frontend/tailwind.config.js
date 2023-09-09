@@ -16,12 +16,17 @@ export default {
         vermelho: {
           botao: "#CE3838",
           botaoHover: "#A81414",
+          pessego: "#EC8E8E",
         },
         azul: {
           botao: "#2079FF",
         },
         cinza: {
           aviso: "#8F8F8F",
+          claro: "#C9C9C9",
+        },
+        verde: {
+          caqui: "#BBE9A6",
         },
       },
       fontFamily: {
