@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      margin: {
+        negativa: "-4rem",
+      },
       height: {
         barraCinza: "34rem",
       },
@@ -38,6 +41,9 @@ export default {
       },
       fontSize: {
         "10xl": "15rem",
+      },
+      backgroundImage: {
+        "imagem-vazia": "url('./public/assets/imagem-vazia.png')",
       },
     },
   },

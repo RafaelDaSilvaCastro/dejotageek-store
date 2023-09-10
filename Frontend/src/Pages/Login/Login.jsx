@@ -6,10 +6,6 @@ function Login() {
   const [mostrarAviso, setMostrarAviso] = useState(false);
   const [mensagem, setMensagem] = useState("");
 
-  const exibirAviso = () => {
-    setMostrarAviso(true);
-  };
-
   const mandarAviso = (event) => {
     if (email !== "") {
       setMensagem("Senha enviada para o seu Email");
