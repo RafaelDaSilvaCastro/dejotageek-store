@@ -1,4 +1,13 @@
+import React, { useState } from "react";
+import Filtro from "./Filtro";
+
 function PesquisaFiltro() {
+  const [mostrarFiltro, setMostrarFiltro] = useState(false);
+
+  const apareceFiltro = () => {
+    setMostrarFiltro(!mostrarFiltro);
+  };
+
   return (
     <section className="flex items-center gap-8">
       <input
@@ -13,7 +22,10 @@ function PesquisaFiltro() {
         />
         Nome
       </button>
-      <button className="bg-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-3 py-2 flex items-center hover:scale-105  duration-150">
+      <button
+        className="bg-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-3 py-2 flex items-center hover:scale-105  duration-150"
+        onClick={apareceFiltro}
+      >
         <img
           className="pr"
           src="../../public/assets/icone-filtro.svg"
@@ -21,6 +33,7 @@ function PesquisaFiltro() {
         />
         Filtro
       </button>
+      {mostrarFiltro && <Filtro />}
     </section>
   );
 }
