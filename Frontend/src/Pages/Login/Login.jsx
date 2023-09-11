@@ -1,5 +1,6 @@
 import Aviso from "../../componentes/Aviso";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -46,12 +47,16 @@ function Login() {
               placeholder="Senha"
               class="drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-xl w-80 text-black bg-branco-fbfbfb mb-6 h-10 px-8 outline-none text-base placeholder-branco-cinza"
             />
-            <button
-              class="hover:bg-vermelho-botaoHover duration-150 bg-vermelho-botao text-white w-80 rounded-xl text-center h-10 text-xl shadow-lg"
-              href="./index.html"
-            >
-              Entrar
-            </button>
+            <div>
+              <Link to="/stock">
+                <button
+                  class="hover:bg-vermelho-botaoHover duration-150 bg-vermelho-botao text-white w-80 rounded-xl text-center h-10 text-xl shadow-lg"
+                  href="./index.html"
+                >
+                  Entrar
+                </button>
+              </Link>
+            </div>
           </form>
           <p
             onClick={mandarAviso}

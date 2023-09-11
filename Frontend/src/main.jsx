@@ -13,6 +13,8 @@ import Header from "./componentes/Header.jsx";
 import Login from "./Pages/Login/Login.jsx";
 import Stock from "./Pages/Stock/Stock.jsx";
 import Products from "./Pages/Products/Products.jsx";
+import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
+import CompraEVenda from "./Pages/CompraEVenda/CompraEVenda.jsx";
 import PageError from "./Pages/PageError/PageError.jsx";
 
 const router = createBrowserRouter([
@@ -34,17 +36,35 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "products",
+        path: "compraevenda",
         element: (
           <>
             <Header />
-            <Products />
+            <CompraEVenda />
           </>
         ),
       },
       {
         path: "*",
         element: <PageError />,
+      },
+      {
+        path: "dashboard",
+        element: (
+          <>
+            <Header />
+            <Dashboard />,
+          </>
+        ),
+      },
+      {
+        path: "products",
+        element: (
+          <>
+            <Header />
+            <Products />,
+          </>
+        ),
       },
     ],
   },

@@ -36,7 +36,7 @@ function Header() {
         </li>
 
         <li>
-          <Link to="/products">
+          <Link to="/compraevenda">
             <button
               className={
                 selectedRadio === "CompraVenda"
@@ -58,7 +58,7 @@ function Header() {
         </li>
 
         <li>
-          <Link to="/stock">
+          <Link to="/products">
             <button
               className={
                 selectedRadio === "NovoItem"
@@ -80,7 +80,7 @@ function Header() {
         </li>
 
         <li>
-          <Link to="/stock">
+          <Link to="/dashboard">
             <button
               className={
                 selectedRadio === "Grafico"
