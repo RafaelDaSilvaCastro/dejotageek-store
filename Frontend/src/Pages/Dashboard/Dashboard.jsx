@@ -1,5 +1,11 @@
+import FiltroDashboard from "../../componentes/FiltroDashboard";
 function Dashboard() {
-  return <></>;
+  return (
+    <div className="flex flex-col">
+      <FiltroDashboard />
+      <div></div>
+    </div>
+  );
 }
 
 export default Dashboard;
