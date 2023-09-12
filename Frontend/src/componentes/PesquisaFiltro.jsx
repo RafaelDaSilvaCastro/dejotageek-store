@@ -9,7 +9,7 @@ function PesquisaFiltro() {
   };
 
   return (
-    <section className="flex items-center gap-8">
+    <section className="flex items-center gap-6">
       <input
         className="drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg p-2.5 bg-[url('../../public/assets/icone-lupa.svg')] bg-no-repeat  bg-right outline-none px-6 w-96"
         type="search"

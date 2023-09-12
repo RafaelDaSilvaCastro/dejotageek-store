@@ -5,7 +5,7 @@ function ItemLista() {
         <li>
           <img src="../../public/assets/camiseta.png" alt="imagem produto" />
         </li>
-        <li>T-shirt Luffy Wanted</li>
+        <li className="text-center">T-shirt Luffy Wanted</li>
         <li>034</li>
         <li className="text-center">
           Camiseta manga curta, Oversized, Estampa Luffy, One piece, 97%
