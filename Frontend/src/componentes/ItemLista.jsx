@@ -1,7 +1,18 @@
+import React, { useState } from "react";
+
 function ItemLista() {
+  const [selecionado, setSelecionado] = useState(false);
+
+  const selecionarItem = () => {
+    setSelecionado(!selecionado);
+  };
+
+  const itemClasses = `grid grid-cols-7 gap-4 place-items-center rounded-3xl mt-1 mb-1 py-1 cursor-pointer  
+  ${selecionado ? "ring-2 ring-vermelho-botao" : ""}`;
+
   return (
-    <div className="border-solid border-b border-cinza-claro">
-      <ul className="  grid grid-cols-7 gap-4  place-items-center ring-2 ring-vermelho-botao rounded-3xl mt-1 mb-1 py-1 ">
+    <div className="border-solid border-b border-cinza-claro cursor-context-menu">
+      <ul className={itemClasses} onClick={selecionarItem}>
         <li>
           <img src="../../public/assets/camiseta.png" alt="imagem produto" />
         </li>
