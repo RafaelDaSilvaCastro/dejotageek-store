@@ -10,16 +10,16 @@ function aviso(props) {
                 alt="icone de verificado verde"
                 className="h-40"
               />
-              <h2 className="text-3xl">Verificação de Email </h2>
-              <p className="text-cinza-aviso   text-xl text-center">
+              <h2 className="text-2xl mx-6">Verificação de Email </h2>
+              <p className="text-cinza-aviso text-lg text-center">
                 {props.mensagem}
               </p>
             </div>
             <button
               onClick={props.onClose}
-              className="text-azul-botao font-bold text-2xl border-solid border-t border-cinza-aviso w-full  py-4 "
+              className="text-azul-botao font-bold text-xl border-solid border-t border-cinza-aviso w-full  py-4 "
             >
-              <p className="hover:scale-125  duration-150">OK</p>
+              <p className="hover:scale-110 duration-150">OK</p>
             </button>
           </div>
         </main>

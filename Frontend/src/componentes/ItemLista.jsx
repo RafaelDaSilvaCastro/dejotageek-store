@@ -28,7 +28,7 @@ function ItemLista() {
           <p className="bg-verde-caqui py-1 px-3 rounded-xl ml-6"> 15</p>
           <img
             className="py-2 ml-3"
-            src="../../public/assets/icone-adicionar-item.png"
+            src="../../public/assets/icone-edit.png"
             alt=""
           />
         </li>

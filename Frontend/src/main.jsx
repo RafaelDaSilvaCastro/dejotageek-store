@@ -12,7 +12,6 @@ import Header from "./componentes/Header.jsx";
 //Importa as Pages para criar as rotas
 import Login from "./Pages/Login/Login.jsx";
 import Stock from "./Pages/Stock/Stock.jsx";
-import Products from "./Pages/Products/Products.jsx";
 import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
 import CompraEVenda from "./Pages/CompraEVenda/CompraEVenda.jsx";
 import PageError from "./Pages/PageError/PageError.jsx";
@@ -54,15 +53,6 @@ const router = createBrowserRouter([
           <>
             <Header />
             <Dashboard />,
-          </>
-        ),
-      },
-      {
-        path: "products",
-        element: (
-          <>
-            <Header />
-            <Products />,
           </>
         ),
       },
