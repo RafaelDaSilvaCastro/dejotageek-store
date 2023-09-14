@@ -19,7 +19,6 @@ function Dashboard() {
       <div className="flex flex-col mt-12 mb-8 gap-y-4 p-16 bg-white rounded-xl drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
         <div className="flex items-center justify-between px-8">
           <h2 className="text-cinza-grafico font-semibold">Lucros/Gastos</h2>
-          <img src="../../../public/assets/icone-info.png" alt="icone info" />
         </div>
         <GraficoColunas />
       </div>

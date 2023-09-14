@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function ItemLista() {
+function ItemLista(props) {
   const [selecionado, setSelecionado] = useState(false);
 
   const selecionarItem = () => {
@@ -27,9 +27,10 @@ function ItemLista() {
         <li className="flex items-center ">
           <p className="bg-verde-caqui py-1 px-3 rounded-xl ml-6"> 15</p>
           <img
-            className="py-2 ml-3"
-            src="../../public/assets/icone-edit.png"
+            className="py-2 ml-3 hover:scale-110  duration-75"
+            src="../../public/assets/icone-edit.svg"
             alt=""
+            onClick={props.editItem}
           />
         </li>
       </ul>

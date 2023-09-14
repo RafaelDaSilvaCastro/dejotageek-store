@@ -45,13 +45,13 @@ function Stock() {
           <li className="">Preço</li>
           <li className="">Estoque</li>
         </ul>
-        <ItemLista />
-        <ItemLista />
-        <ItemLista />
-        <ItemLista />
-        <ItemLista />
-        <ItemLista />
-        <ItemLista />
+        <ItemLista editItem={toggleCadastroItem} />
+        <ItemLista editItem={toggleCadastroItem} />
+        <ItemLista editItem={toggleCadastroItem} />
+        <ItemLista editItem={toggleCadastroItem} />
+        <ItemLista editItem={toggleCadastroItem} />
+        <ItemLista editItem={toggleCadastroItem} />
+        <ItemLista editItem={toggleCadastroItem} />
       </div>
       <div>
         <button
