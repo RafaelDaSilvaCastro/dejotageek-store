@@ -26,13 +26,19 @@ export default {
         },
         azul: {
           botao: "#2079FF",
+          grafico: "#63ABFD",
         },
         cinza: {
           aviso: "#8F8F8F",
           claro: "#C9C9C9",
+          barra: "#ECECEC",
+          grafico: "#828282",
         },
         verde: {
           caqui: "#BBE9A6",
+        },
+        roxo: {
+          grafico: "#E697FF",
         },
       },
       fontFamily: {
