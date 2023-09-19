@@ -9,7 +9,7 @@ function CompraEVenda() {
   };
   return (
     <div>
-      <div className="flex gap-6 mt-24 items-center">
+      <div className="flex gap-6 items-center">
         <button
           className={
             selectedRadio === "Compra"
