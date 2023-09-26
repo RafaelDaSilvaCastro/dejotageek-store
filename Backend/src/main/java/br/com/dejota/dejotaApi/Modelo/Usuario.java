@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigInteger;
@@ -13,13 +14,13 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 
 
-@NoArgsConstructor
-@Entity
-@AllArgsConstructor
 @Data
-public class Usuario {
-    @Id
-    private Long id;
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Entity
+public class Usuario extends EntidadeId {
+
     @Column(name = "username")
     private String username;
     @Column(name = "email")
@@ -30,15 +31,9 @@ public class Usuario {
     private Instant dataCadastro;
 
 
-
-    public String generateMd5(String value){
-        MessageDigest md;
-        try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        BigInteger hash = new BigInteger(1, md.digest(value.getBytes()));
-        return hash.toString(16);
+    public Usuario(String username, String email, String senha) {
+        this.username = username;
+        this.email = email;
+        this.senha = senha;
     }
 }

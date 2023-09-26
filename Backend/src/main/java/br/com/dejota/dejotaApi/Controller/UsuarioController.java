@@ -1,7 +1,7 @@
 package br.com.dejota.dejotaApi.Controller;
 
 import br.com.dejota.dejotaApi.Modelo.Usuario;
-import br.com.dejota.dejotaApi.service.UsuarioServico;
+import br.com.dejota.dejotaApi.servico.UsuarioServico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
