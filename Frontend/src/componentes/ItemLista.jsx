@@ -16,16 +16,15 @@ function ItemLista(props) {
         <li>
           <img src="../../public/assets/camiseta.png" alt="imagem produto" />
         </li>
-        <li className="text-center">T-shirt Luffy Wanted</li>
-        <li>034</li>
+        <li className="text-center">{props.nome}</li>
+        <li>{props.codigo}</li>
         <li className="text-center">
-          Camiseta manga curta, Oversized, Estampa Luffy, One piece, 97%
-          algodão.
+          {props.descricao}
         </li>
-        <li>Camiseta</li>
-        <li>R$ 69,90</li>
+        <li>{props.categoria}</li>
+        <li>{props.preco}</li>
         <li className="flex items-center ">
-          <p className="bg-verde-caqui py-1 px-3 rounded-xl ml-6"> 15</p>
+          {props.estoque >= 5 ? (<p className="bg-verde-caqui py-1 px-3 rounded-xl ml-6"> {props.estoque}</p>) : (<p className="bg-vermelho-pessego py-1 px-3 rounded-xl ml-6"> {props.estoque}</p>)}
           <img
             className="py-2 ml-3 hover:scale-110  duration-75"
             src="../../public/assets/icone-edit.svg"
