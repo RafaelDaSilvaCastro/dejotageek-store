@@ -1,33 +1,38 @@
 import Aviso from "../../componentes/Aviso";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import blogFetch from '../../axios/config';
+import { useNavigate } from "react-router-dom";
+import blogFetch from '../../axios/config.js';
+import Stock from '../Stock/Stock'
 
 function Login() {
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [mostrarAviso, setMostrarAviso] = useState(false);
   const [mensagem, setMensagem] = useState("");
+  const handleChangePage = (newPage) => {
+    setPage(newPage);
+  };
+
 
   const fazerLogin = async (e) => {
     e.preventDefault();
 
     if (email !== '' && senha !== '') {
       try {
-        const response = await blogFetch.post('/posts', {
-          email: email,
-          senha: senha,
-        });
-
-        if (response.status === 200) {
+       const response = await blogFetch.get(`/usuario/auth/${email}/${senha}`)
+        
+        console.log(response.data)
+        if (response.data === true) {
           console.log('Usuário autenticado com sucesso');
-          Navigate("/stock")
-        } else {
+          location.href = '/stock';
+          } else {
           console.log('Credenciais inválidas')
           alert('Credenciais inválidas');
         }
       } catch (error) {
-        alert('Erro ao enviar requisição para o servidor')
+        alert('Erro ao enviar requisição para o servidor: '+error )
         console.log('Erro ao enviar requisição para o servidor')
         console.error('Erro ao enviar requisição para o servidor:', error);
       }
@@ -42,10 +47,8 @@ function Login() {
   const mandarAviso = async () => {
     if (email !== "") {
       try {
-        const response = await blogFetch.post('/posts', {
-          email: email,
-        });
-
+        const response = await blogFetch.get(`/usuario/auth/${email}/${senha}`);
+        console.log(response.data)
         if (response.status === 200) {
           console.log('Senha enviada para o Email: ', email);
           setMensagem("Senha enviada para o seu Email");
@@ -106,7 +109,7 @@ function Login() {
             </div>
           </form>
           <p
-            onClick={mandarAviso}
+           onClick={mandarAviso}
             id="esqueciSenha"
             className="text-sm cursor-pointer hover:scale-125  duration-150"
           >
