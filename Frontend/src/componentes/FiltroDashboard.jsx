@@ -1,4 +1,6 @@
-function FiltroDashboard() {
+import React from "react";
+
+function FiltroDashboard(props) {
   return (
     <div className="flex items-center text-cinza-claro gap-7">
       <div className="flex items-center gap-2 ">
@@ -30,15 +32,14 @@ function FiltroDashboard() {
           required
           className="  outline-none drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg h-10 p-2 bg-white text-cinza-claro w-64 "
         >
-          <option className="text-zinc-800" value="Categoria 1">
-            Categoria
-          </option>
-          <option className="text-zinc-800" value="Categoria 2">
-            Categoria2
-          </option>
-          <option className="text-zinc-800" value="Categoria 3">
-            Categoria3
-          </option>
+          {props.categoriafiltro && props.categoriafiltro.map((categoria) => (
+            <option className="text-zinc-800" value={categoria}>
+              {categoria}
+            </option>
+          ))}
+
+
+
         </select>
       </div>
     </div>

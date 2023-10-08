@@ -58,7 +58,7 @@ function Stock() {
 
   return (
     <div>
-      <PesquisaFiltro />
+      <PesquisaFiltro categoriafiltro={posts.categoria} />
       <div className="mb-36">
         <ul className="grid grid-cols-7 gap-4 justify-items-center items-center border-b border-cinza-claro pt-16 pb-2">
           <li className="">Imagem</li>

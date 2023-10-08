@@ -1,6 +1,6 @@
 import FiltroDashboard from "./FiltroDashboard";
 
-function PesquisaFiltro() {
+function PesquisaFiltro(props) {
   return (
     <section className="flex items-center gap-6 flex-wrap ">
       <div className="flex items-center gap-8">
@@ -8,7 +8,7 @@ function PesquisaFiltro() {
           className="drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg p-2.5 bg-[url('../../public/assets/icone-lupa.svg')] bg-no-repeat  bg-right outline-none px-6 w-96"
           type="search"
         />
-        <FiltroDashboard />
+        <FiltroDashboard categoriafiltro={props.categoriafiltro} />
       </div>
       <div className="flex gap-8 items-center ">
         <button className="bg-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-3 py-2 flex items-center hover:scale-105  duration-150">
