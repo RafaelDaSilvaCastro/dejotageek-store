@@ -22,5 +22,54 @@ public class Produto {
     @Column(name = "estoque")
     private Integer estoque;
 
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id_produto=" + id_produto +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", preco=" + preco +
+                ", estoque=" + estoque +
+                '}';
+    }
 
+    public Long getId_produto() {
+        return id_produto;
+    }
+
+    public void setId_produto(Long id_produto) {
+        this.id_produto = id_produto;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Float getPreco() {
+        return preco;
+    }
+
+    public void setPreco(Float preco) {
+        this.preco = preco;
+    }
+
+    public Integer getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
+    }
 }
