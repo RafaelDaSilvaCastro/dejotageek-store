@@ -1,10 +1,39 @@
 import CardVazio from "./CardVazio";
+import blogFetch from "../axios/config";
+
+async function createItem(event) {
+  event.preventDefault();
+
+  // Pega os valores dos inputs
+  const pnome = document.getElementById('nome').value
+   const pdescricao = document.getElementById('descricao').value
+   const ppreco = document.getElementById('preco').value
+   const pcategoria = document.getElementById('categoria').value
+
+
+  alert(pcategoria)
+  // Envia os dados do formulário para um servidor
+ /* try{
+    const response = await blogFetch.post('/produto', {
+      nome: pnome,
+      descricao: pdescricao,
+      preco : ppreco,
+      estoque : 0,
+      categoria : pcategoria 
+    }  )
+    alert('foi')
+  }catch(err){
+    alert('deu pau')
+    console.log('Erro: ' + err)
+  }  */
+}
+
 
 function CadastroItem() {
   return (
     <div className="bg-white rounded-3xl p-12 flex items-center justify-center gap-36 mb-4 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
       <div className="ml-16">
-        <CardVazio />
+      <CardVazio />
       </div>
       <div>
         <form action="" className="flex flex-col gap-8 justify-center ">
@@ -12,46 +41,53 @@ function CadastroItem() {
             Nome
           </label>
           <input
-            className=" outline-none p-2 rounded-lg w-96 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
+            className="nome outline-none p-2 rounded-lg w-96 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
             placeholder="Nome"
             type="text"
             name="nome"
             id="nome"
             required
+            key="nome"
           />
           <label className="hidden" htmlFor="descricao">
             Descrição
           </label>
           <input
-            className=" outline-none rounded-lg w-96 h-28 p-2 pb-20 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
+            className="descricao outline-none rounded-lg w-96 h-28 p-2 pb-20 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
             placeholder="Descrição"
             type="text"
             name="descricao"
             id="descricao"
             required
+            key="descricao"
           />
-          <div className="flex gap-10">
+          <div className="categoria flex gap-10">
             <select
               id="categoria"
               name="Categoria"
               required
               className=" outline-none drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg h-10 w-44 p-2 bg-white text-cinza-claro"
+              key="categoria"
             >
-              <option className="text-zinc-800" value="Categoria 1">
-                Categoria
+              <option value="" >Selecione uma categoria</option>
+              <option className="text-zinc-800" value="CAMISA">
+                CAMISA
               </option>
-              <option className="text-zinc-800" value="Categoria 2">
-                Categoria2
+              <option className="text-zinc-800" value="ACTIONFIGURE" selected>
+                ACTIONFIGURE
               </option>
-              <option className="text-zinc-800" value="Categoria 3">
-                Categoria3
+              <option className="text-zinc-800" value="DECORACAO">
+                DECORACAO
               </option>
-            </select>
+              <option className="text-zinc-800" value="ACESSORIOS">
+                ACESSORIOS
+              </option>              
+            </select> 
             <label className="hidden" for="preco">
               Preço R$
             </label>
             <input
-              className=" outline-none rounded-lg w-40 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] p-2 placeholder:text-cinza-claro no-arrows"
+              className="preco outline-none rounded-lg w-40 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] p-2 placeholder:text-cinza-claro no-arrows"
               type="number"
               id="preco"
               name="preco"
@@ -59,6 +95,7 @@ function CadastroItem() {
               placeholder="Preço"
               min="0"
               required
+              key="preco"
             />
           </div>
           <div className="flex justify-around">
@@ -70,7 +107,8 @@ function CadastroItem() {
             </button>
             <button
               className=" hover:scale-105 duration-150 bg-verde-caqui rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
-              type="submit"
+              type="button"
+              onClick={createItem}
             >
               Salvar
             </button>

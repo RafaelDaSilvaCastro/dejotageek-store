@@ -21,6 +21,8 @@ public class Produto {
     private Float preco;
     @Column(name = "estoque")
     private Integer estoque;
+    @Column(name = "categoria")
+    private CategoriaProduto categoria;
 
     @Override
     public String toString() {
@@ -30,6 +32,10 @@ public class Produto {
                 ", descricao='" + descricao + '\'' +
                 ", preco=" + preco +
                 ", estoque=" + estoque +
+<<<<<<< Updated upstream
+=======
+                ", categoria" + categoria +
+>>>>>>> Stashed changes
                 '}';
     }
 

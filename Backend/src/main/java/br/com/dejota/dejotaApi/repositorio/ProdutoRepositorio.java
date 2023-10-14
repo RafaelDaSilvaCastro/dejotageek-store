@@ -25,4 +25,13 @@ public interface ProdutoRepositorio extends JpaRepository<Produto, Long> {
 
     @Query(value = "SELECT * FROM Produto", nativeQuery = true)
     List<Produto> findAllProduto();
+<<<<<<< Updated upstream
+=======
+
+    @Query(value = "SELECT * FROM PRODUTO ORDER BY NOME ASC", nativeQuery = true)
+    List<Produto> findAllProdutoInOrderAsc();
+
+    @Query(value = "SELECT * FROM PRODUTO ORDER BY NOME DESC", nativeQuery = true)
+    List<Produto> findAllProdutoInOrderDesc();
+>>>>>>> Stashed changes
 }

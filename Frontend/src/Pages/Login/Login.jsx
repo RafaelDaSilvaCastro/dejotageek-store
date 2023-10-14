@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import blogFetch from '../../axios/config.js';
-import Stock from '../Stock/Stock'
 
 function Login() {
 

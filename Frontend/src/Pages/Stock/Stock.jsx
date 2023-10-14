@@ -9,27 +9,21 @@ function Stock() {
   const cadastroItemRef = useRef(null);
   const [posts, setPosts] = useState([]);
 
+  useEffect(() => {
+    getPosts();
+  }, []);
 
   const getPosts = async () => {
-
     try {
-      const response = await blogFetch.get('/posts');
+      const response = await blogFetch.get('/produto/todos');
 
       const data = response.data;
 
       setPosts(data);
+    } catch (error) {
+      console.log(error);
     }
-    catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-
-    getPosts()
-
-  }, [])
-
+  };
 
   const toggleCadastroItem = () => {
     setMostraCadastroItem(!MostraCadastroItem);
@@ -69,9 +63,14 @@ function Stock() {
           <li className="">Preço</li>
           <li className="">Estoque</li>
         </ul>
-        {posts.length === 0 ? (<p className="flex flex-col justify-center items-center my-10">Carregando...</p>) :
+        {posts.length === 0 ? (
+          <p className="flex flex-col justify-center items-center my-10">
+            Carregando...
+          </p>
+        ) : (
           posts.map((post) => (
-            <ItemLista key={post.id}
+            <ItemLista
+              key={post.id}
               editItem={toggleCadastroItem}
               imagem={post.img}
               nome={post.nome}
@@ -79,9 +78,10 @@ function Stock() {
               descricao={post.descricao}
               categoria={post.categoria}
               preco={post.preco}
-              estoque={post.estoque} />
+              estoque={post.estoque}
+            />
           ))
-        }
+        )}
       </div>
       <div>
         <button

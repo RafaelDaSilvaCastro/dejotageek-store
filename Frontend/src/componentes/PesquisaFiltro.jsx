@@ -1,4 +1,18 @@
 import FiltroDashboard from "./FiltroDashboard";
+//import blogFetch from '../../axios/config';
+
+let coutClickButtonNome = 0
+
+function changeAlphabeticalOrder(){
+  value = coutClickButtonNome % 2
+  if(value === 0){
+    const response = blogFetch.get('/produto/todos/nomeasc') 
+  }
+  else{
+    const response = blogFetch.get('/produto/todos/nomedesc')     
+  }  
+}
+
 
 function PesquisaFiltro() {
   return (
@@ -19,7 +33,9 @@ function PesquisaFiltro() {
           />
           Nome
         </button>
-        <button className="bg-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-3 py-2 flex items-center hover:scale-105  duration-150">
+        <button className="bg-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-3 py-2 flex items-center hover:scale-105  duration-150"
+          onClick={changeAlphabeticalOrder}
+        >
           <img
             className="pr-2"
             src="../../public/assets/FiltroEstoque.svg"
