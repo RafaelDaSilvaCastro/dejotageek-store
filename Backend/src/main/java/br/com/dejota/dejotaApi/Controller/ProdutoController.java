@@ -1,6 +1,7 @@
 package br.com.dejota.dejotaApi.Controller;
 
 import br.com.dejota.dejotaApi.Modelo.Produto;
+import br.com.dejota.dejotaApi.Modelo.Usuario;
 import br.com.dejota.dejotaApi.repositorio.ProdutoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,13 @@ public class ProdutoController {
         }
         return messageReturn;
     }
+
+    @PutMapping
+    public Void alterar(@RequestBody Produto prod){
+        prodRepositorio.save(prod);
+        return null;
+    }
+
 
     @GetMapping("/{id_produto}")
     public Produto buscaProdutoPorId(@PathVariable Long id_produto){
