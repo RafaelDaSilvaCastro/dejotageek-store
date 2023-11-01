@@ -34,10 +34,7 @@ public class UsuarioController {
     }
 
     //Autenticação do usuário
-<<<<<<< Updated upstream
-=======
     @CrossOrigin
->>>>>>> Stashed changes
     @GetMapping("auth/{email}/{senha}")
     public Boolean autenticacao(@PathVariable String email, @PathVariable String senha) {
 

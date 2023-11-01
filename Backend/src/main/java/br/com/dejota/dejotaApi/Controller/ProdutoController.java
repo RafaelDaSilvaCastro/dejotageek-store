@@ -37,33 +37,6 @@ public class ProdutoController {
         return prodRepositorio.findByNome(nome_produto);
 
     }
-<<<<<<< Updated upstream
-
-    @GetMapping("/descricao/{descricao_produto}")
-    public List<Produto> buscaProdutoPorDescricao(@PathVariable String nome_descricao){
-        return prodRepositorio.findByDescricaoLike(nome_descricao);
-
-    }
-
-    @GetMapping("/preco/{valor1}/{valor2}")
-    public List<Produto> buscaProdutoPorPreco(@PathVariable Double valor1, @PathVariable Double valor2){
-        return prodRepositorio.findFaixaPreco(valor1, valor2);
-
-    }
-
-    @GetMapping("/estoque/{valor1}/{valor2}")
-    public List<Produto> buscaProdutoPorEstoque(@PathVariable Integer valor1, @PathVariable Integer valor2){
-        return prodRepositorio.findFaixaEstoque(valor1, valor2);
-
-    }
-
-    @GetMapping("/tudo")
-    public List<Produto> buscaProdutoTodos(){
-        return prodRepositorio.findAllProduto();
-
-    }
-=======
->>>>>>> Stashed changes
 
     @GetMapping("/descricao/{descricao_produto}")
     public List<Produto> buscaProdutoPorDescricao(@PathVariable String nome_descricao){

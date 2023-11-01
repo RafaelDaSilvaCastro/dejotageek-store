@@ -32,10 +32,7 @@ public class Produto {
                 ", descricao='" + descricao + '\'' +
                 ", preco=" + preco +
                 ", estoque=" + estoque +
-<<<<<<< Updated upstream
-=======
                 ", categoria" + categoria +
->>>>>>> Stashed changes
                 '}';
     }
 
