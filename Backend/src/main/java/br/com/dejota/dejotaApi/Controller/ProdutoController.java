@@ -33,6 +33,25 @@ public class ProdutoController {
         return null;
     }
 
+    //Deletando produto
+    @DeleteMapping("/{id_produto}")
+    public String deletarProduto(@PathVariable Long id_produto){
+        Produto prod;
+        String messagemRetur;
+        try {
+            prod = buscaProdutoPorId(id_produto);
+            if (prod.getId_produto() != null) {
+                prodRepositorio.delete(prod);
+                messagemRetur = "O produto: " + prod.getDescricao() + " foi deletado";
+            } else {
+                messagemRetur = "O produto informado não foi encomtrado";
+            }
+        }
+        catch (Exception err){
+            messagemRetur = err.toString();
+        }
+        return messagemRetur;
+    }
 
     @GetMapping("/{id_produto}")
     public Produto buscaProdutoPorId(@PathVariable Long id_produto){
