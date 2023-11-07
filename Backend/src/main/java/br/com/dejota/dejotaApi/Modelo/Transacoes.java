@@ -18,6 +18,10 @@ public class Transacoes {
     private TransacoesTipo tipo;
    @Column(name = "quantidade")
     private Long quantidade;
+   @Column(name = "precoVenda")
+   private Float precoVenda;
+   @Column(name = "precoCompra")
+   private Float precoCompra;
    @Column(name = "datahora", columnDefinition = "TIMESTAMP DEFAULT now()")
     private Instant datahora;
 
@@ -27,6 +31,8 @@ public class Transacoes {
                 " id : " + id +","+
                 " transacao : " + tipo +","+
                 " quantidade : " + quantidade +","+
+                " precoCompra : " + precoCompra +","+
+                " precoVenda : " + precoVenda +","+
                 " datahora : " + datahora +
                 "}";
     }

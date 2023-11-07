@@ -19,6 +19,8 @@ public class Produto {
     private String descricao;
     @Column(name = "preco")
     private Float preco;
+    @Column(name = "precoCompra")
+    private Float precoCompra;
     @Column(name = "estoque")
     private Integer estoque;
     @Column(name = "categoria")
