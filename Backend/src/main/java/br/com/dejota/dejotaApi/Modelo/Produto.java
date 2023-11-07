@@ -5,10 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @NoArgsConstructor
 @Entity
 @AllArgsConstructor
 @Data
+@Table(name = "Produto")
 public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +30,10 @@ public class Produto {
     private Integer estoque;
     @Column(name = "categoria")
     private CategoriaProduto categoria;
+
+    @OneToMany
+    @JoinColumn(name = "id_transacao")
+    private List<Transacoes> transacoes = new ArrayList<>();
 
     @Override
     public String toString() {
