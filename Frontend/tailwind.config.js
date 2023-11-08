@@ -8,6 +8,7 @@ export default {
       },
       height: {
         barraCinza: "34rem",
+        imagemCard: "250px",
       },
       dropShadow: {
         lowshadow: "0 3px 10px rgba(0, 0, 0, 0.25)",
@@ -50,6 +51,10 @@ export default {
       },
       backgroundImage: {
         "imagem-vazia": "url('./public/assets/imagem-vazia.png')",
+      },
+
+      weight: {
+        imagemCard: "250px",
       },
     },
   },

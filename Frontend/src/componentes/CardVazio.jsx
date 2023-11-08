@@ -27,7 +27,7 @@ function CardVazio(props) {
         <img
           src={imagemCompra}
           alt="icone para adicionar uma imagem"
-          className="cursor-pointer max-w-lg"
+          className="cursor-pointer w-imagemCard h-imagemCard"
           onChange={enviarImg}
         />
       </label>
