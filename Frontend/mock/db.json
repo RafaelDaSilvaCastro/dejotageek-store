@@ -1,0 +1,9 @@
+{
+    "todosProdutos": [
+      { "key": 1, "imagem": "../public/assets/imgMock/camisagoku.jpg", "nome": "camisa goku","codigo": "1","descricao": "camiseta do goku","categoria": "camisetas","preco": "50,00","estoque": "230" },
+      { "key": 2, "imagem": "../public/assets/imgMock/naruto.jpg", "nome": "action figure naruto shippuden","codigo": "2","descricao": "action figure naruto shippuden","categoria": "actionfigure","preco": "50,00","estoque": "50" },
+      { "key": 3, "imagem": "../public/assets/imgMock/caneca marvel.jpg", "nome": "caneca marvel","codigo": "3","descricao": "caneca marvel","categoria": "canecas","preco": "50,00","estoque": "10" }
+      
+
+    ]
+  }

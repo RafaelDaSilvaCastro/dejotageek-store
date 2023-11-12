@@ -14,17 +14,29 @@ function ItemLista(props) {
     <div className="border-solid border-b border-cinza-claro cursor-context-menu">
       <ul className={itemClasses} onClick={selecionarItem}>
         <li>
-          <img src="../../public/assets/camiseta.png" alt="imagem produto" />
+          <img
+            className="w-imagemTelaStock h-imagemTelaStock"
+            src={props.imagem}
+            alt="imagem produto"
+          />
         </li>
         <li className="text-center">{props.nome}</li>
         <li>{props.codigo}</li>
-        <li className="text-center">
-          {props.descricao}
-        </li>
+        <li className="text-center">{props.descricao}</li>
         <li>{props.categoria}</li>
         <li>{props.preco}</li>
         <li className="flex items-center ">
-          {props.estoque >= 5 ? (<p className="bg-verde-caqui py-1 px-3 rounded-xl ml-6"> {props.estoque}</p>) : (<p className="bg-vermelho-pessego py-1 px-3 rounded-xl ml-6"> {props.estoque}</p>)}
+          {props.estoque >= 5 ? (
+            <p className="bg-verde-caqui py-1 px-3 rounded-xl ml-6">
+              {" "}
+              {props.estoque}
+            </p>
+          ) : (
+            <p className="bg-vermelho-pessego py-1 px-3 rounded-xl ml-6">
+              {" "}
+              {props.estoque}
+            </p>
+          )}
           <img
             className="py-2 ml-3 hover:scale-110  duration-75"
             src="../../public/assets/icone-edit.svg"

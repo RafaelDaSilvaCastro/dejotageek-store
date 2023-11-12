@@ -6,6 +6,8 @@ function CardVazio(props) {
   );
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    props.enviarVariavelImg(imagemCompra);
+
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -17,10 +19,6 @@ function CardVazio(props) {
     }
   };
 
-  const enviarImg = () => {
-    props.enviarVariavelImg(imagemCompra);
-  };
-
   return (
     <section className="h-90 w-72   flex  rounded-xl p-3 bg-white flex-col text-left drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] box-border">
       <label htmlFor="imagem" className="self-center">
@@ -28,7 +26,6 @@ function CardVazio(props) {
           src={imagemCompra}
           alt="icone para adicionar uma imagem"
           className="cursor-pointer w-imagemCard h-imagemCard"
-          onChange={enviarImg}
         />
       </label>
       <input
