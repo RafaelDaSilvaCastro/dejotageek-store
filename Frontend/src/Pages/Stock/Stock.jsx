@@ -32,7 +32,7 @@ function Stock() {
 
   const getPosts = async () => {
     try {
-      const response = await blogFetch.get("/todosProdutos");
+      const response = await blogFetch.get("/produto/todos");
       const data = response.data;
       setPosts(data);
       setOriginalPosts(data); // Atualizar a cópia dos itens originais
@@ -125,7 +125,7 @@ function Stock() {
               editItem={toggleCadastroItem}
               imagem={post.imagem}
               nome={post.nome}
-              codigo={post.codigo}
+              codigo={post.id_produto}
               descricao={post.descricao}
               categoria={post.categoria}
               preco={post.preco}
