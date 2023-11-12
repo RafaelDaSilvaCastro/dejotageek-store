@@ -1,57 +1,130 @@
 import CardVazio from "./CardVazio";
+import blogFetch from "../axios/config";
+import { useState } from "react";
 
 function CadastroItem() {
+  const [key, setKey] = useState("");
+  const [imagem, setImagem] = useState("../../public/assets/imagem-vazia.png");
+  const [nome, setNome] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [preco, setPreco] = useState(0);
+  const [estoque, setEstoque] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = {
+      key,
+      imagem,
+      nome,
+      codigo,
+      descricao,
+      categoria,
+      preco,
+      estoque,
+    };
+    try {
+      console.log(form);
+      await blogFetch.post(
+        "/todosProdutos",
+        { body: form },
+        { headers: { "Content-Type": "application/JSON" } }
+      );
+      // Lógica adicional após o envio do formulário, se necessário
+    } catch (error) {
+      console.error(error);
+      alert("Não foi possível conectar!!");
+    }
+  };
+
+  const limparDados = () => {
+    setNome("");
+    setDescricao("");
+    setPreco(0);
+    setCategoria("");
+  };
+
+  //////////////////////////////
+
+  const receberImagem = (imagem) => {
+    setImagem(imagem);
+  };
+
   return (
-    <div className="bg-white rounded-3xl p-12 flex items-center justify-center gap-36 mb-4 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
-      <div className="ml-16">
-        <CardVazio />
-      </div>
-      <div>
-        <form action="" className="flex flex-col gap-8 justify-center ">
-          <label className="hidden" htmlFor="nome">
-            Nome
-          </label>
-          <input
-            className=" outline-none p-2 rounded-lg w-96 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
-            placeholder="Nome"
-            type="text"
-            name="nome"
-            id="nome"
-            required
+    <div className="bg-white rounded-3xl p-12  gap-36 mb-4 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
+      <form
+        onSubmit={(e) => handleSubmit(e)}
+        className="flex  gap-8 justify-center mt-4"
+      >
+        <div className="ml-16">
+          <CardVazio
+            nome={nome}
+            valorTotal={preco}
+            enviarVariavelImg={receberImagem}
           />
-          <label className="hidden" htmlFor="descricao">
-            Descrição
-          </label>
-          <input
-            className=" outline-none rounded-lg w-96 h-28 p-2 pb-20 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
-            placeholder="Descrição"
-            type="text"
-            name="descricao"
-            id="descricao"
-            required
-          />
-          <div className="flex gap-10">
+        </div>
+        <div>
+          <div className="flex-col ">
+            <div className="mb-8 mt-2">
+              <label className="hidden" htmlFor="nome">
+                Nome
+              </label>
+              <input
+                className="nome outline-none p-2 rounded-lg w-96 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
+                placeholder="Nome"
+                type="text"
+                name="nome"
+                id="nome"
+                required
+                key="nome"
+                onChange={(e) => setNome(e.target.value)}
+              />
+            </div>
+            <div className="mb-8">
+              <label className="hidden" htmlFor="descricao">
+                Descrição
+              </label>
+              <input
+                className="descricao outline-none rounded-lg w-96 h-28 p-2 pb-20 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
+                placeholder="Descrição"
+                type="text"
+                name="descricao"
+                id="descricao"
+                required
+                key="descricao"
+                onChange={(e) => setDescricao(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="categoria flex gap-10 mb-12">
             <select
               id="categoria"
               name="Categoria"
               required
               className=" outline-none drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg h-10 w-44 p-2 bg-white text-cinza-claro"
+              key="categoria"
+              onChange={(e) => setCategoria(e.target.value)}
             >
-              <option className="text-zinc-800" value="Categoria 1">
-                Categoria
+              <option value="">Selecione uma categoria</option>
+              <option className="text-zinc-800" value="CAMISA">
+                CAMISA
               </option>
-              <option className="text-zinc-800" value="Categoria 2">
-                Categoria2
+              <option className="text-zinc-800" value="ACTIONFIGURE" selected>
+                ACTIONFIGURE
               </option>
-              <option className="text-zinc-800" value="Categoria 3">
-                Categoria3
+              <option className="text-zinc-800" value="DECORACAO">
+                DECORACAO
+              </option>
+              <option className="text-zinc-800" value="ACESSORIOS">
+                ACESSORIOS
               </option>
             </select>
-            <label className="hidden" for="preco">
+            <label className="hidden" htmlFor="preco">
               Preço R$
             </label>
             <input
-              className=" outline-none rounded-lg w-40 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] p-2 placeholder:text-cinza-claro no-arrows"
+              className="preco outline-none rounded-lg w-40 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] p-2 placeholder:text-cinza-claro no-arrows"
               type="number"
               id="preco"
               name="preco"
@@ -59,24 +132,27 @@ function CadastroItem() {
               placeholder="Preço"
               min="0"
               required
+              key="preco"
+              onChange={(e) => setPreco(e.target.value)}
             />
           </div>
           <div className="flex justify-around">
             <button
+              onClick={limparDados}
+              type="reset"
               className=" hover:scale-105 duration-150 bg-vermelho-pessego rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
-              type="submit"
             >
               Excluir
             </button>
             <button
-              className=" hover:scale-105 duration-150 bg-verde-caqui rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
               type="submit"
+              className=" hover:scale-105 duration-150 bg-verde-caqui rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
             >
               Salvar
             </button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

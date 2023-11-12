@@ -33,6 +33,7 @@ public class UsuarioController {
     }
 
     //Autenticação do usuário
+    @CrossOrigin
     @GetMapping("auth/{email}/{senha}")
     @CrossOrigin
     public Boolean autenticacao(@PathVariable String email, @PathVariable String senha) {
