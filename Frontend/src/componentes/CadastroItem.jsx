@@ -21,7 +21,8 @@ function CadastroItem() {
       preco : preco,
       estoque : 0,
       categoria : categoria ,
-      precoCompra : precoCompra
+      precoCompra : precoCompra,
+      imagem: imagem
   };
 
 
@@ -32,6 +33,7 @@ function CadastroItem() {
         form
       );
       alert('Caiu no try')
+      alert(imagem)
       console.log(form)
       // Lógica adicional após o envio do formulário, se necessário
     } catch (error) {
