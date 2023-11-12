@@ -11,7 +11,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 
     @Query(value = " select username from usuario where email = :email ", nativeQuery = true)
     String encontrarPorEmail(@Param("email") String email );
-
     Boolean existsByEmail(String email);
 
     @Query(value = " select case when count(1) = 1 then true else false end from usuario where email = :email and senha = :senha ", nativeQuery = true)

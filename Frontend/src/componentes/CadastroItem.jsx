@@ -9,31 +9,34 @@ function CadastroItem() {
   const [codigo, setCodigo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("");
+  const [precoCompra, setPrecoCompra] = useState(0);
   const [preco, setPreco] = useState(0);
   const [estoque, setEstoque] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = {
-      key,
-      imagem,
-      nome,
-      codigo,
-      descricao,
-      categoria,
-      preco,
-      estoque,
-    };
+      nome: nome,
+      descricao: descricao,
+      preco : preco,
+      estoque : 0,
+      categoria : categoria ,
+      precoCompra : precoCompra
+  };
+
+
     try {
       console.log(form);
       await blogFetch.post(
-        "/todosProdutos",
-        { body: form },
-        { headers: { "Content-Type": "application/JSON" } }
+        "/produto",
+        form
       );
+      alert('Caiu no try')
+      console.log(form)
       // Lógica adicional após o envio do formulário, se necessário
     } catch (error) {
       console.error(error);
+      console.log(form)
       alert("Não foi possível conectar!!");
     }
   };
@@ -42,6 +45,7 @@ function CadastroItem() {
     setNome("");
     setDescricao("");
     setPreco(0);
+    setPrecoCompra(0)
     setCategoria("");
   };
 
