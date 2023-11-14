@@ -13,6 +13,13 @@ function Stock() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortDirection, setSortDirection] = useState("asc");
   const [sortDirectionEstoque, setSortDirectionEstoque] = useState("asc");
+  const [imagem, setImagem] = useState("../../public/assets/imagem-vazia.png");
+  const [nome, setNome] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [preco, setPreco] = useState(0);
+  const [estoque, setEstoque] = useState("");
 
   useEffect(() => {
     setFilteredPosts(posts);
@@ -41,8 +48,15 @@ function Stock() {
     }
   };
 
-  const toggleCadastroItem = () => {
+  const toggleCadastroItem = (imagem = null, nome = null, codigo = null, descricao = null, categoria = null, preco = null, estoque = null) => {
     setMostraCadastroItem(!MostraCadastroItem);
+    setImagem(imagem);
+    setNome(nome);
+    setCodigo(codigo);
+    setDescricao(descricao);
+    setCategoria(categoria);
+    setPreco(preco);
+    setEstoque(estoque);
   };
 
   const closeCadastroItem = () => {
@@ -148,7 +162,15 @@ function Stock() {
         {MostraCadastroItem && (
           <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
             <div ref={cadastroItemRef}>
-              <CadastroItem onClose={closeCadastroItem} />
+              <CadastroItem onClose={closeCadastroItem}
+                imagem={imagem}
+                nome={nome}
+                codigo={codigo}
+                descricao={descricao}
+                categoria={categoria}
+                preco={preco}
+                estoque={estoque}
+              />
             </div>
           </div>
         )}
