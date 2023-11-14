@@ -21,6 +21,7 @@ function CadastroItem(props) {
     preco: preco,
     estoque: 0,
     categoria: categoria,
+    imagem: imagem,
     precoCompra: precoCompra
   };
 
@@ -59,7 +60,7 @@ function CadastroItem(props) {
         console.log(form);
         alert("Não foi possível conectar!!");
       }
-
+    }  
   };
 
 
