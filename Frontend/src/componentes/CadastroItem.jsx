@@ -26,6 +26,7 @@ function CadastroItem(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (codigo == null) {
       try {
         console.log(form);
@@ -36,7 +37,6 @@ function CadastroItem(props) {
         console.log(form);
         alert("Item adicionado!");
         props.closeCadastroItem();
-
       } catch (error) {
         console.error(error);
         console.log(form);
@@ -59,7 +59,7 @@ function CadastroItem(props) {
         console.log(form);
         alert("Não foi possível conectar!!");
       }
-    }
+
   };
 
 
