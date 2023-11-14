@@ -44,7 +44,7 @@ function CardVazio(props) {
       />
 
       <h2 className="mt-10 mb-1.5 font-semibold box-border">
-        Nome: {props.nome}
+        {props.nome}
       </h2>
       <div className="flex justify-between">
         <p className="text-vermelho-botao text-2xl flex justify-between">

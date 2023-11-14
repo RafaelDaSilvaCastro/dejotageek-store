@@ -42,7 +42,7 @@ function Stock() {
       const response = await blogFetch.get("/produto/todos");
       const data = response.data;
       setPosts(data);
-      setOriginalPosts(data); // Atualizar a cópia dos itens originais
+      setOriginalPosts(data);
     } catch (error) {
       console.log(error);
     }
@@ -61,6 +61,7 @@ function Stock() {
 
   const closeCadastroItem = () => {
     setMostraCadastroItem(false);
+    getPosts()
   };
 
   const sortItems = () => {
@@ -170,6 +171,7 @@ function Stock() {
                 categoria={categoria}
                 preco={preco}
                 estoque={estoque}
+                closeCadastroItem={closeCadastroItem}
               />
             </div>
           </div>

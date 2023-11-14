@@ -14,32 +14,51 @@ function CadastroItem(props) {
   const [preco, setPreco] = useState();
   const [estoque, setEstoque] = useState("");
 
+  const form = {
+    nome: nome,
+    descricao: descricao,
+    codigo: codigo,
+    preco: preco,
+    estoque: 0,
+    categoria: categoria,
+    precoCompra: precoCompra
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = {
-      nome: nome,
-      descricao: descricao,
-      codigo: codigo,
-      preco: preco,
-      estoque: 0,
-      categoria: categoria,
-      precoCompra: precoCompra
-    };
+    if (codigo == null) {
+      try {
+        console.log(form);
+        await blogFetch.post(
+          "/produto",
+          form
+        );
+        console.log(form);
+        alert("Item adicionado!");
+        props.closeCadastroItem();
 
+      } catch (error) {
+        console.error(error);
+        console.log(form);
+        alert("Não foi possível conectar!!");
+      }
+    }
+    else {
+      try {
+        console.log(form);
+        await blogFetch.put(
+          "/produto",
+          form
+        );
+        console.log(form);
+        alert("Item adicionado!");
+        props.closeCadastroItem();
 
-    try {
-      console.log(form);
-      await blogFetch.post(
-        "/produto",
-        form
-      );
-      alert('Caiu no try')
-      console.log(form)
-      // Lógica adicional após o envio do formulário, se necessário
-    } catch (error) {
-      console.error(error);
-      console.log(form)
-      alert("Não foi possível conectar!!");
+      } catch (error) {
+        console.error(error);
+        console.log(form);
+        alert("Não foi possível conectar!!");
+      }
     }
   };
 
@@ -55,12 +74,38 @@ function CadastroItem(props) {
   }, []);
 
 
-  const limparDados = () => {
-    setNome("");
-    setDescricao("");
-    setPreco(0);
-    setPrecoCompra(0)
-    setCategoria("");
+  const limparDados = async (e) => {
+    if (codigo != null) {
+      e.preventDefault();
+      try {
+        let resultado = confirm("Deseja excluir o item?");
+        if (resultado == true) {
+          console.log(form);
+          await blogFetch.delete(
+            "/produto/" + codigo,
+          );
+          console.log(form)
+
+          props.closeCadastroItem();
+
+        }
+
+      } catch (error) {
+        console.error(error);
+        console.log(form)
+        alert("Não foi possível conectar!!");
+      }
+    }
+
+    else {
+      setNome(null);
+      setDescricao(null);
+      setPreco(null);
+      setPrecoCompra(null)
+      setCategoria(null);
+    }
+
+
   };
 
   //////////////////////////////
@@ -161,7 +206,7 @@ function CadastroItem(props) {
           </div>
           <div className="flex justify-around">
             <button
-              onClick={limparDados}
+              onClick={(e) => limparDados(e)}
               type="reset"
               className=" hover:scale-105 duration-150 bg-vermelho-pessego rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
             >

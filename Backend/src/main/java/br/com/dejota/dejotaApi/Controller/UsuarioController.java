@@ -35,7 +35,6 @@ public class UsuarioController {
     //Autenticação do usuário
     @CrossOrigin
     @GetMapping("auth/{email}/{senha}")
-    @CrossOrigin
     public Boolean autenticacao(@PathVariable String email, @PathVariable String senha) {
 
         // Transforma a senha em um MD5 usando a função do modelo
