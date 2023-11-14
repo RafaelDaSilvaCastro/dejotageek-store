@@ -1,9 +1,8 @@
-package br.com.dejota.dejotaApi.Dtos;
+package br.com.dejota.dejotaApi.dtos;
 
 import br.com.dejota.dejotaApi.enums.ProductCategory;
 
-public record ReadProductDto(
-        Long id,
+public record CreateProductDto(
         String name,
         String description,
         Double price,

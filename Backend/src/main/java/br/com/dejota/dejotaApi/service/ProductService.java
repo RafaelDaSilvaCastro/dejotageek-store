@@ -1,7 +1,7 @@
 package br.com.dejota.dejotaApi.service;
 
-import br.com.dejota.dejotaApi.Dtos.CreateProductDto;
-import br.com.dejota.dejotaApi.Dtos.ReadProductDto;
+import br.com.dejota.dejotaApi.dtos.CreateProductDto;
+import br.com.dejota.dejotaApi.dtos.ReadProductDto;
 import br.com.dejota.dejotaApi.exception.custom.ValidationException;
 import br.com.dejota.dejotaApi.model.Product;
 import br.com.dejota.dejotaApi.repository.ProductRepository;

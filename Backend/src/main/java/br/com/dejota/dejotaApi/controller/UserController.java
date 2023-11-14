@@ -1,7 +1,5 @@
-package br.com.dejota.dejotaApi.Controller;
+package br.com.dejota.dejotaApi.controller;
 
-import br.com.dejota.dejotaApi.Dtos.SignUpDto;
-import br.com.dejota.dejotaApi.Dtos.ReadUserDto;
 import br.com.dejota.dejotaApi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +14,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/profile/{id}")
-    public ResponseEntity<ReadUserDto> getProfile(@PathVariable int id) {
+    public ResponseEntity<?> getProfile(@PathVariable int id) {
         return new ResponseEntity<>(userService.getProfile(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{role}")
+    public ResponseEntity<?> findByRole(@PathVariable String role) {
+        return new ResponseEntity<>(userService.findByRole(role), HttpStatus.OK);
     }
 }

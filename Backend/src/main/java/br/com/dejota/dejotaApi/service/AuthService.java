@@ -1,9 +1,9 @@
 package br.com.dejota.dejotaApi.service;
 
-import br.com.dejota.dejotaApi.Dtos.SignUpDto;
-import br.com.dejota.dejotaApi.Dtos.ReadUserDto;
-import br.com.dejota.dejotaApi.Dtos.SignInDto;
-import br.com.dejota.dejotaApi.Dtos.TokenDto;
+import br.com.dejota.dejotaApi.dtos.SignUpDto;
+import br.com.dejota.dejotaApi.dtos.ReadUserDto;
+import br.com.dejota.dejotaApi.dtos.SignInDto;
+import br.com.dejota.dejotaApi.dtos.TokenDto;
 import br.com.dejota.dejotaApi.model.User;
 import br.com.dejota.dejotaApi.enums.UserRole;
 import br.com.dejota.dejotaApi.exception.custom.ValidationException;

@@ -14,6 +14,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "tb_user")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

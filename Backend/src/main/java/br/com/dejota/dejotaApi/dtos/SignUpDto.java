@@ -1,4 +1,4 @@
-package br.com.dejota.dejotaApi.Dtos;
+package br.com.dejota.dejotaApi.dtos;
 
 public record SignUpDto(
         String username,

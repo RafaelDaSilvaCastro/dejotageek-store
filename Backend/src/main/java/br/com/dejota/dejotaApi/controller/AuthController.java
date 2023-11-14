@@ -1,9 +1,9 @@
-package br.com.dejota.dejotaApi.Controller;
+package br.com.dejota.dejotaApi.controller;
 
-import br.com.dejota.dejotaApi.Dtos.ReadUserDto;
-import br.com.dejota.dejotaApi.Dtos.SignInDto;
-import br.com.dejota.dejotaApi.Dtos.SignUpDto;
-import br.com.dejota.dejotaApi.Dtos.TokenDto;
+import br.com.dejota.dejotaApi.dtos.ReadUserDto;
+import br.com.dejota.dejotaApi.dtos.SignInDto;
+import br.com.dejota.dejotaApi.dtos.SignUpDto;
+import br.com.dejota.dejotaApi.dtos.TokenDto;
 import br.com.dejota.dejotaApi.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

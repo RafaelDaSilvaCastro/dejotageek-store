@@ -1,7 +1,7 @@
-package br.com.dejota.dejotaApi.Controller;
+package br.com.dejota.dejotaApi.controller;
 
-import br.com.dejota.dejotaApi.Dtos.CreateProductDto;
-import br.com.dejota.dejotaApi.Dtos.ReadProductDto;
+import br.com.dejota.dejotaApi.dtos.CreateProductDto;
+import br.com.dejota.dejotaApi.dtos.ReadProductDto;
 import br.com.dejota.dejotaApi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
