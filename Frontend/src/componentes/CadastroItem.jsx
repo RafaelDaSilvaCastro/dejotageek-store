@@ -17,7 +17,7 @@ function CadastroItem(props) {
   const form = {
     nome: nome,
     descricao: descricao,
-    codigo: codigo,
+    id_produto: codigo,
     preco: preco,
     estoque: 0,
     categoria: categoria,
@@ -51,7 +51,7 @@ function CadastroItem(props) {
           form
         );
         console.log(form);
-        alert("Item adicionado!");
+        alert("Item atualizado!");
         props.closeCadastroItem();
 
       } catch (error) {
