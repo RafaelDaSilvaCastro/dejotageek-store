@@ -1,54 +1,112 @@
+import React, { useEffect } from 'react';
 import CardVazio from "./CardVazio";
 import blogFetch from "../axios/config";
 import { useState } from "react";
 
-function CadastroItem() {
+function CadastroItem(props) {
   const [key, setKey] = useState("");
   const [imagem, setImagem] = useState("../../public/assets/imagem-vazia.png");
   const [nome, setNome] = useState("");
   const [codigo, setCodigo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("");
-  const [precoCompra, setPrecoCompra] = useState(0);
-  const [preco, setPreco] = useState(0);
+  const [precoCompra, setPrecoCompra] = useState();
+  const [preco, setPreco] = useState();
   const [estoque, setEstoque] = useState("");
+
+  const form = {
+    nome: nome,
+    descricao: descricao,
+    id_produto: codigo,
+    preco: preco,
+    estoque: 0,
+    categoria: categoria,
+    imagem: imagem,
+    precoCompra: precoCompra
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = {
-      nome: nome,
-      descricao: descricao,
-      preco : preco,
-      estoque : 0,
-      categoria : categoria ,
-      precoCompra : precoCompra,
-      imagem: imagem
-  };
 
-
-    try {
-      console.log(form);
-      await blogFetch.post(
-        "/produto",
-        form
-      );
-      alert('Caiu no try')
-      alert(imagem)
-      console.log(form)
-      // Lógica adicional após o envio do formulário, se necessário
-    } catch (error) {
-      console.error(error);
-      console.log(form)
-      alert("Não foi possível conectar!!");
+    if (codigo == null) {
+      try {
+        console.log(form);
+        await blogFetch.post(
+          "/produto",
+          form
+        );
+        console.log(form);
+        alert("Item adicionado!");
+        props.closeCadastroItem();
+      } catch (error) {
+        console.error(error);
+        console.log(form);
+        alert("Não foi possível conectar!!");
+      }
     }
+    else {
+      try {
+        console.log(form);
+        await blogFetch.put(
+          "/produto",
+          form
+        );
+        console.log(form);
+        alert("Item atualizado!");
+        props.closeCadastroItem();
+
+      } catch (error) {
+        console.error(error);
+        console.log(form);
+        alert("Não foi possível conectar!!");
+      }
+    }  
   };
 
-  const limparDados = () => {
-    setNome("");
-    setDescricao("");
-    setPreco(0);
-    setPrecoCompra(0)
-    setCategoria("");
+
+  useEffect(() => {
+    setImagem(props.imagem)
+    setNome(props.nome)
+    setCodigo(props.codigo)
+    setDescricao(props.descricao)
+    setCategoria(props.categoria)
+    setPreco(props.preco)
+    setEstoque(props.estoque)
+  }, []);
+
+
+  const limparDados = async (e) => {
+    if (codigo != null) {
+      e.preventDefault();
+      try {
+        let resultado = confirm("Deseja excluir o item?");
+        if (resultado == true) {
+          console.log(form);
+          await blogFetch.delete(
+            "/produto/" + codigo,
+          );
+          console.log(form)
+
+          props.closeCadastroItem();
+
+        }
+
+      } catch (error) {
+        console.error(error);
+        console.log(form)
+        alert("Não foi possível conectar!!");
+      }
+    }
+
+    else {
+      setNome(null);
+      setDescricao(null);
+      setPreco(null);
+      setPrecoCompra(null)
+      setCategoria(null);
+    }
+
+
   };
 
   //////////////////////////////
@@ -67,6 +125,7 @@ function CadastroItem() {
           <CardVazio
             nome={nome}
             valorTotal={preco}
+            imagem={imagem}
             enviarVariavelImg={receberImagem}
           />
         </div>
@@ -83,6 +142,7 @@ function CadastroItem() {
                 name="nome"
                 id="nome"
                 required
+                value={nome}
                 key="nome"
                 onChange={(e) => setNome(e.target.value)}
               />
@@ -98,6 +158,7 @@ function CadastroItem() {
                 name="descricao"
                 id="descricao"
                 required
+                value={descricao}
                 key="descricao"
                 onChange={(e) => setDescricao(e.target.value)}
               />
@@ -108,6 +169,7 @@ function CadastroItem() {
               id="categoria"
               name="Categoria"
               required
+              value={categoria}
               className=" outline-none drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg h-10 w-44 p-2 bg-white text-cinza-claro"
               key="categoria"
               onChange={(e) => setCategoria(e.target.value)}
@@ -138,13 +200,14 @@ function CadastroItem() {
               placeholder="Preço"
               min="0"
               required
+              value={preco}
               key="preco"
               onChange={(e) => setPreco(e.target.value)}
             />
           </div>
           <div className="flex justify-around">
             <button
-              onClick={limparDados}
+              onClick={(e) => limparDados(e)}
               type="reset"
               className=" hover:scale-105 duration-150 bg-vermelho-pessego rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
             >

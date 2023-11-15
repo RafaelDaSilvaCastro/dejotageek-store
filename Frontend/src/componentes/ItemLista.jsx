@@ -38,10 +38,20 @@ function ItemLista(props) {
             </p>
           )}
           <img
-            className="py-2 ml-3 hover:scale-110  duration-75"
+            className="py-2 ml-3 hover:scale-110 duration-75"
             src="../../public/assets/icone-edit.svg"
             alt=""
-            onClick={props.editItem}
+            onClick={() =>
+              props.editItem(
+                props.imagem,
+                props.nome,
+                props.codigo,
+                props.descricao,
+                props.categoria,
+                props.preco,
+                props.estoque
+              )
+            }
           />
         </li>
       </ul>
