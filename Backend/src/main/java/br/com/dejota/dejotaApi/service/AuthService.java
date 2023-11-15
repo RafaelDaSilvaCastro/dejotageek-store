@@ -8,11 +8,14 @@ import br.com.dejota.dejotaApi.model.User;
 import br.com.dejota.dejotaApi.enums.UserRole;
 import br.com.dejota.dejotaApi.exception.custom.ValidationException;
 import br.com.dejota.dejotaApi.security.filters.JwtTokenProvider;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -37,14 +40,14 @@ public class AuthService {
     }
 
     public ReadUserDto signUp(SignUpDto dto) {
-        User existsUser = userService.findByUsername(dto.username());
-        User existsEmail = userService.findByEmail(dto.email());
+        Optional<User> existsUser = userService.findByUsername(dto.username());
+        Optional<User> existsEmail = userService.findByEmail(dto.email());
 
-        if (existsUser != null) {
+        if (existsUser.isPresent()) {
             throw new ValidationException("Nome de usuário já cadastrado");
         }
 
-        if (existsEmail != null) {
+        if (existsEmail.isPresent()) {
             throw new ValidationException("Email já cadastrado");
         }
 

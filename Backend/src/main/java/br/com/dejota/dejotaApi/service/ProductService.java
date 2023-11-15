@@ -2,10 +2,11 @@ package br.com.dejota.dejotaApi.service;
 
 import br.com.dejota.dejotaApi.dtos.CreateProductDto;
 import br.com.dejota.dejotaApi.dtos.ReadProductDto;
-import br.com.dejota.dejotaApi.exception.custom.ValidationException;
 import br.com.dejota.dejotaApi.model.Product;
 import br.com.dejota.dejotaApi.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,19 +16,15 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public ReadProductDto create(CreateProductDto dto) {
-        Product existsProduct = findByName(dto.name());
-        if (existsProduct != null) {
-            throw new ValidationException("Produto já cadastrado");
-        }
-
         Product product = toEntity(dto);
         productRepository.save(product);
 
         return toDto(product);
     }
 
-    public Product findByName(String name) {
-        return productRepository.findByName(name).orElse(null);
+    public Page<ReadProductDto> findAll(String filter, Pageable pageable) {
+        Page<Product> products = productRepository.findAll(filter, Product.class, pageable);
+        return products.map(this::toDto);
     }
 
     private Product toEntity(CreateProductDto dto) {

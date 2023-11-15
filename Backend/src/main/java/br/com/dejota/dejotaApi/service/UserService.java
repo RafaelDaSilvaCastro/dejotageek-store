@@ -1,15 +1,13 @@
 package br.com.dejota.dejotaApi.service;
 
-import br.com.dejota.dejotaApi.dtos.SignUpDto;
 import br.com.dejota.dejotaApi.dtos.ReadUserDto;
-import br.com.dejota.dejotaApi.enums.UserRole;
-import br.com.dejota.dejotaApi.model.QUser;
+import br.com.dejota.dejotaApi.dtos.SignUpDto;
 import br.com.dejota.dejotaApi.model.User;
 import br.com.dejota.dejotaApi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -26,21 +24,12 @@ public class UserService {
         return toDto(user);
     }
 
-    public List<ReadUserDto> findByRole(String role) {
-        UserRole userRole = UserRole.valueOf(role);
-        List<User> users = userRepository.findAll(QUser.user.role.eq(userRole));
-
-        return users.stream()
-                .map(this::toDto)
-                .toList();
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
-    }
-
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email).orElse(null);
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public User findById(long id) {

@@ -20,6 +20,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+
     @PostMapping("signin")
     public ResponseEntity<TokenDto> signIn(@RequestBody SignInDto dto) {
         return new ResponseEntity<>(authService.signIn(dto), HttpStatus.OK);
