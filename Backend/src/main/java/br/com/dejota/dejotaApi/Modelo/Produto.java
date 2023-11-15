@@ -31,9 +31,7 @@ public class Produto {
     @Column(name = "categoria")
     private CategoriaProduto categoria;
 
-    @OneToMany
-    @JoinColumn(name = "id_transacao")
-    private List<Transacoes> transacoes = new ArrayList<>();
+
 
     @Override
     public String toString() {
@@ -47,6 +45,13 @@ public class Produto {
                 '}';
     }
 
+    public CategoriaProduto getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaProduto categoria) {
+        this.categoria = categoria;
+    }
     public Long getId_produto() {
         return id_produto;
     }

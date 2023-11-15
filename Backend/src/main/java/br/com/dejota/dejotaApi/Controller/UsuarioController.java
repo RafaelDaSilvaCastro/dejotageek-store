@@ -15,6 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
+
     @Autowired
     private UsuarioRepositorio userRepositorio;
 

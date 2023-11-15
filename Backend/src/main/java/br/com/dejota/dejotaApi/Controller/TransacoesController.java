@@ -6,6 +6,8 @@ import br.com.dejota.dejotaApi.repositorio.TransacaoesRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+
 @RestController
 @RequestMapping("/transacao")
 public class TransacoesController {
@@ -16,6 +18,7 @@ public class TransacoesController {
     public String incluir(@RequestBody Transacoes tran){
         String messageReturn;
         try {
+            tran.setDatahora(Instant.now());
             tranRepositorio.save(tran);
             messageReturn ="Foi";
         }

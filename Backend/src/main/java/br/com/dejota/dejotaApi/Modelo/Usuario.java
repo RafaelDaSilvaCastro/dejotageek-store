@@ -29,6 +29,7 @@ public class Usuario {
     private Instant dataCadastro;
 
 
+
     public String generateMd5(String value){
         MessageDigest md;
         try {
