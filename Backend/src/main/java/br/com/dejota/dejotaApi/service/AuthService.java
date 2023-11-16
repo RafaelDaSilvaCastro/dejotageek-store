@@ -7,8 +7,7 @@ import br.com.dejota.dejotaApi.dtos.TokenDto;
 import br.com.dejota.dejotaApi.model.User;
 import br.com.dejota.dejotaApi.enums.UserRole;
 import br.com.dejota.dejotaApi.exception.custom.ValidationException;
-import br.com.dejota.dejotaApi.security.filters.JwtTokenProvider;
-import org.modelmapper.ModelMapper;
+import br.com.dejota.dejotaApi.security.filters.JwtTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +20,7 @@ import java.util.Optional;
 public class AuthService {
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenService jwtTokenProvider;
 
     @Autowired
     private AuthenticationManager authenticationManager;
