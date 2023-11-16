@@ -1,9 +1,9 @@
 package br.com.dejota.dejotaApi.security;
 
 import br.com.dejota.dejotaApi.enums.UserRole;
+import br.com.dejota.dejotaApi.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -23,6 +23,16 @@ public class UserDetailsImp implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public static UserDetailsImp build(User user) {
+        return new UserDetailsImp(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getRole()
+        );
     }
 
     @Override

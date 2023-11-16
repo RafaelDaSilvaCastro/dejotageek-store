@@ -16,12 +16,11 @@ public class UserService {
     private UserRepository userRepository;
 
     public ReadUserDto getProfile(long id) {
-        User user = findById(id);
-        if (user == null) {
+        Optional<User> user = findById(id);
+        if (user.isEmpty()) {
             throw new RuntimeException("Usuário não encontrado");
         }
-
-        return toDto(user);
+        return toDto(user.get());
     }
 
     public Optional<User> findByUsername(String username) {
@@ -32,8 +31,8 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User findById(long id) {
-        return userRepository.findById(id).orElse(null);
+    public Optional<User> findById(long id) {
+        return userRepository.findById(id);
     }
 
     public void save(User user) {
