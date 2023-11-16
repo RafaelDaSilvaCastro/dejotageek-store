@@ -14,6 +14,10 @@ public interface CustomQuerydslPredicateExecutor<T> extends QuerydslPredicateExe
     @Override
     List<T> findAll(Predicate predicate);
 
+    default List<T> findAll(String filter, Class<T> entityType) {
+        return this.findAll(buildPredicate(filter, entityType));
+    }
+
     default Page<T> findAll(String filter, Class<T> entityType, Pageable pageable) {
         return this.findAll(buildPredicate(filter, entityType), pageable);
     }

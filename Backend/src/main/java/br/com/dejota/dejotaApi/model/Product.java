@@ -42,6 +42,9 @@ public class Product {
     @JoinColumn(name = "transaction_id")
     private List<Transactions> transactions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product")
+    private List<ProductImages> images = new ArrayList<>();
+
     public Product(String name, String description, Double price, Double purchasePrice, Integer stock, ProductCategory category) {
         this.name = name;
         this.description = description;
