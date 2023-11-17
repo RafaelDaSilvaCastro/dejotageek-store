@@ -1,10 +1,8 @@
 package br.com.dejota.dejotaApi.controller;
 
-import br.com.dejota.dejotaApi.dtos.ReadUserDto;
-import br.com.dejota.dejotaApi.dtos.SignInDto;
-import br.com.dejota.dejotaApi.dtos.SignUpDto;
-import br.com.dejota.dejotaApi.dtos.TokenDto;
+import br.com.dejota.dejotaApi.dtos.*;
 import br.com.dejota.dejotaApi.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +20,18 @@ public class AuthController {
 
 
     @PostMapping("signin")
-    public ResponseEntity<TokenDto> signIn(@RequestBody SignInDto dto) {
+    public ResponseEntity<TokenDto> signIn(@RequestBody @Valid SignInDto dto) {
         return new ResponseEntity<>(authService.signIn(dto), HttpStatus.OK);
     }
 
     @PostMapping("signup")
-    public ResponseEntity<ReadUserDto> signUp(@RequestBody SignUpDto dto) {
+    public ResponseEntity<ReadUserDto> signUp(@RequestBody @Valid SignUpDto dto) {
         return new ResponseEntity<>(authService.signUp(dto), HttpStatus.CREATED);
+    }
+
+    @PostMapping("forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody @Valid ForgotPasswordDto dto) {
+        authService.forgotPassword(dto);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

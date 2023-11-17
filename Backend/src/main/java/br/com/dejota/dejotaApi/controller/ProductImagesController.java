@@ -1,7 +1,6 @@
 package br.com.dejota.dejotaApi.controller;
 
 import br.com.dejota.dejotaApi.dtos.ReadProductImagesDto;
-import br.com.dejota.dejotaApi.service.GoogleDriveService;
 import br.com.dejota.dejotaApi.service.ProductImagesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
