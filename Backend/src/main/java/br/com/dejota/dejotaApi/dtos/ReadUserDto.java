@@ -4,6 +4,6 @@ public record ReadUserDto(
         Long id,
         String username,
         String email,
-        String dataCadastro
+        String createdAt
 ) {
 }

@@ -33,6 +33,6 @@ public class ProductImagesController {
     @GetMapping("/all")
     public ResponseEntity<List<ReadProductImagesDto>> findAllImagesByProductId(
             @RequestParam("productId") Long productId) {
-        return ResponseEntity.ok(productImagesService.findAllImagesByProductId(productId));
+        return ResponseEntity.ok(productImagesService.findByProductId(productId));
     }
 }

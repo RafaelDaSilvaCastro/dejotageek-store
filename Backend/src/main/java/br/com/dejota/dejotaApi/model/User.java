@@ -6,13 +6,11 @@ import lombok.*;
 
 import java.time.Instant;
 
-
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_user")
+@Table(name = "Users")
 public class User {
 
     @Id
@@ -35,13 +33,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(name = "data_cadastro", columnDefinition = "TIMESTAMP DEFAULT now()")
-    private Instant dataCadastro;
+    @Column(name = "created_at")
+    private Instant createdAt;
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        dataCadastro = Instant.now();
+        createdAt = Instant.now();
     }
 }

@@ -4,6 +4,7 @@ import br.com.dejota.dejotaApi.dtos.ReadProductImagesDto;
 import br.com.dejota.dejotaApi.exception.custom.ValidationException;
 import br.com.dejota.dejotaApi.model.Product;
 import br.com.dejota.dejotaApi.model.ProductImages;
+import br.com.dejota.dejotaApi.model.QProductImages;
 import br.com.dejota.dejotaApi.repository.ProductImagesRepository;
 import com.google.api.services.drive.model.File;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,8 @@ public class ProductImagesService {
         }
 
         byte[] content = file.getBytes();
-        String filename = product.getName() + "__=)__" + UUID.randomUUID() + extractExtension(file.getOriginalFilename());
-        File uploadedImage = googleDriveService.createFile(filename, content);
+        String fileName = product.getName() + "__=)__" + UUID.randomUUID() + extractExtension(file.getOriginalFilename());
+        File uploadedImage = googleDriveService.createFile(fileName, content);
         ProductImages productImages = new ProductImages(uploadedImage.getName(), uploadedImage.getId(), product);
 
         productImagesRepository.save(productImages);
@@ -47,8 +48,11 @@ public class ProductImagesService {
         return googleDriveService.getFileContent(fileId);
     }
 
-    public List<ReadProductImagesDto> findAllImagesByProductId(Long productId) {
-        List<ProductImages> productsImages = productImagesRepository.findAll("product_id " + productId , ProductImages.class);
+    public List<ReadProductImagesDto> findByProductId(Long productId) {
+        productService.findById(productId)
+                .orElseThrow(() -> new ValidationException("Id " + productId + " não encontrado"));
+
+        List<ProductImages> productsImages = productImagesRepository.findAll(QProductImages.productImages.product.id.eq(productId));
         return productsImages.stream()
                 .map(this::toDto)
                 .toList();
