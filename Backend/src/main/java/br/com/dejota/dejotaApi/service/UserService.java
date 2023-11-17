@@ -39,14 +39,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    private User toEntity(SignUpDto dto) {
-        return new User(
-                dto.username(),
-                dto.email(),
-                dto.password()
-        );
-    }
-
     private ReadUserDto toDto(User user) {
         return new ReadUserDto(
                 user.getId(),

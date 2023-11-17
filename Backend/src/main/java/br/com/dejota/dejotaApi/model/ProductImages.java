@@ -3,18 +3,16 @@ package br.com.dejota.dejotaApi.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "ProductImages")
-public class ProductImages {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ProductImages extends EntityId {
 
     @Column(nullable = false)
     private String name;
@@ -25,10 +23,4 @@ public class ProductImages {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
-    public ProductImages(String name, String key, Product product) {
-        this.name = name;
-        this.key = key;
-        this.product = product;
-    }
 }

@@ -4,6 +4,7 @@ import br.com.dejota.dejotaApi.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -11,9 +12,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Roles")
-public class Role {
+public class Role extends EntityId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

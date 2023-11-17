@@ -1,21 +1,20 @@
 package br.com.dejota.dejotaApi.model;
 
-import br.com.dejota.dejotaApi.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends EntityId {
 
     @Column(name = "username", unique = true)
     private String username;
@@ -36,10 +35,12 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, Role role) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
+        profileImageUrl = "default-user-profile-img.png";
         createdAt = Instant.now();
     }
 }

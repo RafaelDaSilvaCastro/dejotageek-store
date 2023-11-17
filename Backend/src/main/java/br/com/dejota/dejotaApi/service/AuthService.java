@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -40,15 +41,15 @@ public class AuthService {
     }
 
     public ReadUserDto signUp(SignUpDto dto) {
-        Optional<User> existsUser = userService.findByUsername(dto.username());
+        Optional<User> existsUsername = userService.findByUsername(dto.username());
         Optional<User> existsEmail = userService.findByEmail(dto.email());
 
-        if (existsUser.isPresent()) {
-            throw new ValidationException("Nome de usuário já cadastrado");
+        if (existsUsername.isPresent()) {
+            throw new ValidationException("Nome de usuário já existe");
         }
 
         if (existsEmail.isPresent()) {
-            throw new ValidationException("Email já cadastrado");
+            throw new ValidationException("Email já existe");
         }
 
         if (!dto.password().equals(dto.confirmPassword())) {
@@ -56,10 +57,6 @@ public class AuthService {
         }
 
         User user = toEntity(dto);
-
-        user.setProfileImageUrl("default-user-profile-image.png");
-        user.setRole(roleService.findByRole(UserRole.USER).get());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
 
         return toDto(user);
@@ -76,7 +73,8 @@ public class AuthService {
         return new User(
                 dto.username(),
                 dto.email(),
-                dto.password()
+                passwordEncoder.encode(dto.password()),
+                roleService.findByRole(UserRole.USER).get()
         );
     }
 
