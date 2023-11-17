@@ -52,7 +52,7 @@ public class UserService {
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getDataCadastro().toString()
+                user.getCreatedAt().toString()
         );
     }
 }

@@ -1,6 +1,7 @@
 package br.com.dejota.dejotaApi.service;
 
 import br.com.dejota.dejotaApi.dtos.*;
+import br.com.dejota.dejotaApi.model.Role;
 import br.com.dejota.dejotaApi.model.User;
 import br.com.dejota.dejotaApi.enums.UserRole;
 import br.com.dejota.dejotaApi.exception.custom.ValidationException;
@@ -24,6 +25,9 @@ public class AuthService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -54,7 +58,7 @@ public class AuthService {
         User user = toEntity(dto);
 
         user.setProfileImageUrl("default-user-profile-image.png");
-        user.setRole(UserRole.USER);
+        user.setRole(roleService.findByRole(UserRole.USER).get());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
 
@@ -81,7 +85,7 @@ public class AuthService {
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getDataCadastro().toString()
+                user.getCreatedAt().toString()
         );
     }
 }

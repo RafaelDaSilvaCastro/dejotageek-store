@@ -31,7 +31,7 @@ public class UserDetailsImp implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                user.getRole()
+                user.getRole().getRole()
         );
     }
 

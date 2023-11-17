@@ -29,12 +29,12 @@ public class User {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-
     @Column(name = "created_at")
     private Instant createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     public User(String username, String email, String password) {
         this.username = username;
