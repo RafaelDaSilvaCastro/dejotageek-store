@@ -48,8 +48,8 @@ function Stock() {
     }
   };
 
-  const toggleCadastroItem = (imagem = null, nome = null, codigo = null, descricao = null, categoria = null, preco = null, estoque = null) => {
-    setMostraCadastroItem(!MostraCadastroItem);
+  const toggleCadastroItem = (imagem, nome, codigo, descricao, categoria, preco, estoque) => {
+
     setImagem(imagem);
     setNome(nome);
     setCodigo(codigo);
@@ -57,6 +57,8 @@ function Stock() {
     setCategoria(categoria);
     setPreco(preco);
     setEstoque(estoque);
+
+    setMostraCadastroItem(!MostraCadastroItem);
   };
 
   const closeCadastroItem = () => {
@@ -152,7 +154,7 @@ function Stock() {
       <div>
         <button
           className="fixed top-3/4 right-2/4 translate-x-2/4 translate-y-full z-50 bg-vermelho-botao rounded-xl my-12 p-1 flex mx-auto mb-16 hover:scale-105 duration-150 hover:bg-vermelho-botaoHover"
-          onClick={toggleCadastroItem}
+          onClick={() => toggleCadastroItem(null, null, null, null, null, null, null)}
         >
           <img
             className="scale-75"

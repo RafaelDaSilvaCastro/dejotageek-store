@@ -38,6 +38,8 @@ function CompraEVenda() {
   const dataAtual = new Date();
 
   const handleVar = (post) => {
+    console.log("Dados do post:", post);
+
     setNome(post.nome);
     setImagem(post.imagem);
     setCodigo(post.id_produto);
@@ -45,6 +47,7 @@ function CompraEVenda() {
     setPreco(post.preco);
     setEstoque(post.estoque);
     setData(dataAtual.toLocaleDateString());
+
   }
 
   const valorCompra = (precoUnitario, quantidade) => {
@@ -80,7 +83,7 @@ function CompraEVenda() {
     e.preventDefault();
 
     if (quantidade > estoque && selectedRadio == "Venda") {
-      alert("Quantidade maior que a disponivel no estoque(${estoque})")
+      alert('Quantidade maior que a disponivel no estoque (${estoque})')
     }
     else {
       try {
@@ -156,20 +159,29 @@ function CompraEVenda() {
             id="nome"
             list="listaItens"
             required
-            onChange={(e) => setNome(e.target.value)}
+            onChange={(e) => {
+              const selectedItem = posts.find(item => item.nome === e.target.value);
+              if (selectedItem) {
+                console.log(selectedItem)
+                setNome(selectedItem.nome);
+                setImagem(selectedItem.imagem);
+                setCodigo(selectedItem.id_produto);
+                setQuantidade(0);
+                setPreco(selectedItem.preco);
+                setEstoque(selectedItem.estoque);
+                setData(dataAtual.toLocaleDateString())
+
+                console.log(nome, codigo, quantidade, preco, estoque, data)
+              }
+            }}
           />
 
           <datalist id="listaItens">
             {posts.map(item => (
-              <option
-                key={item.id_produto}
-                value={item.nome}
-                onClick={() => handleVar(item)}
-              >
-                {item.nome}
-              </option>
+              <option key={item.id_produto} value={item.nome} />
             ))}
           </datalist>
+
 
           {selectedRadio == 'Compra' ? (
             <label
