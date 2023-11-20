@@ -1,9 +1,11 @@
 package br.com.dejota.dejotaApi.Modelo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 
@@ -12,21 +14,22 @@ import java.time.Instant;
 @Entity
 @Table(name = "Transacoes")
 public class Transacoes {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_transacao;
-   @ManyToOne
-   @JoinColumn(name = "id_produto")
-   private Produto produto;
-   @Column(name = "transacao")
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "id_produto")
+    private Produto produto;
+    @Column(name = "transacao")
     private TransacoesTipo tipo;
-   @Column(name = "quantidade")
+    @Column(name = "quantidade")
     private Long quantidade;
-   @Column(name = "precoVenda")
-   private Float precoVenda;
-   @Column(name = "precoCompra")
-   private Float precoCompra;
-   @Column(name = "datahora", columnDefinition = "TIMESTAMP DEFAULT now()")
+    @Column(name = "precoVenda")
+    private Float precoVenda;
+    @Column(name = "precoCompra")
+    private Float precoCompra;
+    @Column(name = "datahora", columnDefinition = "TIMESTAMP DEFAULT now()")
     private Instant datahora;
 
 

@@ -28,6 +28,7 @@ public class ProdutoController {
     }
 
     @PutMapping
+    @CrossOrigin
     public Void alterar(@RequestBody Produto prod){
         prodRepositorio.save(prod);
         return null;
@@ -35,6 +36,7 @@ public class ProdutoController {
 
     //Deletando produto
     @DeleteMapping("/{id_produto}")
+    @CrossOrigin
     public String deletarProduto(@PathVariable Long id_produto){
         Produto prod;
         String messagemRetur;

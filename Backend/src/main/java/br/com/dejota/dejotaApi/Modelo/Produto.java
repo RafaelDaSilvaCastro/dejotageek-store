@@ -4,20 +4,27 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@NoArgsConstructor
-@Entity
-@AllArgsConstructor
+
 @Data
+@AllArgsConstructor
+@Entity
 @Table(name = "Produto")
 public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_produto;
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
     @Column(name = "nome")
     private String nome;
     @Column(name = "descricao")
@@ -26,14 +33,6 @@ public class Produto {
     private Float preco;
     @Column(name = "precoCompra")
     private Float precoCompra;
-    @Column(name = "estoque")
-    private Integer estoque;
-    @Column(name = "categoria")
-    private CategoriaProduto categoria;
-
-    @OneToMany
-    @JoinColumn(name = "id_transacao")
-    private List<Transacoes> transacoes = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -42,7 +41,6 @@ public class Produto {
                 ", nome='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
                 ", preco=" + preco +
-                ", estoque=" + estoque +
                 ", categoria" + categoria +
                 '}';
     }
@@ -79,11 +77,19 @@ public class Produto {
         this.preco = preco;
     }
 
-    public Integer getEstoque() {
-        return estoque;
+    public Float getPrecoCompra() {
+        return precoCompra;
     }
 
-    public void setEstoque(Integer estoque) {
-        this.estoque = estoque;
+    public void setPrecoCompra(Float precoCompra) {
+        this.precoCompra = precoCompra;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
