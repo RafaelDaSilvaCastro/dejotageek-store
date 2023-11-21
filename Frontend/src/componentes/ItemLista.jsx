@@ -17,7 +17,7 @@ function ItemLista(props) {
           <img
             className="w-imagemTelaStock h-imagemTelaStock"
             src={props.imagem}
-            alt="imagem produto"
+            alt="img"
           />
         </li>
         <li className="text-center">{props.nome}</li>

@@ -7,16 +7,17 @@ function CardVazio(props) {
   );
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    props.enviarVariavelImg(imagemCompra);
 
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagemCompra(reader.result);
+        props.enviarVariavelImg(reader.result);
       };
       reader.readAsDataURL(file);
     } else {
       setImagemCompra("../../public/assets/imagem-vazia.png");
+      props.enviarVariavelImg("../../public/assets/imagem-vazia.png");
     }
   };
 

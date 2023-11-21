@@ -43,10 +43,14 @@ public class SecurityConfig {
     @Autowired
     private CustomAuthenticationEntryPoint authenticationEntryPoint;
 
+    @Autowired
+    private CorsConfig corsConfig;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()

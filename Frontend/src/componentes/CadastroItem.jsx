@@ -60,7 +60,7 @@ function CadastroItem(props) {
         console.log(form);
         alert("Não foi possível conectar!!");
       }
-    }  
+    }
   };
 
 
@@ -104,6 +104,7 @@ function CadastroItem(props) {
       setPreco(null);
       setPrecoCompra(null)
       setCategoria(null);
+      setImagem("../../public/assets/imagem-vazia.png");
     }
 
 

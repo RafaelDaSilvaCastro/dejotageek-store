@@ -3,9 +3,14 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import blogFetch from '../../axios/config.js';
+import { set } from "date-fns";
 
 function Login() {
 
+  const [signInDto, setSignInDto] = useState({
+    username: "",
+    password: ""
+  });
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [mostrarAviso, setMostrarAviso] = useState(false);
@@ -19,24 +24,24 @@ function Login() {
     e.preventDefault();
 
     if (email !== '' && senha !== '') {
+      console.log(signInDto)
       try {
-       const response = await blogFetch.get(`/usuario/auth/${email}/${senha}`)
+        const response = await blogFetch.post(`/auth/signin`, { 
+          username: email,
+          password: senha
+         })
         
-        console.log(response.data)
-        if (response.data === true) {
-          console.log('Usuário autenticado com sucesso');
+        if (response.status === 200) {
+          const token = response.data.token;
+          sessionStorage.setItem('token', token);
           location.href = '/stock';
-          } else {
-          console.log('Credenciais inválidas')
-          alert('Credenciais inválidas');
         }
+        
       } catch (error) {
-        alert('Erro ao enviar requisição para o servidor: '+error )
-        console.log('Erro ao enviar requisição para o servidor')
-        console.error('Erro ao enviar requisição para o servidor:', error);
+        const errorMessage = error.response.data.errors.message[0];
+        alert(errorMessage)
       }
     } else {
-      console.log('Preencha o email e a senha')
       alert('Preencha o email e a senha');
     }
   };
