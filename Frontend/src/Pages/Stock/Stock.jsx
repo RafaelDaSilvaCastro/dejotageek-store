@@ -3,18 +3,21 @@ import blogFetch from "../../axios/config";
 import ItemLista from "../../componentes/ItemLista";
 import CadastroItem from "../../componentes/CadastroItem";
 import PesquisaFiltro from "../../componentes/PesquisaFiltro";
+import { useNavigate } from "react-router-dom";
 
 function Stock() {
   const [token] = useState(sessionStorage.getItem("token"));
   const [MostraCadastroItem, setMostraCadastroItem] = useState(false);
-  const cadastroItemRef = useRef(null);
   const [products, setProducts] = useState([]);
+  const [alreadySorted, setAlreadySorted] = useState(false);
+  const navigate = useNavigate();
+  const cadastroItemRef = useRef(null);
 
   useEffect(() => {
-    getProducts();
+    getProductsAll();
   }, []);    
 
-  const getProducts = async () => {
+  const getProductsAll = async () => {
     try {
       const response = await blogFetch.get("/product", {
         headers: { Authorization: `Bearer ${token}` },
@@ -25,19 +28,35 @@ function Stock() {
       }
     } catch (error) {
       if (error.response.status === 401) {
-        href.location = "/";
+        navigate("/");
+        console.log("Token inválido");
       }
     }
   };
+
+  const sortProducts = () => {
+    if (!alreadySorted) {
+      setProducts([...products].sort((a, b) => a.name.localeCompare(b.name)));
+      setAlreadySorted((prev) => !prev);
+      console.log("De A a Z");
+    } else {
+      setProducts([...products].sort((a, b) => b.name.localeCompare(a.name)));
+      setAlreadySorted((prev) => !prev);
+      console.log("De Z a A");
+    }
+  };
+  
 
   return (
     <div>
       <PesquisaFiltro
         categoriafiltro={undefined}
-        onSearch={undefined}
+        onSearch={() => console.log("estou pesquisando")}
         searchQuery={undefined}
-        onSort={undefined}
+        onSort={sortProducts}
         onSortByStock={undefined}
+        products={products}
+        setProducts={setProducts}
       />
       <div className="mb-36">
         <ul className="grid grid-cols-7 gap-4 justify-items-center items-center border-b border-cinza-claro pt-16 pb-2">
@@ -53,7 +72,7 @@ function Stock() {
       <div>
         {products.map((item, index) => (
           <ItemLista
-            key={item.id + index}
+            key={item.id}
             imagem={null}
             nome={item.name}
             codigo={item.id}

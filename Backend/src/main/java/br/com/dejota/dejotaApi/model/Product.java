@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,9 @@ public class Product extends EntityId {
     @Column(name = "category")
     private ProductCategory category;
 
+    @Column(name = "created_at")
+    private Instant createdAt;
+
     @OneToMany
     @JoinColumn(name = "transaction_id")
     private List<Transactions> transactions = new ArrayList<>();
@@ -50,5 +54,6 @@ public class Product extends EntityId {
         this.purchasePrice = purchasePrice;
         this.stock = stock;
         this.category = category;
+        createdAt = Instant.now();
     }
 }

@@ -1,77 +1,37 @@
 import Aviso from "../../componentes/Aviso";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import blogFetch from '../../axios/config.js';
-import { set } from "date-fns";
 
 function Login() {
-
-  const [signInDto, setSignInDto] = useState({
-    username: "",
-    password: ""
-  });
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [mostrarAviso, setMostrarAviso] = useState(false);
+  const [mostrarAviso, setMostrarAviso] = useState(null);
   const [mensagem, setMensagem] = useState("");
-  const handleChangePage = (newPage) => {
-    setPage(newPage);
-  };
+  const navigate = useNavigate();
 
+  const postLogin = async () => {
+    try {
+      const response = await blogFetch.post("/auth/signin", { username: email, password: senha });
 
-  const fazerLogin = async (e) => {
+      if (response.status === 200) {
+        const token = response.data.token;
+        sessionStorage.setItem('token', token)
+        navigate('/stock')
+      }
+    }
+    catch (errr) {
+      if (errr.response.status === 422) {
+        console.log("Senha invalida")
+        setMensagem("Senha invalida")
+      }
+    }
+  }
+
+  const handleLoginForm = (e) => {
     e.preventDefault();
 
-    if (email !== '' && senha !== '') {
-      console.log(signInDto)
-      try {
-        const response = await blogFetch.post(`/auth/signin`, { 
-          username: email,
-          password: senha
-         })
-        
-        if (response.status === 200) {
-          const token = response.data.token;
-          sessionStorage.setItem('token', token);
-          location.href = '/stock';
-        }
-        
-      } catch (error) {
-        const errorMessage = error.response.data.errors.message[0];
-        alert(errorMessage)
-      }
-    } else {
-      alert('Preencha o email e a senha');
-    }
-  };
-
-
-
-  const mandarAviso = async () => {
-    if (email !== "") {
-      try {
-        const response = await blogFetch.get(`/usuario/auth/${email}/${senha}`);
-        console.log(response.data)
-        if (response.status === 200) {
-          console.log('Senha enviada para o Email: ', email);
-          setMensagem("Senha enviada para o seu Email");
-          setMostrarAviso(true);
-        } else {
-          console.log('Email invalido')
-          setMensagem("Email invalido");
-          setMostrarAviso(true);
-        }
-      } catch (error) {
-        alert('Erro ao enviar requisição para o servidor')
-        console.error('Erro ao enviar requisição para o servidor:', error);
-      }
-    }
-    else {
-      console.log('Preencha o Email')
-      setMensagem("Preencha o Email");
-      setMostrarAviso(true);
-    }
+    postLogin();
   };
 
   return (
@@ -104,16 +64,14 @@ function Login() {
             />
             <div>
               <button
-                onClick={(e) => fazerLogin(e)}
+                onClick={(e) => handleLoginForm(e)}
                 className="hover:bg-vermelho-botaoHover duration-150 bg-vermelho-botao text-white w-80 rounded-xl text-center h-10 text-xl shadow-lg"
-                href="./index.html"
               >
                 Entrar
               </button>
             </div>
           </form>
           <p
-           onClick={mandarAviso}
             id="esqueciSenha"
             className="text-sm cursor-pointer hover:scale-125  duration-150"
           >

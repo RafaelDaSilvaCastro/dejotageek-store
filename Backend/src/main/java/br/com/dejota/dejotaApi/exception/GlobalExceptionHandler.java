@@ -52,10 +52,10 @@ public class GlobalExceptionHandler {
         Set<Message> errors = Set.of(new Message("Usuário ou senha estão incorretos"));
         ApiError apiError = new ApiError(
                 Instant.now(),
-                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
                 request.getRequestURI(),
                 errors
         );
-        return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(apiError, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }
