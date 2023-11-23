@@ -3,7 +3,7 @@ package br.com.dejota.dejotaApi.service;
 import br.com.dejota.dejotaApi.dtos.ReadProductImagesDto;
 import br.com.dejota.dejotaApi.exception.custom.ValidationException;
 import br.com.dejota.dejotaApi.model.Product;
-import br.com.dejota.dejotaApi.model.ProductImages;
+import br.com.dejota.dejotaApi.model.Image;
 import br.com.dejota.dejotaApi.model.QProductImages;
 import br.com.dejota.dejotaApi.repository.ProductImagesRepository;
 import com.google.api.services.drive.model.File;
@@ -39,7 +39,7 @@ public class ProductImagesService {
         byte[] content = file.getBytes();
         String fileName = product.getName() + "__=)__" + UUID.randomUUID() + extractExtension(file.getOriginalFilename());
         File uploadedImage = googleDriveService.createFile(fileName, content);
-        ProductImages productImages = new ProductImages(uploadedImage.getName(), uploadedImage.getId(), product);
+        Image productImages = new Image(uploadedImage.getName(), uploadedImage.getId());
 
         productImagesRepository.save(productImages);
     }
@@ -52,7 +52,7 @@ public class ProductImagesService {
         productService.findById(productId)
                 .orElseThrow(() -> new ValidationException("Id " + productId + " não encontrado"));
 
-        List<ProductImages> productsImages = productImagesRepository.findAll(QProductImages.productImages.product.id.eq(productId));
+        List<Image> productsImages = productImagesRepository.findAll(QProductImages.productImages.product.id.eq(productId));
         return productsImages.stream()
                 .map(this::toDto)
                 .toList();
@@ -66,7 +66,7 @@ public class ProductImagesService {
         return fileName.substring(fileName.lastIndexOf("."));
     }
 
-    private ReadProductImagesDto toDto(ProductImages productImages) {
+    private ReadProductImagesDto toDto(Image productImages) {
         return new ReadProductImagesDto(productImages.getId(), productImages.getName(), productImages.getKey(), productImages.getProduct().getId());
     }
 }

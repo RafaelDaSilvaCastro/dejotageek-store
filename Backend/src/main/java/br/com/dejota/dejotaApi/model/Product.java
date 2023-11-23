@@ -44,8 +44,9 @@ public class Product extends EntityId {
     @JoinColumn(name = "transaction_id")
     private List<Transactions> transactions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductImages> images = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image image;
 
     public Product(String name, String description, Double price, Double purchasePrice, Integer stock, ProductCategory category) {
         this.name = name;

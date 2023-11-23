@@ -8,6 +8,9 @@ function Login() {
   const [senha, setSenha] = useState("");
   const [mostrarAviso, setMostrarAviso] = useState(null);
   const [mensagem, setMensagem] = useState("");
+  const [erro, setErro] = useState(false);
+  const [mensagemErro, setMensagemErro] = useState("");
+
   const navigate = useNavigate();
 
   const postLogin = async () => {
@@ -22,8 +25,12 @@ function Login() {
     }
     catch (errr) {
       if (errr.response.status === 422) {
-        console.log("Senha invalida")
-        setMensagem("Senha invalida")
+        setErro(true);
+        setMensagemErro(errr.response.data.errors[0].message);
+        console.log(errr.response.data);
+        setTimeout(() => {
+          setErro(false);
+        }, 3000);
       }
     }
   }
@@ -43,6 +50,11 @@ function Login() {
             : "flex flex-col justify-center items-center h-screen"
         }
       >
+        {erro && (
+          <div className="fixed bottom-4 right-4 p-4 bg-red-500 text-white rounded shadow-lg z-50">
+            <p>{mensagemErro}</p>
+          </div>
+        )}
         <div className="drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] px-20 rounded-xl py-28 bg-branco-hover flex flex-col justify-center items-center gap-3">
           <div className="flex mb-6">
             <img className="" src="./public/assets/Logo.svg" alt="logo" />
@@ -65,7 +77,11 @@ function Login() {
             <div>
               <button
                 onClick={(e) => handleLoginForm(e)}
-                className="hover:bg-vermelho-botaoHover duration-150 bg-vermelho-botao text-white w-80 rounded-xl text-center h-10 text-xl shadow-lg"
+                disabled={email === "" || senha === ""}
+                className={`${email === "" || senha === ""
+                    ? "bg-gray-400 text-white w-80 rounded-xl text-center h-10 text-xl shadow-lg cursor-not-allowed"
+                    : "hover:bg-vermelho-botaoHover duration-150 bg-vermelho-botao text-white w-80 rounded-xl text-center h-10 text-xl shadow-lg"
+                  }`}
               >
                 Entrar
               </button>

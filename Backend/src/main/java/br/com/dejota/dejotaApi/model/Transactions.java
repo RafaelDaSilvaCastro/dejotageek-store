@@ -33,7 +33,7 @@ public class Transactions extends EntityId {
     @Column(name = "purchase_price")
     private Float purchasePrice;
 
-    @Column(name = "datetime", columnDefinition = "TIMESTAMP DEFAULT now()")
+    @Column(name = "datetime")
     private Instant datetime;
 
     @ManyToOne

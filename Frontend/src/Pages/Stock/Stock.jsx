@@ -99,6 +99,7 @@ function Stock() {
       <div>
         <button
           className="fixed top-3/4 right-2/4 translate-x-2/4 translate-y-full z-50 bg-vermelho-botao rounded-xl my-12 p-1 flex mx-auto mb-16 hover:scale-105 duration-150 hover:bg-vermelho-botaoHover"
+          onClick={() => setMostraCadastroItem(true)}
         >
           <img
             className="scale-75"
@@ -111,13 +112,13 @@ function Stock() {
             <div ref={cadastroItemRef}>
               <CadastroItem
                 onClose={null}
-                imagem={imagem}
-                nome={nome}
-                codigo={codigo}
-                descricao={descricao}
-                categoria={categoria}
-                preco={preco}
-                estoque={estoque}
+                imagem={null}
+                nome={undefined}
+                codigo={undefined}
+                descricao={undefined}
+                categoria={undefined}
+                preco={null}
+                estoque={null}
                 closeCadastroItem={null}
               />
             </div>

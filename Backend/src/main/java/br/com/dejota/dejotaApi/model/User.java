@@ -25,9 +25,6 @@ public class User extends EntityId {
     @Column(name = "senha")
     private String password;
 
-    @Column(name = "profile_image_url")
-    private String profileImageUrl;
-
     @Column(name = "created_at")
     private Instant createdAt;
 
@@ -35,12 +32,15 @@ public class User extends EntityId {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image image;
+
     public User(String username, String email, String password, Role role) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
-        profileImageUrl = "default-user-profile-img.png";
         createdAt = Instant.now();
     }
 }

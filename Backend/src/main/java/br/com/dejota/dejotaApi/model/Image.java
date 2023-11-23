@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "ProductImages")
-public class ProductImages extends EntityId {
+@Table(name = "Images")
+public class Image extends EntityId {
 
     @Column(nullable = false)
     private String name;
@@ -20,7 +20,14 @@ public class ProductImages extends EntityId {
     @Column(nullable = false)
     private String key;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
+    @OneToOne(mappedBy = "image", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Product product;
+
+    @OneToOne(mappedBy = "image", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private User user;
+
+    public Image(String name, String key) {
+        this.name = name;
+        this.key = key;
+    }
 }
