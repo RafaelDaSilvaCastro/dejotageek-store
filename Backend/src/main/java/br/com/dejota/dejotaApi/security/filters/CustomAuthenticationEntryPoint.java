@@ -33,7 +33,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
 
-        Set<Message> errors = Set.of(new Message(authException.getMessage()));
+        Set<Message> errors = Set.of(new Message("Você não está autenticado"));
         ApiError apiError = new ApiError(
                 Instant.now(),
                 HttpStatus.UNAUTHORIZED.value(),

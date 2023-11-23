@@ -20,10 +20,12 @@ public class Image extends EntityId {
     @Column(nullable = false)
     private String key;
 
-    @OneToOne(mappedBy = "image", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    @OneToOne(mappedBy = "image", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Image(String name, String key) {

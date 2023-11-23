@@ -10,6 +10,7 @@ function Stock() {
   const [MostraCadastroItem, setMostraCadastroItem] = useState(false);
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [sortDirection, setSortDirection] = useState("ASC");
   const [sortByNameDirection, setSortByNameDirection] = useState("ASC");
@@ -19,7 +20,7 @@ function Stock() {
 
   useEffect(() => {
     getProducts();
-  }, [filter, sortBy, sortDirection]); // Adicionamos filter, sortBy e sortDirection como dependências do useEffect
+  }, [filter, sortBy, sortDirection]);
 
   const handleSortBy = (sortDirectionCustom, setSortDirectionCustom) => {
     setSortDirectionCustom((prevSortDirection) => {
@@ -40,6 +41,25 @@ function Stock() {
   const handleSortByStock = () => {
     setSortBy("stock");
     handleSortBy(sortByStockDirection, setSortByStockDirection);
+  };
+
+  const handleSearch = () => {
+    if (searchQuery.trim() !== "") {
+      setFilter(`name+like+${searchQuery}`);
+      getProducts();
+    } else {
+      resetFilters();
+    }
+  };
+
+  const resetFilters = () => {
+    setFilter("");
+    setSearchQuery("");
+    setSortBy("");
+    setSortDirection("ASC");
+    setSortByNameDirection("ASC");
+    setSortByStockDirection("ASC");
+    getProducts();
   };
 
   const getProducts = async () => {
@@ -66,10 +86,12 @@ function Stock() {
     <div>
       <PesquisaFiltro
         categoriafiltro={undefined}
-        onSearch={(value) => setFilter(value)}
-        searchQuery={filter}
+        onSearch={(value) => setSearchQuery(value)}
+        searchQuery={searchQuery}
         onSortByName={() => handleSortByName()}
         onSortByStock={() => handleSortByStock()}
+        applyFilter={() => handleSearch()}
+        resetFilters={resetFilters}
       />
       <div className="mb-36">
         <ul className="grid grid-cols-7 gap-4 justify-items-center items-center border-b border-cinza-claro pt-16 pb-2">
