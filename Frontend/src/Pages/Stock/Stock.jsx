@@ -9,19 +9,47 @@ function Stock() {
   const [token] = useState(sessionStorage.getItem("token"));
   const [MostraCadastroItem, setMostraCadastroItem] = useState(false);
   const [products, setProducts] = useState([]);
-  const [alreadySorted, setAlreadySorted] = useState(false);
+  const [filter, setFilter] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [sortDirection, setSortDirection] = useState("ASC");
+  const [sortByNameDirection, setSortByNameDirection] = useState("ASC");
+  const [sortByStockDirection, setSortByStockDirection] = useState("ASC");
   const navigate = useNavigate();
   const cadastroItemRef = useRef(null);
 
   useEffect(() => {
-    getProductsAll();
-  }, []);    
+    getProducts();
+  }, [filter, sortBy, sortDirection]); // Adicionamos filter, sortBy e sortDirection como dependências do useEffect
 
-  const getProductsAll = async () => {
+  const handleSortBy = (sortDirectionCustom, setSortDirectionCustom) => {
+    setSortDirectionCustom((prevSortDirection) => {
+      const newSortDirection = prevSortDirection === "ASC" ? "DESC" : "ASC";
+      return newSortDirection;
+    });
+
+    setSortDirection(sortDirectionCustom);
+
+    getProducts();
+  };
+
+  const handleSortByName = () => {
+    setSortBy("name");
+    handleSortBy(sortByNameDirection, setSortByNameDirection);
+  };
+
+  const handleSortByStock = () => {
+    setSortBy("stock");
+    handleSortBy(sortByStockDirection, setSortByStockDirection);
+  };
+
+  const getProducts = async () => {
     try {
-      const response = await blogFetch.get("/product", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await blogFetch.get(
+        `/product?filter=${filter}&sortBy=${sortBy}&sortDirection=${sortDirection}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       if (response.status === 200) {
         setProducts(response.data.content);
@@ -34,29 +62,14 @@ function Stock() {
     }
   };
 
-  const sortProducts = () => {
-    if (!alreadySorted) {
-      setProducts([...products].sort((a, b) => a.name.localeCompare(b.name)));
-      setAlreadySorted((prev) => !prev);
-      console.log("De A a Z");
-    } else {
-      setProducts([...products].sort((a, b) => b.name.localeCompare(a.name)));
-      setAlreadySorted((prev) => !prev);
-      console.log("De Z a A");
-    }
-  };
-  
-
   return (
     <div>
       <PesquisaFiltro
         categoriafiltro={undefined}
-        onSearch={() => console.log("estou pesquisando")}
-        searchQuery={undefined}
-        onSort={sortProducts}
-        onSortByStock={undefined}
-        products={products}
-        setProducts={setProducts}
+        onSearch={(value) => setFilter(value)}
+        searchQuery={filter}
+        onSortByName={() => handleSortByName()}
+        onSortByStock={() => handleSortByStock()}
       />
       <div className="mb-36">
         <ul className="grid grid-cols-7 gap-4 justify-items-center items-center border-b border-cinza-claro pt-16 pb-2">
@@ -96,7 +109,8 @@ function Stock() {
         {MostraCadastroItem && (
           <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
             <div ref={cadastroItemRef}>
-              <CadastroItem onClose={null}
+              <CadastroItem
+                onClose={null}
                 imagem={imagem}
                 nome={nome}
                 codigo={codigo}

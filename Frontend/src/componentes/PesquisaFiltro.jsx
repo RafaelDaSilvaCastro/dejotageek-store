@@ -17,7 +17,7 @@ function PesquisaFiltro(props) {
       </div>
       <div className="flex gap-8 items-center ">
         <button
-          onClick={props.onSort}
+          onClick={props.onSortByName}
           className="bg-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-3 py-2 flex items-center hover:scale-105  duration-150"
         >
           <img

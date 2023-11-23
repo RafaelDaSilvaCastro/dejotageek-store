@@ -22,8 +22,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
-        LOGGER.error("Validation error: {}", ex.getMessage());
+        LOGGER.error("MethodArgumentNotValid error: {}", ex.getMessage());
         Set<Message> errors = Set.of(new Message(ex.getBindingResult().getFieldError().getDefaultMessage()));
+        ApiError apiError = new ApiError(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                request.getRequestURI(),
+                errors
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex, HttpServletRequest request) {
+        LOGGER.error("IllegalArgument error: {}", ex.getMessage());
+        Set<Message> errors = Set.of(new Message("Front end fez cagada"));
         ApiError apiError = new ApiError(
                 Instant.now(),
                 HttpStatus.BAD_REQUEST.value(),
