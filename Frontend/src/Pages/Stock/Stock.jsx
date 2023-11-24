@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { format, endOfDay, parse, startOfDay } from "date-fns";
 import blogFetch from "../../axios/config";
 import ItemLista from "../../componentes/ItemLista";
 import CadastroItem from "../../componentes/CadastroItem";
@@ -10,6 +11,8 @@ function Stock() {
   const [MostraCadastroItem, setMostraCadastroItem] = useState(false);
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("");
+  const [filterDateStart, setFilterDateStart] = useState("");
+  const [filterDateEnd, setFilterDateEnd] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [sortDirection, setSortDirection] = useState("ASC");
@@ -20,9 +23,40 @@ function Stock() {
 
   useEffect(() => {
     getProducts();
-  }, [filter, sortBy, sortDirection]);
+  }, []);
 
-  const handleSortBy = (sortDirectionCustom, setSortDirectionCustom) => {
+  const formatProductsDate = () => {
+    setProducts((prevProducts) => {
+      return prevProducts.map((product) => {
+        return { ...product, createdAt: format(new Date(product.createdAt), "dd/MM/yyyy") };
+      });
+    });
+  };
+
+  const converteDataParaInstant = (dataFormatada) => {
+    const [dia, mes, ano] = dataFormatada.split('/');
+   
+    const data = new Date(`${ano}-${mes}-${dia}T23:59:59.999999999Z`);
+    const instante = data.toISOString();
+
+    console.log(instante);
+  }
+
+  const convertHtmlDateStartToUTC = (date) => {
+    const [ano, mes, dia] = date.split('-');
+    const data = new Date(`${ano}-${mes}-${dia}T00:00:00.000000000Z`);
+
+    return data.toISOString();
+  }
+  
+  const convertHtmlDateEndToUTC = (date) => {
+    const [ano, mes, dia] = date.split('-');
+    const data = new Date(`${ano}-${mes}-${dia}T23:59:59.999999999Z`);
+
+    return data.toISOString();
+  }
+
+  const handleSortBy = async (sortDirectionCustom, setSortDirectionCustom) => {
     setSortDirectionCustom((prevSortDirection) => {
       const newSortDirection = prevSortDirection === "ASC" ? "DESC" : "ASC";
       return newSortDirection;
@@ -30,36 +64,38 @@ function Stock() {
 
     setSortDirection(sortDirectionCustom);
 
-    getProducts();
+    await getProducts();
   };
 
-  const handleSortByName = () => {
+  const handleSortByName = async () => {
     setSortBy("name");
-    handleSortBy(sortByNameDirection, setSortByNameDirection);
+    await handleSortBy(sortByNameDirection, setSortByNameDirection);
   };
 
-  const handleSortByStock = () => {
+  const handleSortByStock = async () => {
     setSortBy("stock");
-    handleSortBy(sortByStockDirection, setSortByStockDirection);
+    await handleSortBy(sortByStockDirection, setSortByStockDirection);
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (searchQuery.trim() !== "") {
-      setFilter(`name+like+${searchQuery}`);
-      getProducts();
+      setFilter(`name+like+${searchQuery}+and+createdAt+between+${filterDateStart}+${filterDateEnd}`);
+      await getProducts();
     } else {
       resetFilters();
     }
   };
 
-  const resetFilters = () => {
+  const resetFilters = async () => {
     setFilter("");
     setSearchQuery("");
     setSortBy("");
     setSortDirection("ASC");
     setSortByNameDirection("ASC");
     setSortByStockDirection("ASC");
-    getProducts();
+    setFilterDateStart("");
+    setFilterDateEnd("");
+    await getProducts();
   };
 
   const getProducts = async () => {
@@ -73,6 +109,7 @@ function Stock() {
 
       if (response.status === 200) {
         setProducts(response.data.content);
+        formatProductsDate();
       }
     } catch (error) {
       if (error.response.status === 401) {
@@ -82,6 +119,10 @@ function Stock() {
     }
   };
 
+  const closeCadastroItem = () => {
+    setMostraCadastroItem(false);
+  }
+
   return (
     <div>
       <PesquisaFiltro
@@ -90,14 +131,19 @@ function Stock() {
         searchQuery={searchQuery}
         onSortByName={() => handleSortByName()}
         onSortByStock={() => handleSortByStock()}
+        onFilterDateStart={setFilterDateStart}
+        onFilterDateEnd={setFilterDateEnd}
+        htmlFilterDateStart={convertHtmlDateStartToUTC}
+        htmlFilterDateEnd={convertHtmlDateEndToUTC}
         applyFilter={() => handleSearch()}
         resetFilters={resetFilters}
       />
       <div className="mb-36">
-        <ul className="grid grid-cols-7 gap-4 justify-items-center items-center border-b border-cinza-claro pt-16 pb-2">
+        <ul className="grid grid-cols-8 gap-4 justify-items-center items-center border-b border-cinza-claro pt-16 pb-2">
           <li className="">Imagem</li>
           <li className="">Nome</li>
           <li className="">Código</li>
+          <li className="">Data de cadastro</li>
           <li className="">Descrição</li>
           <li className="">Categoria</li>
           <li className="">Preço</li>
@@ -111,6 +157,7 @@ function Stock() {
             imagem={null}
             nome={item.name}
             codigo={item.id}
+            dataCadastro={item.createdAt}
             descricao={item.description}
             categoria={item.category}
             preco={item.price}
@@ -133,15 +180,8 @@ function Stock() {
           <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
             <div ref={cadastroItemRef}>
               <CadastroItem
-                onClose={null}
-                imagem={null}
-                nome={undefined}
-                codigo={undefined}
-                descricao={undefined}
-                categoria={undefined}
-                preco={null}
-                estoque={null}
-                closeCadastroItem={null}
+                closeCadastroItem={closeCadastroItem}
+                onPostProduct={getProducts}
               />
             </div>
           </div>

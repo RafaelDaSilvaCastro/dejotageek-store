@@ -5,57 +5,15 @@ import blogFetch from "../../axios/config";
 
 function CompraEVenda() {
   const [selectedRadio, setSelectedRadio] = useState("Compra");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [purchasePrice, setPurchasePrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [stock, setStock] = useState("");
 
   const handleRadioChange = (value) => {
     setSelectedRadio(value);
-  };
-
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    getPosts();
-  }, []);
-
-  const getPosts = async () => {
-    try {
-      const response = await blogFetch.get("/produto/todos");
-      const data = response.data;
-      setPosts(data);
-      setNomes(data.nome);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const [nome, setNome] = useState("");
-  const [data, setData] = useState("");
-  const [precoUnitario, setprecoUnitario] = useState(0);
-  const [preco, setPreco] = useState(0);
-  const [quantidade, setQuantidade] = useState(0);
-  const [imagem, setImagem] = useState("../../public/assets/imagem-vazia.png");
-  const [codigo, setCodigo] = useState(null);
-  const [estoque, setEstoque] = useState(null);
-  const dataAtual = new Date();
-
-  const handleVar = (post) => {
-    console.log("Dados do post:", post);
-
-    setNome(post.nome);
-    setImagem(post.imagem);
-    setCodigo(post.id_produto);
-    setQuantidade(0);
-    setPreco(post.preco);
-    setEstoque(post.estoque);
-    setData(dataAtual.toLocaleDateString());
-
-  }
-
-  const valorCompra = (precoUnitario, quantidade) => {
-    return precoUnitario * quantidade;
-  };
-
-  const valorVenda = (preco, quantidade) => {
-    return preco * quantidade;
   };
 
   const limparDados = () => {
@@ -67,16 +25,6 @@ function CompraEVenda() {
     setprecoUnitario(0)
     setEstoque(0);
     setData("");
-  };
-
-
-  const form = {
-    TipoTransação: selectedRadio,
-    id_produto: codigo,
-    ValorVenda: preco,
-    precoCompra: precoUnitario,
-    data: data,
-    estoque: estoque,
   };
 
   const handleSubmit = async (e) => {
@@ -159,21 +107,7 @@ function CompraEVenda() {
             id="nome"
             list="listaItens"
             required
-            onChange={(e) => {
-              const selectedItem = posts.find(item => item.nome === e.target.value);
-              if (selectedItem) {
-                console.log(selectedItem)
-                setNome(selectedItem.nome);
-                setImagem(selectedItem.imagem);
-                setCodigo(selectedItem.id_produto);
-                setQuantidade(0);
-                setPreco(selectedItem.preco);
-                setEstoque(selectedItem.estoque);
-                setData(dataAtual.toLocaleDateString())
-
-                console.log(nome, codigo, quantidade, preco, estoque, data)
-              }
-            }}
+            onChange={(e) => setNome(e.target.value)}
           />
 
           <datalist id="listaItens">

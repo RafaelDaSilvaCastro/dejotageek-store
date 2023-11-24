@@ -22,6 +22,7 @@ function ItemLista(props) {
         </li>
         <li className="text-center">{props.nome}</li>
         <li>{props.codigo}</li>
+        <li>{props.dataCadastro}</li>
         <li className="text-center">{props.descricao}</li>
         <li>{props.categoria}</li>
         <li>{props.preco}</li>

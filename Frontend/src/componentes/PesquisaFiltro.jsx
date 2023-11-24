@@ -11,7 +11,13 @@ function PesquisaFiltro(props) {
           value={props.searchQuery}
           onChange={(e) => props.onSearch(e.target.value)}
         />
-        <FiltroDashboard categoriafiltro={props.categoriafiltro} />
+        <FiltroDashboard 
+        categoriafiltro={props.categoriafiltro}
+        onFilterDateStart={props.onFilterDateStart}
+        onFilterDateEnd={props.onFilterDateEnd}
+        htmlFilterDateStart={props.htmlFilterDateStart}
+        htmlFilterDateEnd={props.htmlFilterDateEnd}
+        />
       </div>
       <div className="flex gap-8 items-center">
         <button

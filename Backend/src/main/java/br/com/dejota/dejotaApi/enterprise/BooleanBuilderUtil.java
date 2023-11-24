@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.PathBuilder;
 
 import java.lang.reflect.Field;
+import java.time.Instant;
 import java.time.LocalDate;
 
 public class BooleanBuilderUtil {
@@ -73,7 +74,7 @@ public class BooleanBuilderUtil {
         } catch (NoSuchFieldException e) {
             throw new ValidationException("Campo não encontrado: " + parts[0]);
         } catch (Exception e) {
-            throw new ValidationException("Acesso ilegal ao campo: " + parts[0]);
+            throw new ValidationException("Acesso ilegal ao campo: " + parts[0] + " erro: " + e.getMessage());
         }
     }
 
@@ -82,6 +83,7 @@ public class BooleanBuilderUtil {
             case "java.lang.Integer", "int" -> Expressions.constant(Integer.parseInt(part));
             case "java.lang.Double", "double" -> Expressions.constant(Double.parseDouble(part));
             case "java.time.LocalDate" -> Expressions.constant(LocalDate.parse(part));
+            case "java.time.Instant" -> Expressions.constant(Instant.parse(part));
             default -> {
                 if (fieldType.isEnum()) {
                     yield Expressions.constant(Enum.valueOf((Class<Enum>) fieldType, part));
