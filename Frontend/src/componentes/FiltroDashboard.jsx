@@ -12,7 +12,7 @@ function FiltroDashboard(props) {
           type="date"
           id="dateInicio"
           placeholder="De"
-          onChange={(e) => props.onFilterDateStart(props.htmlFilterDateStart(e.target.value))}
+          onChange={(e) => props.onFilterDateStart(e.target.value)}
         />
       </div>
       <div className="flex items-center gap-2">
@@ -23,7 +23,7 @@ function FiltroDashboard(props) {
           type="date"
           id="dateFim"
           placeholder="Ate"
-          onChange={(e) => props.onFilterDateEnd(props.htmlFilterDateEnd(e.target.value))}
+          onChange={(e) => props.onFilterDateEnd(e.target.value)}
         />
       </div>
       <div className="flex items-center">
@@ -33,6 +33,10 @@ function FiltroDashboard(props) {
           className="  outline-none drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg h-10 p-2 bg-white text-cinza-claro w-64 "
           onChange={null}
         >
+          <option value="TSHIRT">TSHIRT</option>
+          <option value="ACTIONFIGURE">ACTIONFIGURE</option>
+          <option value="DECORATION">DECORATION</option>
+          <option value="ACCESSORIES">ACCESSORIES</option>
         </select>
       </div>
     </div>

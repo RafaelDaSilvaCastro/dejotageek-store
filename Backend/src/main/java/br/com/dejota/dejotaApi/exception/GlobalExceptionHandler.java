@@ -36,7 +36,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex, HttpServletRequest request) {
         LOGGER.error("IllegalArgument error: {}", ex.getMessage());
-        Set<Message> errors = Set.of(new Message("Front end fez cagada"));
+        Set<Message> errors = Set.of(new Message("Solicitação inválida"));
+        ApiError apiError = new ApiError(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                request.getRequestURI(),
+                errors
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IndexOutOfBoundsException.class)
+    public ResponseEntity<ApiError> handleIndexOutOfBoundsException(IndexOutOfBoundsException ex, HttpServletRequest request) {
+        LOGGER.error("IndexOutOfBounds error: {}", ex.getMessage());
+        Set<Message> errors = Set.of(new Message("Valor enviado não existe"));
         ApiError apiError = new ApiError(
                 Instant.now(),
                 HttpStatus.BAD_REQUEST.value(),

@@ -10,10 +10,12 @@ function Stock() {
   const [token] = useState(sessionStorage.getItem("token"));
   const [MostraCadastroItem, setMostraCadastroItem] = useState(false);
   const [products, setProducts] = useState([]);
+  const [images, setImages] = useState([]);
   const [filter, setFilter] = useState("");
   const [filterDateStart, setFilterDateStart] = useState("");
   const [filterDateEnd, setFilterDateEnd] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [sortDirection, setSortDirection] = useState("ASC");
   const [sortByNameDirection, setSortByNameDirection] = useState("ASC");
@@ -23,6 +25,7 @@ function Stock() {
 
   useEffect(() => {
     getProducts();
+    getImages();
   }, []);
 
   const formatProductsDate = () => {
@@ -36,24 +39,23 @@ function Stock() {
   const converteDataParaInstant = (dataFormatada) => {
     const [dia, mes, ano] = dataFormatada.split('/');
    
-    const data = new Date(`${ano}-${mes}-${dia}T23:59:59.999999999Z`);
-    const instante = data.toISOString();
+    const data = new Date(`${ano}-${mes}-${dia}`);
 
-    console.log(instante);
+    console.log(data);
   }
 
   const convertHtmlDateStartToUTC = (date) => {
     const [ano, mes, dia] = date.split('-');
-    const data = new Date(`${ano}-${mes}-${dia}T00:00:00.000000000Z`);
+    const data = new Date(`${ano}-${mes}-${dia}`);
 
-    return data.toISOString();
+    return data;
   }
   
   const convertHtmlDateEndToUTC = (date) => {
     const [ano, mes, dia] = date.split('-');
-    const data = new Date(`${ano}-${mes}-${dia}T23:59:59.999999999Z`);
+    const data = new Date(`${ano}-${mes}-${dia}`);
 
-    return data.toISOString();
+    return data;
   }
 
   const handleSortBy = async (sortDirectionCustom, setSortDirectionCustom) => {
@@ -79,7 +81,7 @@ function Stock() {
 
   const handleSearch = async () => {
     if (searchQuery.trim() !== "") {
-      setFilter(`name+like+${searchQuery}+and+createdAt+between+${filterDateStart}+${filterDateEnd}`);
+      setFilter(`name+like+${searchQuery}+and+category+eq+${filterCategory}+and+createdAt+between+${filterDateStart}+${filterDateEnd}`);
       await getProducts();
     } else {
       resetFilters();
@@ -95,13 +97,14 @@ function Stock() {
     setSortByStockDirection("ASC");
     setFilterDateStart("");
     setFilterDateEnd("");
+    setFilterCategory("");
     await getProducts();
   };
 
   const getProducts = async () => {
     try {
       const response = await blogFetch.get(
-        `/product?filter=${filter}&sortBy=${sortBy}&sortDirection=${sortDirection}`,
+        `/products?filter=${filter}&sortBy=${sortBy}&sortDirection=${sortDirection}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -117,6 +120,34 @@ function Stock() {
         console.log("Token inválido");
       }
     }
+  };
+
+  const getImages = async () => {
+    try {
+      products.map(async (product) => {
+        const response = await blogFetch.get(
+          `/images?entity=product&id=${product.id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("deu certo");
+          setImages(response.data.content);
+        }
+      });
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/");
+        console.log("Token inválido");
+      }
+
+      if (error.response.status === 400) {
+        console.log("Não há imagens para esse produto");
+      }
+    }
+
   };
 
   const closeCadastroItem = () => {
@@ -135,6 +166,7 @@ function Stock() {
         onFilterDateEnd={setFilterDateEnd}
         htmlFilterDateStart={convertHtmlDateStartToUTC}
         htmlFilterDateEnd={convertHtmlDateEndToUTC}
+        onFilterCategory={setFilterCategory}
         applyFilter={() => handleSearch()}
         resetFilters={resetFilters}
       />

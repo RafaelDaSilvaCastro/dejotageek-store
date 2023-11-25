@@ -50,7 +50,7 @@ public class ImageService {
         }
 
         byte[] content = file.getBytes();
-        String fileName = objectEntity.getClass().getName() + "__" + file.getName() + "__=)__" + UUID.randomUUID() + extractExtension(file.getOriginalFilename());
+        String fileName = objectEntity.getClass().getSimpleName() + "__=)__" + UUID.randomUUID() + extractExtension(file.getOriginalFilename());
         File uploadedImage = googleDriveService.createFile(fileName, content);
         image = new Image(uploadedImage.getName(), uploadedImage.getId());
         setEntity(image, objectEntity);
@@ -58,8 +58,21 @@ public class ImageService {
         imageRepository.save(image);
     }
 
-    public byte[] recoverImage(String key) throws IOException {
-        return googleDriveService.getFileContent(key);
+    public byte[] recoverImage(String entity, Long id) throws IOException {
+        Image image;
+        if (entity.equalsIgnoreCase("product")) {
+            productService.findById(id)
+                    .orElseThrow(() -> new ValidationException("Id " + id + " não encontrado"));
+            image = imageRepository.findAll(QImage.image.product.id.eq(id)).get(0);
+
+        } else if (entity.equalsIgnoreCase("user")) {
+            userService.findById(id)
+                    .orElseThrow(() -> new ValidationException("Id " + id + " não encontrado"));
+            image = imageRepository.findAll(QImage.image.user.id.eq(id)).get(0);
+
+        } else throw new ValidationException("entidade invalida, apenas 'product' ou 'user'");
+
+        return googleDriveService.getFileContent(image.getKey());
     }
 
     public ReadImageDto findImageByEntity(String entity, Long id) {

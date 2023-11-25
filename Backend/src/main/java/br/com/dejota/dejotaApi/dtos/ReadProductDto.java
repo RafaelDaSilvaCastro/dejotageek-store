@@ -2,7 +2,7 @@ package br.com.dejota.dejotaApi.dtos;
 
 import br.com.dejota.dejotaApi.enums.ProductCategory;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 public record ReadProductDto(
         Long id,
@@ -12,6 +12,6 @@ public record ReadProductDto(
         Double purchasePrice,
         Integer stock,
         ProductCategory category,
-        Instant createdAt
+        LocalDate createdAt
 ) {
 }
