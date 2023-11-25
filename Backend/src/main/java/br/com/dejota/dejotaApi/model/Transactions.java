@@ -7,25 +7,21 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Transactions")
 public class Transactions extends EntityId {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(name = "transaction_type")
     private TransactionsType type;
 
     @Column(name = "quantity")
-    private Long quantity;
+    private Integer quantity;
 
     @Column(name = "sale_price")
     private Float salePrice;
@@ -34,9 +30,17 @@ public class Transactions extends EntityId {
     private Float purchasePrice;
 
     @Column(name = "datetime")
-    private Instant datetime;
+    private LocalDateTime datetime;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    public Transactions(TransactionsType type, Integer quantity, Float salePrice, Float purchasePrice) {
+        this.type = type;
+        this.quantity = quantity;
+        this.salePrice = salePrice;
+        this.purchasePrice = purchasePrice;
+        this.datetime = LocalDateTime.now();
+    }
 }

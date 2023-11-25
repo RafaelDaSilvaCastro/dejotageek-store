@@ -29,7 +29,7 @@ function CadastroItem(props) {
 
   const postProduct = async () => {
     try {
-      const response = await blogFetch.post("/product/create", form, {
+      const response = await blogFetch.post("/products/create", form, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

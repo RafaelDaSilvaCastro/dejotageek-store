@@ -19,17 +19,19 @@ public class AuthController {
     private AuthService authService;
 
 
-    @PostMapping("signin")
+    @PostMapping("/signin")
     public ResponseEntity<TokenDto> signIn(@RequestBody @Valid SignInDto dto) {
-        return new ResponseEntity<>(authService.signIn(dto), HttpStatus.OK);
+        TokenDto token = authService.signIn(dto);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public ResponseEntity<ReadUserDto> signUp(@RequestBody @Valid SignUpDto dto) {
-        return new ResponseEntity<>(authService.signUp(dto), HttpStatus.CREATED);
+        ReadUserDto user = authService.signUp(dto);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    @PostMapping("forgot-password")
+    @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody @Valid ForgotPasswordDto dto) {
         authService.forgotPassword(dto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

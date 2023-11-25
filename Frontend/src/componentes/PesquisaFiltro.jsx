@@ -15,8 +15,7 @@ function PesquisaFiltro(props) {
         categoriafiltro={props.categoriafiltro}
         onFilterDateStart={props.onFilterDateStart}
         onFilterDateEnd={props.onFilterDateEnd}
-        htmlFilterDateStart={props.htmlFilterDateStart}
-        htmlFilterDateEnd={props.htmlFilterDateEnd}
+        onFilterCategory={props.onFilterCategory}
         />
       </div>
       <div className="flex gap-8 items-center">

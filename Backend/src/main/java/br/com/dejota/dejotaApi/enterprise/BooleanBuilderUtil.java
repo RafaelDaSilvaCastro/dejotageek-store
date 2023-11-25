@@ -74,7 +74,7 @@ public class BooleanBuilderUtil {
         } catch (NoSuchFieldException e) {
             throw new ValidationException("Campo não encontrado: " + parts[0]);
         } catch (Exception e) {
-            throw new ValidationException("Acesso ilegal ao campo: " + parts[0] + " erro: " + e.getMessage());
+            throw new ValidationException("Acesso ilegal ao campo: " + parts[0]);
         }
     }
 

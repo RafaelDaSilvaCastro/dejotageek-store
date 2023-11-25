@@ -8,6 +8,7 @@ import br.com.dejota.dejotaApi.model.QImage;
 import br.com.dejota.dejotaApi.model.User;
 import br.com.dejota.dejotaApi.repository.ImageRepository;
 import com.google.api.services.drive.model.File;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,49 +28,30 @@ public class ImageService {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private UserService userService;
 
-
-    public void uploadImage(MultipartFile file, String entity, Long id) throws IOException {
-        Image image;
-        Object objectEntity;
-
-        if (entity.equalsIgnoreCase("product")) {
-            objectEntity = productService.findById(id)
-                    .orElseThrow(() -> new ValidationException("Id " + id + " não encontrado"));
-
-        } else if (entity.equalsIgnoreCase("user")) {
-            objectEntity = userService.findById(id)
-                    .orElseThrow(() -> new ValidationException("Id " + id + " não encontrado"));
-
-        } else throw new ValidationException("entidade invalida, apenas 'product' ou 'user'");
+    @Transactional
+    public void uploadImage(MultipartFile file, Long id) throws IOException {
+        Product product = productService.findById(id)
+                .orElseThrow(() -> new ValidationException("Id " + id + " não encontrado"));
 
         if (!isImage(file.getOriginalFilename())) {
-            throw new ValidationException("Arquivo não é uma imagem");
+            throw new ValidationException("Arquivo enviado não é uma imagem");
         }
 
-        byte[] content = file.getBytes();
-        String fileName = objectEntity.getClass().getName() + "__" + file.getName() + "__=)__" + UUID.randomUUID() + extractExtension(file.getOriginalFilename());
-        File uploadedImage = googleDriveService.createFile(fileName, content);
-        image = new Image(uploadedImage.getName(), uploadedImage.getId());
-        setEntity(image, objectEntity);
+        String fileName = UUID.randomUUID().toString() + extractExtension(file.getOriginalFilename());
+        File googleFile = googleDriveService.createFile(fileName, file.getBytes());
 
+        Image image = new Image(fileName, googleFile.getId());
         imageRepository.save(image);
+
+        product.setImage(image);
     }
 
-    public byte[] recoverImage(String key) throws IOException {
-        return googleDriveService.getFileContent(key);
-    }
+    public byte[] recoverImage(Long id) throws IOException {
+        Product product = productService.findById(id)
+                .orElseThrow(() -> new ValidationException("Id " + id + " não encontrado"));
 
-    public ReadImageDto findImageByEntity(String entity, Long id) {
-        if (entity.equalsIgnoreCase("product")) {
-            return findByProductId(id);
-        }
-        if (entity.equalsIgnoreCase("user")) {
-            return findByUserId(id);
-        }
-        throw new ValidationException("entidade invalida, apenas 'product' ou 'user'");
+        return googleDriveService.getFileContent(product.getImage().getKey());
     }
 
     private ReadImageDto findByProductId(Long productId) {
@@ -78,18 +60,8 @@ public class ImageService {
         return toDto(imageRepository.findAll(QImage.image.product.id.eq(productId)).get(0));
     }
 
-    private ReadImageDto findByUserId(Long userId) {
-        userService.findById(userId)
-                .orElseThrow(() -> new ValidationException("Id" + userId + " não encontrado"));
-        return toDto(imageRepository.findAll(QImage.image.user.id.eq(userId)).get(0));
-    }
-
-    private void setEntity(Image image, Object object) {
-        if (object instanceof Product) {
-            image.setProduct((Product) object);
-        } else {
-            image.setUser((User) object);
-        };
+    public void save(Image image) {
+        imageRepository.save(image);
     }
 
     private boolean isImage(String fileName) {
@@ -101,6 +73,6 @@ public class ImageService {
     }
 
     private ReadImageDto toDto(Image image) {
-        return new ReadImageDto(image.getId(), image.getName(), image.getKey(), image.getProduct().getId(), image.getUser().getId());
+        return new ReadImageDto(image.getId(), image.getName(), image.getKey());
     }
 }

@@ -1,7 +1,7 @@
 package br.com.dejota.dejotaApi.dtos;
 
-import br.com.dejota.dejotaApi.enums.ProductCategory;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateProductDto(
         @NotBlank
@@ -17,9 +17,6 @@ public record CreateProductDto(
         Double purchasePrice,
 
         @NotBlank
-        Integer stock,
-
-        @NotBlank
-        ProductCategory category
+        Integer stock
 ) {
 }

@@ -1,5 +1,6 @@
 package br.com.dejota.dejotaApi.config;
 
+import br.com.dejota.dejotaApi.security.filters.CustomAccessDenied;
 import br.com.dejota.dejotaApi.security.filters.CustomAuthenticationEntryPoint;
 import br.com.dejota.dejotaApi.security.filters.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class SecurityConfig {
             "/api/v1/auth/forgot-password"
     };
 
+//    private static final String[] POST_ADMIN_WHITELIST = {
+//            "/api/v1/auth/signup",
+//    };
+
     private static final String[] GET_SWAGGER_WHITELIST = {
             "/swagger-ui/**",
             "/swagger-ui.html",
@@ -44,6 +49,9 @@ public class SecurityConfig {
     private CustomAuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
+    private CustomAccessDenied accessDenied;
+
+    @Autowired
     private CorsConfig corsConfig;
 
     @Bean
@@ -55,11 +63,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.GET, GET_SWAGGER_WHITELIST).permitAll()
+                        //.requestMatchers(HttpMethod.POST, POST_ADMIN_WHITELIST).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDenied)
                 );
         return http.build();
     }

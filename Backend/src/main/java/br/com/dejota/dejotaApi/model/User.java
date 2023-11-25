@@ -32,9 +32,6 @@ public class User extends EntityId {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToOne(mappedBy = "user")
-    private Image image;
-
     public User(String username, String email, String password, Role role) {
         this.username = username;
         this.email = email;

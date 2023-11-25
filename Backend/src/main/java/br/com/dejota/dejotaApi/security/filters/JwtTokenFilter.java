@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,6 +41,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
         catch (UsernameNotFoundException e) {
             response.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
+        }
+        catch (AccessDeniedException e) {
+            response.sendError(HttpStatus.FORBIDDEN.value(), e.getMessage());
         }
     }
 }
