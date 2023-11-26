@@ -1,6 +1,20 @@
+import blogFetch from "../../axios/config";
 import FiltroDashboard from "../../componentes/FiltroDashboard";
 import GraficoColunas from "../../componentes/GraficoColunas";
 import GraficoPizza from "../../componentes/GraficoPizza";
+
+const getProducts = async () => {
+  try {
+    const response = await blogFetch(`/products?filter`)
+  }
+  catch (err) {
+    if (err.response.status === 401) {
+      navigate("/");
+      console.log("Token inválido");
+    }
+  }
+};
+
 function Dashboard() {
   return (
     <div className="flex flex-col">
@@ -18,9 +32,8 @@ function Dashboard() {
       </div>
       <div className="flex flex-col mt-12 mb-8 gap-y-4 p-16 bg-white rounded-xl drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
         <div className="flex items-center justify-between px-8">
-          <h2 className="text-cinza-grafico font-semibold">Lucros/Gastos</h2>
+          <h2 className="text-cinza-grafico font-semibold">Transações</h2>
         </div>
-        <GraficoColunas />
       </div>
     </div>
   );

@@ -26,19 +26,6 @@ function FiltroDashboard(props) {
           onChange={(e) => props.onFilterDateEnd(e.target.value)}
         />
       </div>
-      <div className="flex items-center">
-        <select
-          id="categoria"
-          name="Categoria"
-          className="  outline-none drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg h-10 p-2 bg-white text-cinza-claro w-64 "
-          onChange={null}
-        >
-          <option value="TSHIRT">TSHIRT</option>
-          <option value="ACTIONFIGURE">ACTIONFIGURE</option>
-          <option value="DECORATION">DECORATION</option>
-          <option value="ACCESSORIES">ACCESSORIES</option>
-        </select>
-      </div>
     </div>
   );
 }

@@ -1,12 +1,15 @@
 package br.com.dejota.dejotaApi.service;
 
 import br.com.dejota.dejotaApi.dtos.CreateTransactionDto;
+import br.com.dejota.dejotaApi.dtos.ReadTransactionsDto;
 import br.com.dejota.dejotaApi.enums.TransactionsType;
 import br.com.dejota.dejotaApi.exception.custom.ValidationException;
 import br.com.dejota.dejotaApi.model.Product;
 import br.com.dejota.dejotaApi.model.Transactions;
 import br.com.dejota.dejotaApi.repository.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,6 +51,11 @@ public class TransactionsService {
         transactionsRepository.save(transaction);
     }
 
+    public Page<ReadTransactionsDto> findAll(String filter, Pageable pageable) {
+        Page<Transactions> transactions = transactionsRepository.findAll(filter, Transactions.class, pageable);
+        return transactions.map(this::toDto);
+    }
+
 
     private Transactions toEntity(CreateTransactionDto dto) {
         return new Transactions(
@@ -55,6 +63,18 @@ public class TransactionsService {
                 dto.quantity(),
                 dto.salePrice(),
                 dto.purchasePrice()
+        );
+    }
+
+    private ReadTransactionsDto toDto(Transactions transactions) {
+        return new ReadTransactionsDto(
+                transactions.getId(),
+                transactions.getType(),
+                transactions.getQuantity(),
+                transactions.getSalePrice(),
+                transactions.getPurchasePrice(),
+                transactions.getDatetime(),
+                transactions.getProduct().getName()
         );
     }
 }

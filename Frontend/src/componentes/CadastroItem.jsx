@@ -29,7 +29,7 @@ function CadastroItem(props) {
 
   const postProduct = async () => {
     try {
-      const response = await blogFetch.post("/products/create", form, {
+      const response = await blogFetch.post(`/products/create?categoryId=${category}`, form, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -134,16 +134,16 @@ function CadastroItem(props) {
               onChange={(e) => setCategory(e.target.value)}
             >
               <option value="">Selecione uma categoria</option>
-              <option className="text-zinc-800" value="TSHIRT">
+              <option className="text-zinc-800" value="1">
                 TSHIRT
               </option>
-              <option className="text-zinc-800" value="ACTIONFIGURE" selected>
+              <option className="text-zinc-800" value="2" selected>
                 ACTIONFIGURE
               </option>
-              <option className="text-zinc-800" value="DECORATION">
+              <option className="text-zinc-800" value="3">
                 DECORATION
               </option>
-              <option className="text-zinc-800" value="ACCESSORIES">
+              <option className="text-zinc-800" value="4">
                 ACCESSORIES
               </option>
             </select>
