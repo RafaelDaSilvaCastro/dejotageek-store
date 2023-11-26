@@ -5,7 +5,6 @@ import br.com.dejota.dejotaApi.exception.custom.ValidationException;
 import br.com.dejota.dejotaApi.model.Image;
 import br.com.dejota.dejotaApi.model.Product;
 import br.com.dejota.dejotaApi.model.QImage;
-import br.com.dejota.dejotaApi.model.User;
 import br.com.dejota.dejotaApi.repository.ImageRepository;
 import com.google.api.services.drive.model.File;
 import jakarta.transaction.Transactional;
