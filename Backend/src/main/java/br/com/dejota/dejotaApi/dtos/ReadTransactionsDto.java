@@ -5,12 +5,13 @@ import br.com.dejota.dejotaApi.enums.TransactionsType;
 import java.time.LocalDateTime;
 
 public record ReadTransactionsDto(
-        Long id,
-        TransactionsType type,
+        String productName,
         int quantity,
-        float salePrice,
-        float purchasePrice,
+        double price,
+        double total,
         LocalDateTime datetime,
-        String productName
+        Long id,
+        TransactionsType type
+
 ) {
 }
