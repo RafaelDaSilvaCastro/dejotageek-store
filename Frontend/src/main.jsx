@@ -15,6 +15,7 @@ import Stock from "./Pages/Stock/Stock.jsx";
 import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
 import CompraEVenda from "./Pages/CompraEVenda/CompraEVenda.jsx";
 import PageError from "./Pages/PageError/PageError.jsx";
+import Promocoes from "./Pages/Promocoes/Promocoes.jsx";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "/", //Define a rota do Login como rota principal
+        path: "/",
         element: <Login />,
       },
       {
@@ -40,6 +41,15 @@ const router = createBrowserRouter([
           <>
             <Header />
             <CompraEVenda />
+          </>
+        ),
+      },
+      {
+        path: "promocoes",
+        element: (
+          <>
+            <Header />
+            <Promocoes />
           </>
         ),
       },
