@@ -18,6 +18,9 @@ function CadastroItem(props) {
   const [novaCategoria, setNovaCategoria] = useState("");
   const [showNovaCategoriaModal, setShowNovaCategoriaModal] = useState(false);
 
+  const [acerto, setAcerto] = useState(false);
+  const [mensagem, setMensagem] = useState("");
+
   const navigate = useNavigate();
 
   const form = {
@@ -70,7 +73,11 @@ function CadastroItem(props) {
       });
 
       if (response.status === 204) {
-        alert("Imagem cadastrada com sucesso");
+        setAcerto(true);
+        setMensagem("Imagem cadastrada com sucesso!");
+        setTimeout(() => {
+          setAcerto(false);
+        }, 3000);
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -89,6 +96,12 @@ function CadastroItem(props) {
     setPrice("");
     setCategoryId("");
     setStock("");
+  };
+
+  const clearCategoria = () => {
+    setNovaCategoria("");
+    setDescricao("");
+    setCategoriaPai("");
   };
 
   const handlePostProduct = async () => {
@@ -125,9 +138,10 @@ function CadastroItem(props) {
       );
 
       if (response.status === 201) {
-        console.log("Nova categoria criada com sucesso!");
+        console.log(response.status);
         setShowNovaCategoriaModal(false);
         getCategorias();
+        clearCategoria();
       }
     } catch (err) {
       console.error("Erro ao criar nova categoria:", err);
@@ -141,7 +155,6 @@ function CadastroItem(props) {
       });
 
       if (response.status === 200) {
-        console.log(response.data.content);
         setCategorias(response.data.content);
       }
 
@@ -149,6 +162,10 @@ function CadastroItem(props) {
       console.log(err);
     }
   }
+
+  React.useEffect(() => {
+    getCategorias();
+  }, []);
 
   return (
     <div className="bg-white rounded-3xl p-12 gap-36 mb-4 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
@@ -281,36 +298,34 @@ function CadastroItem(props) {
         </div>
       </form>
       {showNovaCategoriaModal && (
-  <Modal onClose={() => setShowNovaCategoriaModal(false)}>
-    <form onSubmit={handleNovaCategoriaSubmit}>
-      <label htmlFor="novaCategoria">Nova Categoria:</label>
-      <input
-        type="text"
-        id="novaCategoria"
-        name="novaCategoria"
-        value={novaCategoria}
-        onChange={(e) => setNovaCategoria(e.target.value)}
-      />
-      <label htmlFor="descricao">Descrição:</label>
-      <input
-        type="text"
-        id="descricao"
-        name="descricao"
-        value={descricao}
-        onChange={(e) => setDescricao(e.target.value)}
-      />
-      <label htmlFor="categoriaPai">Categoria Pai:</label>
-      <input
-        type="text"
-        id="categoriaPai"
-        name="categoriaPai"
-        value={categoriaPai}
-        onChange={(e) => setCategoriaPai(e.target.value)}
-      />
-      <button type="submit">Criar Categoria</button>
-    </form>
-  </Modal>
-)}
+        <Modal onClose={() => setShowNovaCategoriaModal(false)}>
+          <label htmlFor="novaCategoria">Nova Categoria:</label>
+          <input
+            type="text"
+            id="novaCategoria"
+            name="novaCategoria"
+            value={novaCategoria}
+            onChange={(e) => setNovaCategoria(e.target.value)}
+          />
+          <label htmlFor="descricao">Descrição:</label>
+          <input
+            type="text"
+            id="descricao"
+            name="descricao"
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+          />
+          <label htmlFor="categoriaPai">Categoria Pai:</label>
+          <input
+            type="text"
+            id="categoriaPai"
+            name="categoriaPai"
+            value={categoriaPai}
+            onChange={(e) => setCategoriaPai(e.target.value)}
+          />
+          <button type="submit" onClick={handleNovaCategoriaSubmit}>Criar Categoria</button>
+        </Modal>
+      )}
 
     </div>
   );

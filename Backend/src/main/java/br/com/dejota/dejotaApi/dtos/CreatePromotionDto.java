@@ -13,10 +13,8 @@ public record CreatePromotionDto(
         @NotNull(message = "A porcentagem da promoção não pode ser vazia")
         Double percentage,
 
-        @NotBlank(message = "A data de início da promoção não pode ser vazia")
         LocalDate startDate,
 
-        @NotBlank(message = "A data de término da promoção não pode ser vazia")
         LocalDate endDate
 ) {
 }

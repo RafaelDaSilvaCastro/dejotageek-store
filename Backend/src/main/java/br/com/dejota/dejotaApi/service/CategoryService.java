@@ -15,25 +15,30 @@ import java.util.Optional;
 public class CategoryService {
 
     @Autowired
-    private CategoryRepository repository;
+    private CategoryRepository categoryRepository;
 
     public ReadCategoryDto create(CreateCategoryDto dto) {
+        categoryRepository.findByName(dto.name())
+                .ifPresent(category -> {
+                    throw new RuntimeException("Categoria já cadastrada");
+                });
+
         Category category = new Category(
                 dto.name(),
                 dto.description(),
                 dto.categoriaPai()
         );
-        repository.save(category);
+        categoryRepository.save(category);
         return toDto(category);
     }
 
     public Page<ReadCategoryDto> findAll(String filter, Pageable pageable) {
-        Page<Category> categories = repository.findAll(filter, Category.class, pageable);
+        Page<Category> categories = categoryRepository.findAll(filter, Category.class, pageable);
         return categories.map(this::toDto);
     }
 
     public Optional<Category> findById(Long id) {
-        return repository.findById(id);
+        return categoryRepository.findById(id);
     }
 
     private Category toEntity(CreateCategoryDto dto) {
@@ -54,11 +59,11 @@ public class CategoryService {
     }
 
     public ReadCategoryDto update(Long id, CreateCategoryDto dto) {
-        Category category = repository.findById(id).orElseThrow();
+        Category category = categoryRepository.findById(id).orElseThrow();
         category.setName(dto.name());
         category.setDescription(dto.description());
         category.setCategoriaPai(dto.categoriaPai());
-        repository.save(category);
+        categoryRepository.save(category);
         return toDto(category);
     }
 }
