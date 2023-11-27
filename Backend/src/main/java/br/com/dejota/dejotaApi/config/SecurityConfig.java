@@ -28,9 +28,9 @@ public class SecurityConfig {
             "/api/v1/auth/forgot-password"
     };
 
-//    private static final String[] POST_ADMIN_WHITELIST = {
-//            "/api/v1/auth/signup",
-//    };
+    private static final String[] POST_ADMIN_WHITELIST = {
+            "/api/v1/auth/signup",
+    };
 
     private static final String[] GET_SWAGGER_WHITELIST = {
             "/swagger-ui/**",
@@ -63,7 +63,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, POST_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.GET, GET_SWAGGER_WHITELIST).permitAll()
-                        //.requestMatchers(HttpMethod.POST, POST_ADMIN_WHITELIST).hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, POST_ADMIN_WHITELIST).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)

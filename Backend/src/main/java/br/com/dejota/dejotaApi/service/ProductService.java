@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @Service
 public class ProductService {
@@ -32,6 +33,11 @@ public class ProductService {
     private CategoryService categoryService;
 
     public ReadProductDto create(CreateProductDto dto, Long categoryId) {
+        productRepository.findByName(dto.name())
+                .ifPresent(product -> {
+                    throw new ValidationException("Produto já cadastrado");
+                });
+
         Product product = toEntity(dto);
         Category category = categoryService.findById(categoryId)
                 .orElseThrow(() -> new ValidationException("Categoria não encontrada"));
@@ -39,8 +45,7 @@ public class ProductService {
         product.setCategory(category);
 
         if (product.getImage() == null) {
-            Image image = new Image("default", "13Dymy5OCMOwG1w5Xgcqxnzg3Rr9-RSM8");
-            imageRepository.save(image);
+            Image image = imageRepository.findById(1L);
 
             product.setImage(image);
         }

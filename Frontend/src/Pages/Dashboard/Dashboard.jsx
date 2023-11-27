@@ -17,11 +17,16 @@ function Dashboard() {
   const [categories, setCategories] = useState([]);
   const [salesData, setSalesData] = useState({ labels: [], series: [] });
   const [purchasesData, setPurchasesData] = useState({ labels: [], series: [] });
+
+  const [filterDateStart, setFilterDateStart] = useState("");
+  const [filterDateEnd, setFilterDateEnd] = useState("");
+
   const navigate = useNavigate();
 
   const getTransactions = async () => {
     try {
-      const response = await blogFetch.get(`/transactions?filter=${filter}?page=${page}`, { headers: { Authorization: `Bearer ${token}` } });
+      const response = await blogFetch.get(`/transactions?filter=${filter}&page=${page}`,
+       { headers: { Authorization: `Bearer ${token}` } });
 
       if (response.status === 200) {
         setTransactions(response.data.content);
@@ -59,9 +64,9 @@ function Dashboard() {
         const response = await blogFetch.get(`/transactions/sales?categoryId=${category.id}`, { headers: { Authorization: `Bearer ${token}` } });
         return response.data.content.length;
       });
-  
+
       const seriesData = await Promise.all(promises);
-  
+
       setSalesData({
         labels: categories.map((category) => category.name),
         series: seriesData,
@@ -74,16 +79,16 @@ function Dashboard() {
       }
     }
   };
-  
+
   const getPurchases = async () => {
     try {
       const promises = categories.map(async (category) => {
         const response = await blogFetch.get(`/transactions/purchases?categoryId=${category.id}`, { headers: { Authorization: `Bearer ${token}` } });
         return response.data.content.length;
       });
-  
+
       const seriesData = await Promise.all(promises);
-  
+
       setPurchasesData({
         labels: categories.map((category) => category.name),
         series: seriesData,
@@ -96,7 +101,12 @@ function Dashboard() {
       }
     }
   };
-  
+
+  const handleFilter = () => {
+    setFilter(`datetime+between+${filterDateStart}T00:00:00+and+${filterDateEnd}T23:59:59`);
+    console.log(filter);
+  }
+
 
   React.useEffect(() => {
     getTransactions();
@@ -108,9 +118,12 @@ function Dashboard() {
     getPurchases();
   }, [categories]);
 
+  React.useEffect(() => {
+    getTransactions();
+  }, [filter]);
+
   return (
     <div className="flex flex-col">
-      <FiltroDashboard />
       <div className="flex flex-col mt-12 gap-y-4 py-4 bg-white rounded-xl drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
         <div className="flex items-center justify-evenly py-6 mr-36 gap-x-24">
           <h2 className="text-xl">Vendas</h2>

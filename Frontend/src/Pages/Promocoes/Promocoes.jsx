@@ -204,7 +204,9 @@ function Promocoes() {
                             className="mt-1 p-2 border rounded-md w-full"
                         />
                     </div>
-                    <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-md">
+                    <button 
+                    type="submit" 
+                    className="bg-vermelho-botao text-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-4 py-3 flex items-center hover:scale-105 duration-150">
                         Adicionar Promoção
                     </button>
                 </form>
@@ -224,7 +226,7 @@ function Promocoes() {
                 </ul>
             </div >
             {acertos && (
-          <div className="fixed bottom-4 right-4 p-4 bg-red-500 text-white rounded shadow-lg z-50">
+          <div className="fixed bottom-4 right-4 p-4 bg-green-500 text-white rounded shadow-lg z-50">
             <p>{mensagem}</p>
           </div>
         )}

@@ -9,7 +9,7 @@ function PesquisaFiltro(props) {
           className="drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg p-2.5 bg-[url('../../public/assets/icone-lupa.svg')] bg-no-repeat bg-right outline-none px-6 w-96"
           type="search"
           value={props.searchQuery}
-          onChange={(e) => props.onSearch(e.target.value)}
+          onChange={(e) => props.onSearch(e.target.value).toLowerCase()}
         />
         <FiltroDashboard 
         categoriafiltro={props.categoriafiltro}

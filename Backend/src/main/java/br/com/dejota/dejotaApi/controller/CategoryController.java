@@ -3,6 +3,7 @@ package br.com.dejota.dejotaApi.controller;
 import br.com.dejota.dejotaApi.dtos.CreateCategoryDto;
 import br.com.dejota.dejotaApi.dtos.ReadCategoryDto;
 import br.com.dejota.dejotaApi.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +20,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping("/create")
-    public ResponseEntity<ReadCategoryDto> create(@RequestBody CreateCategoryDto dto) {
+    public ResponseEntity<ReadCategoryDto> create(@RequestBody @Valid CreateCategoryDto dto) {
         return new ResponseEntity<>(categoryService.create(dto), HttpStatus.CREATED);
     }
 

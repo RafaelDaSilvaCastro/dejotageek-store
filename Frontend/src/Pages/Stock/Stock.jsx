@@ -61,10 +61,19 @@ function Stock() {
     setProducts((prevProducts) =>
       prevProducts.map((product) => ({
         ...product,
-        createdAt: format(new Date(product.createdAt), "dd/MM/yyyy"),
+        createdAt: transformDate(product.createdAt),
       }))
-    );
+    );    
   };
+
+  const transformDate = (date) => {
+    const dateArray = date.split("-");
+    const year = dateArray[0];
+    const month = dateArray[1];
+    const day = dateArray[2].split("T")[0];
+    const newDate = `${day}/${month}/${year}`;
+    return newDate;
+}
 
   const handleSortBy = async (sortDirectionCustom, setSortDirectionCustom) => {
     setSortDirectionCustom((prevSortDirection) => {
@@ -146,7 +155,7 @@ function Stock() {
 
   const handlePageSizeChange = (newPageSize) => {
     setPageSize(newPageSize);
-    setCurrentPage(0); // Reset para a primeira página quando o tamanho da página é alterado
+    setCurrentPage(0);
   };
 
   return (
@@ -213,31 +222,14 @@ function Stock() {
         )}
       </div>
       <div className="flex justify-right mt-4">
-        <button
-          className="bg-vermelho-botao text-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-4 py-3 flex items-center hover:scale-105 duration-150"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 0}
-        >
-          Anterior
-        </button>
-        <span className="mr-2">
-          Página {currentPage + 1} de {Math.ceil(products.length / pageSize)}
-        </span>
-        <button
-          className="bg-vermelho-botao text-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-4 py-3 flex items-center hover:scale-105 duration-150"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === Math.ceil(products.length / pageSize) - 1}
-        >
-          Próxima
-        </button>
         <select
           className="ml-2 p-2 border border-gray-300 rounded"
           value={pageSize}
           onChange={(e) => handlePageSizeChange(Number(e.target.value))}
         >
           <option value={5}>5 por página</option>
-          <option value={10}>10 por página</option>
-          <option value={20}>20 por página</option>
+          <option value={25}>10 por página</option>
+          <option value={75}>20 por página</option>
         </select>
       </div>
     </div>

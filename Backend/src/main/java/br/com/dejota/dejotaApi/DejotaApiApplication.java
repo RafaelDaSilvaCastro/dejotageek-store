@@ -2,9 +2,11 @@ package br.com.dejota.dejotaApi;
 
 import br.com.dejota.dejotaApi.enums.UserRole;
 import br.com.dejota.dejotaApi.model.Category;
+import br.com.dejota.dejotaApi.model.Image;
 import br.com.dejota.dejotaApi.model.Role;
 import br.com.dejota.dejotaApi.model.User;
 import br.com.dejota.dejotaApi.repository.CategoryRepository;
+import br.com.dejota.dejotaApi.repository.ImageRepository;
 import br.com.dejota.dejotaApi.repository.RoleRepository;
 import br.com.dejota.dejotaApi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,9 @@ public class DejotaApiApplication {
 	@Autowired
 	private RoleRepository roleRepository;
 
+	@Autowired
+	private ImageRepository imageRepository;
+
 	@Bean
 	public void createAdmin() {
 		User user = new User();
@@ -55,36 +60,29 @@ public class DejotaApiApplication {
 	}
 
 	@Bean
-	public void createCatergories() {
-		Category tshirt = new Category("TSHIRT", "Camisetas de todos os tipos", "Roupas");
-		Category actionFigure = new Category("ACTIONFIGURE", "Action Figures de todos os tipos", "Brinquedos");
-		Category decoration = new Category("DECORATION", "Decorações de todos os tipos", "Decoração");
-		Category accessories = new Category("ACCESSORIES", "Acessórios de todos os tipos", "Acessórios");
-
-		categoryRepository.save(tshirt);
-		categoryRepository.save(actionFigure);
-		categoryRepository.save(decoration);
-		categoryRepository.save(accessories);
+	public void createDefaultImage() {
+		Image image = new Image("default", "1hksm2ffg5B3pPtr4QJ1HnlmdclTmRkZk");
+		imageRepository.save(image);
 	}
 
-//	@Bean
-//	public RedisTemplate<String, Object> redisTemplate() {
-//		RedisTemplate<String, Object> template = new RedisTemplate<>();
-//		template.setConnectionFactory(jedisConnectionFactory());
-//		return template;
-//	}
-//
-//	@Bean
-//	public JedisConnectionFactory jedisConnectionFactory() {
-//		RedisStandaloneConfiguration rediConfig = new RedisStandaloneConfiguration();
-//		rediConfig.setHostName("oregon-redis.render.com");
-//		rediConfig.setPort(6379);
-//		rediConfig.setPassword("xVHbBS5AzEVclnXx1mluwn8NfctmxBdg");
-//		rediConfig.setUsername("red-clh6cfmf27hc739p33l0");
-//		JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfig = JedisClientConfiguration.builder();
-//		jedisClientConfig.connectTimeout(Duration.ofSeconds(120));
-//		jedisClientConfig.useSsl();
-//
-//		return new JedisConnectionFactory(rediConfig, jedisClientConfig.build());
-//	}
+	@Bean
+	public RedisTemplate<String, Object> redisTemplate() {
+		RedisTemplate<String, Object> template = new RedisTemplate<>();
+		template.setConnectionFactory(jedisConnectionFactory());
+		return template;
+	}
+
+	@Bean
+	public JedisConnectionFactory jedisConnectionFactory() {
+		RedisStandaloneConfiguration rediConfig = new RedisStandaloneConfiguration();
+		rediConfig.setHostName("oregon-redis.render.com");
+		rediConfig.setPort(6379);
+		rediConfig.setPassword("xVHbBS5AzEVclnXx1mluwn8NfctmxBdg");
+		rediConfig.setUsername("red-clh6cfmf27hc739p33l0");
+		JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfig = JedisClientConfiguration.builder();
+		jedisClientConfig.connectTimeout(Duration.ofSeconds(120));
+		jedisClientConfig.useSsl();
+
+		return new JedisConnectionFactory(rediConfig, jedisClientConfig.build());
+	}
 }

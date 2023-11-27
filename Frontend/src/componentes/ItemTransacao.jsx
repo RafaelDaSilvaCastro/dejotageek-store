@@ -20,7 +20,11 @@ function ItemLista(props) {
                 <li className="text-center text-cinza-grafico">R${props.total}</li>
                 <li className="text-center text-cinza-grafico">{transformDate(props.datetime)}</li>
                 <li className="text-center text-cinza-grafico">{props.id}</li>
-                <li className="text-center text-cinza-grafico">{props.type}</li>
+                {props.type === "PURCHASE" ? (
+                    <li className="text-center text-vermelho-pessego">Compra</li>
+                ) : (
+                    <li className="text-center text-verde-caqui">Venda</li>
+                )}
             </ul>
         </div>
     );

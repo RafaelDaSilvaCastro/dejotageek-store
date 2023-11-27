@@ -3,6 +3,7 @@ package br.com.dejota.dejotaApi.controller;
 import br.com.dejota.dejotaApi.dtos.CreateTransactionDto;
 import br.com.dejota.dejotaApi.dtos.ReadTransactionsDto;
 import br.com.dejota.dejotaApi.service.TransactionsService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +21,7 @@ public class TransactionsController {
     private TransactionsService transactionsService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody CreateTransactionDto dto,
+    public ResponseEntity<?> create(@RequestBody @Valid CreateTransactionDto dto,
                                     @RequestParam("productId") Long productId) {
         transactionsService.create(dto, productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

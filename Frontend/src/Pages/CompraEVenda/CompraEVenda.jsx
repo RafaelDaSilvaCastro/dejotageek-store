@@ -11,6 +11,9 @@ function CompraEVenda() {
   const [erro, setErro] = useState(false);
   const [mensagemErro, setMensagemErro] = useState("");
 
+  const [acerto, setAcerto] = useState(false);
+  const [mensagem, setMensagem] = useState("");
+
   const handleRadioChange = (value) => {
     setSelectedRadio(value);
   };
@@ -140,10 +143,18 @@ function CompraEVenda() {
       );
       console.log(form);
       if (selectedRadio == "SELL") {
-        alert("Venda cadastrada!");
+        setAcerto(true);
+        setMensagem("Venda cadastrada!");
+        setTimeout(() => {
+          setAcerto(false);
+        }, 3000);
       }
       else {
-        alert("Compra cadastrada!");
+        setAcerto(true);
+        setMensagem("Compra cadastrada!");
+        setTimeout(() => {
+          setAcerto(false);
+        }, 3000);
       }
 
     } catch (error) {
@@ -299,6 +310,11 @@ function CompraEVenda() {
           </div>
         )}
       </div>
+      {acerto && (
+        <div className="fixed bottom-4 right-4 p-4 bg-green-500 text-white rounded shadow-lg z-50">
+          <p>{mensagem}</p>
+        </div>
+      )}
     </div>
   );
 }
