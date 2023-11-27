@@ -90,7 +90,7 @@ function Stock() {
   const handleSearch = async () => {
     if (searchQuery.trim() !== "") {
       setFilter(
-        `name+like+${searchQuery}+and+category+eq+${filterCategory}+and+createdAt+between+${filterDateStart}+${filterDateEnd}`
+        `name+like+${searchQuery}+and+createdAt+between+${filterDateStart}+${filterDateEnd}`
       );
       await getProducts();
     } else {
