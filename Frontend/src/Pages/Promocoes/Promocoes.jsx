@@ -3,6 +3,10 @@ import blogFetch from "../../axios/config";
 import { format } from "date-fns";
 
 function Promocoes() {
+
+    const [acertos, setAcertos] = useState(false);
+    const [mensagem, setMensagem] = useState("");
+
     const [token] = useState(sessionStorage.getItem("token"));
     const [proudctId, setProductId] = useState(null);
     const [products, setProducts] = useState([]);
@@ -31,6 +35,22 @@ function Promocoes() {
         }
     };
 
+    const getPromocoes = async () => {
+        try {
+            const response = await blogFetch.get(`/promotions`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            if (response.status === 200) {
+                console.log(response.data.content);
+                setPromocoes(response.data.content);
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const postPromocoes = async () => {
         try {
             console.log(formData)
@@ -38,9 +58,14 @@ function Promocoes() {
                 headers: { Authorization: `Bearer ${token}` },
                 });
 
-            if (response.status === 201) {
+            if (response.status === 204) {
                 console.log(response.data);
-                setPromocoes(response.data);
+                setAcertos(true);
+                setMensagem("Promoção cadastrada com sucesso!");
+                setTimeout(() => {
+                    setAcertos(false);
+                }, 3000);
+                getPromocoes();
             }
 
         } catch (error) {
@@ -87,7 +112,13 @@ function Promocoes() {
 
     React.useEffect(() => {
         getProducts();
+        getPromocoes();
     }, []);
+
+    const transformDate = (date) => {
+        const [year, month, day] = date.split("-");
+        return `${day}/${month}/${year}`;
+    };
 
     return (
         <div className="flex">
@@ -185,13 +216,18 @@ function Promocoes() {
                 <ul className="list-disc list-inside">
                     {promocoes.map((promocao, index) => (
                         <li key={index} className="mb-2">
-                            <strong>{promocao.description}</strong> ({promocao.percentage}%)
+                            <strong>{promocao.description}</strong> de {promocao.percentage}% de desconto para o produto {promocao.productName}
                             <br />
-                            Válido de {promocao.startDate} até {promocao.endDate}
+                            Válido de {transformDate(promocao.startDate)} até {transformDate(promocao.endDate)}
                         </li>
                     ))}
                 </ul>
             </div >
+            {acertos && (
+          <div className="fixed bottom-4 right-4 p-4 bg-red-500 text-white rounded shadow-lg z-50">
+            <p>{mensagem}</p>
+          </div>
+        )}
         </div >
     );
 }
