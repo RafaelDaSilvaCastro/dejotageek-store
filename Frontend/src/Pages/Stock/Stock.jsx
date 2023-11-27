@@ -6,8 +6,6 @@ import CadastroItem from "../../componentes/CadastroItem";
 import PesquisaFiltro from "../../componentes/PesquisaFiltro";
 import { useNavigate } from "react-router-dom";
 
-// default no product image : 13Dymy5OCMOwG1w5Xgcqxnzg3Rr9-RSM8
-
 function Stock() {
   const [token] = useState(sessionStorage.getItem("token"));
   const [MostraCadastroItem, setMostraCadastroItem] = useState(false);
@@ -21,12 +19,14 @@ function Stock() {
   const [sortDirection, setSortDirection] = useState("ASC");
   const [sortByNameDirection, setSortByNameDirection] = useState("ASC");
   const [sortByStockDirection, setSortByStockDirection] = useState("ASC");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
   const navigate = useNavigate();
   const cadastroItemRef = useRef(null);
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [filter, sortBy, sortDirection, currentPage, pageSize]);
 
   const getImage = async (id) => {
     try {
@@ -114,7 +114,7 @@ function Stock() {
   const getProducts = async () => {
     try {
       const response = await blogFetch.get(
-        `/products?filter=${filter}&sortBy=${sortBy}&sortDirection=${sortDirection}`,
+        `/products?filter=${filter}&sortBy=${sortBy}&sortDirection=${sortDirection}&page=${currentPage}&size=${pageSize}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -138,6 +138,15 @@ function Stock() {
 
   const closeCadastroItem = () => {
     setMostraCadastroItem(false);
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const handlePageSizeChange = (newPageSize) => {
+    setPageSize(newPageSize);
+    setCurrentPage(0); // Reset para a primeira página quando o tamanho da página é alterado
   };
 
   return (
@@ -202,6 +211,34 @@ function Stock() {
             </div>
           </div>
         )}
+      </div>
+      <div className="flex justify-right mt-4">
+        <button
+          className="bg-vermelho-botao text-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-4 py-3 flex items-center hover:scale-105 duration-150"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 0}
+        >
+          Anterior
+        </button>
+        <span className="mr-2">
+          Página {currentPage + 1} de {Math.ceil(products.length / pageSize)}
+        </span>
+        <button
+          className="bg-vermelho-botao text-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-4 py-3 flex items-center hover:scale-105 duration-150"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === Math.ceil(products.length / pageSize) - 1}
+        >
+          Próxima
+        </button>
+        <select
+          className="ml-2 p-2 border border-gray-300 rounded"
+          value={pageSize}
+          onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+        >
+          <option value={5}>5 por página</option>
+          <option value={10}>10 por página</option>
+          <option value={20}>20 por página</option>
+        </select>
       </div>
     </div>
   );

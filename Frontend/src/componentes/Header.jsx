@@ -77,6 +77,27 @@ function Header() {
             </button>
           </Link>
         </li>
+        <li>
+          <Link to="/promocoes">
+            <button
+              className={
+                selectedRadio === "Promocoes"
+                  ? "bg-vermelho-botao rounded-xl text-center shadow-lg p-0.5 hover:scale-105  duration-75"
+                  : "p-0.5 hover:scale-105  duration-150"
+              }
+              onClick={() => handleRadioChange("Promocoes")}
+            >
+              <img
+                src={
+                  selectedRadio === "Promocoes"
+                    ? "./assets/percentWhite.svg"
+                    : "./assets/percent.svg"
+                }
+                alt="promocoes"
+              />
+            </button>
+          </Link>
+        </li>
 
         <li>
           <Link to="/">

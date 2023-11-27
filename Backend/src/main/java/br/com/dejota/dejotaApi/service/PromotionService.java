@@ -26,6 +26,10 @@ public class PromotionService {
             throw new ValidationException("Porcentam não pode ser maior que 80% de desconto");
         }
 
+        if (dto.startDate().isAfter(dto.endDate())) {
+            throw new ValidationException("Data de início não pode ser maior que a data de término");
+        }
+
         Promotion promotion = toEntity(dto);
         Product product = productService.findById(productId)
                 .orElseThrow(() -> new ValidationException("Produto não encontrado"));

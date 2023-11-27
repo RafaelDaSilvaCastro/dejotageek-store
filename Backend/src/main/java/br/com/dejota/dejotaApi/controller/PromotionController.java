@@ -17,7 +17,7 @@ public class PromotionController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody CreatePromotionDto dto,
-                                            @RequestParam("productId") Long productId) {
+                                    @RequestParam("productId") Long productId) {
         promotionService.create(dto, productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
