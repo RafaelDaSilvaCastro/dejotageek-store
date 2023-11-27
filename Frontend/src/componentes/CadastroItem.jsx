@@ -12,6 +12,8 @@ function CadastroItem(props) {
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categorias, setCategorias] = useState([]);
+  const [descricao, setDescricao] = useState("");
+  const [categoriaPai, setCategoriaPai] = useState("");
   const [stock, setStock] = useState("");
   const [novaCategoria, setNovaCategoria] = useState("");
   const [showNovaCategoriaModal, setShowNovaCategoriaModal] = useState(false);
@@ -112,8 +114,8 @@ function CadastroItem(props) {
         `/categories/create`,
         {
           name: novaCategoria,
-          description: "Nova categoria criada pelo usuário",
-          categoriaPai: 1
+          description: descricao,
+          categoriaPai: categoriaPai
         },
         {
           headers: {
@@ -279,20 +281,37 @@ function CadastroItem(props) {
         </div>
       </form>
       {showNovaCategoriaModal && (
-        <Modal onClose={() => setShowNovaCategoriaModal(false)}>
-          <form onSubmit={handleNovaCategoriaSubmit}>
-            <label htmlFor="novaCategoria">Nova Categoria:</label>
-            <input
-              type="text"
-              id="novaCategoria"
-              name="novaCategoria"
-              value={novaCategoria}
-              onChange={(e) => setNovaCategoria(e.target.value)}
-            />
-            <button type="submit">Criar Categoria</button>
-          </form>
-        </Modal>
-      )}
+  <Modal onClose={() => setShowNovaCategoriaModal(false)}>
+    <form onSubmit={handleNovaCategoriaSubmit}>
+      <label htmlFor="novaCategoria">Nova Categoria:</label>
+      <input
+        type="text"
+        id="novaCategoria"
+        name="novaCategoria"
+        value={novaCategoria}
+        onChange={(e) => setNovaCategoria(e.target.value)}
+      />
+      <label htmlFor="descricao">Descrição:</label>
+      <input
+        type="text"
+        id="descricao"
+        name="descricao"
+        value={descricao}
+        onChange={(e) => setDescricao(e.target.value)}
+      />
+      <label htmlFor="categoriaPai">Categoria Pai:</label>
+      <input
+        type="text"
+        id="categoriaPai"
+        name="categoriaPai"
+        value={categoriaPai}
+        onChange={(e) => setCategoriaPai(e.target.value)}
+      />
+      <button type="submit">Criar Categoria</button>
+    </form>
+  </Modal>
+)}
+
     </div>
   );
 }
