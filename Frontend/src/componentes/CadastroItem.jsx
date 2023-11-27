@@ -21,6 +21,9 @@ function CadastroItem(props) {
   const [acerto, setAcerto] = useState(false);
   const [mensagem, setMensagem] = useState("");
 
+  const [erro, setErro] = useState(false);
+  const [mensagemErro, setMensagemErro] = useState("");
+
   const navigate = useNavigate();
 
   const form = {
@@ -44,8 +47,12 @@ function CadastroItem(props) {
       });
 
       if (response.status === 201) {
-        console.log(response.data);
         postImage(response.data.id);
+        setAcerto(true);
+        setMensagem("Produto cadastrado com sucesso!");
+        setTimeout(() => {
+          setAcerto(false);
+        }, 3000);
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -54,7 +61,11 @@ function CadastroItem(props) {
       }
 
       if (err.response.status === 422) {
-        alert(err.response.data.errors[0].message);
+        setErro(true);
+        setMensagemErro(err.response.data.errors[0].message);
+        setTimeout(() => {
+          setErro(false);
+        }, 3000);
       }
     }
   };
@@ -85,7 +96,11 @@ function CadastroItem(props) {
       }
 
       if (err.response.status === 422) {
-        alert(err.response.data.errors[0].message);
+        setErro(true);
+        setMensagemErro(err.response.data.errors[0].message);
+        setTimeout(() => {
+          setErro(false);
+        }, 3000);
       }
     }
   };
@@ -142,9 +157,26 @@ function CadastroItem(props) {
         setShowNovaCategoriaModal(false);
         getCategorias();
         clearCategoria();
+
+        setAcerto(true);
+        setMensagem("Categoria cadastrada com sucesso!");
+        setTimeout(() => {
+          setAcerto(false);
+        }, 3000);
       }
     } catch (err) {
-      console.error("Erro ao criar nova categoria:", err);
+      if (err.response.status === 401) {
+        navigate("/");
+        console.log("Token inválido");
+      }
+
+      if (err.response.status === 422) {
+        setErro(true);
+        setMensagemErro(err.response.data.errors[0].message);
+        setTimeout(() => {
+          setErro(false);
+        }, 3000);
+      }
     }
   };
 
@@ -325,6 +357,18 @@ function CadastroItem(props) {
           />
           <button type="submit" onClick={handleNovaCategoriaSubmit}>Criar Categoria</button>
         </Modal>
+      )}
+
+      {acerto && (
+        <div className="fixed bottom-4 right-4 p-4 bg-green-500 text-white rounded shadow-lg z-50">
+          <p>{mensagem}</p>
+        </div>
+      )}
+
+      {erro && (
+        <div className="fixed bottom-4 right-4 p-4 bg-red-500 text-white rounded shadow-lg z-50">
+          <p>{mensagemErro}</p>
+        </div>
       )}
 
     </div>

@@ -25,7 +25,8 @@ function Dashboard() {
 
   const getTransactions = async () => {
     try {
-      const response = await blogFetch.get(`/transactions?filter=${filter}?page=${page}`, { headers: { Authorization: `Bearer ${token}` } });
+      const response = await blogFetch.get(`/transactions?filter=${filter}&page=${page}`,
+       { headers: { Authorization: `Bearer ${token}` } });
 
       if (response.status === 200) {
         setTransactions(response.data.content);
@@ -101,13 +102,9 @@ function Dashboard() {
     }
   };
 
-  const handleFilter = async () => {
-    try {
-
-
-    } catch (err) {
-
-    }
+  const handleFilter = () => {
+    setFilter(`createdAt+between+${filterDateStart}+${filterDateEnd}`);
+    console.log(filter);
   }
 
 
@@ -121,6 +118,10 @@ function Dashboard() {
     getPurchases();
   }, [categories]);
 
+  React.useEffect(() => {
+    getTransactions();
+  }, [filter]);
+
   return (
     <div className="flex flex-col">
       <div>
@@ -130,7 +131,7 @@ function Dashboard() {
         />
         <button
           className="bg-vermelho-botao text-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-4 py-3 flex items-center hover:scale-105 duration-150"
-          onClick={null}
+          onClick={handleFilter}
         >
           Filtrar
         </button>

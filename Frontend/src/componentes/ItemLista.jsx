@@ -25,7 +25,7 @@ function ItemLista(props) {
         <li>{props.dataCadastro}</li>
         <li className="text-center">{props.descricao}</li>
         <li>{props.categoria}</li>
-        <li>{props.preco}</li>
+        <li>R${props.preco}</li>
         <li className="flex items-center ">
           {props.estoque >= 5 ? (
             <p className="bg-verde-caqui py-1 px-3 rounded-xl ml-6">
