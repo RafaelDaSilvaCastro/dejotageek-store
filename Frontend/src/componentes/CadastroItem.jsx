@@ -35,7 +35,7 @@ function CadastroItem(props) {
       });
 
       if (response.status === 201) {
-        setIdProduto(response.data.id)
+        console.log(response.data)
         postImage(response.data.id);
 
       }
@@ -56,26 +56,32 @@ function CadastroItem(props) {
 
   const postImage = async (id) => {
     try {
-      const response = await blogFetch.post(`images?productId=${id}`, form, {
+      const formData = new FormData();
+      formData.append("file", imagem);
+      formData.append("productId", id);
+  
+      const response = await blogFetch.post(`images`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       });
-
-      if (response.status === 200) {
+  
+      if (response.status === 204) {
         alert("Imagem cadastrada com sucesso");
       }
     } catch (err) {
       if (err.response.status === 401) {
-        navigate("/");
-        console.log("Token inválido");
+        console.log(token);
       }
-
+  
       if (err.response.status === 422) {
         alert(err.response.data.errors[0].message);
       }
     }
   };
+  
+
 
 
 
@@ -111,10 +117,6 @@ function CadastroItem(props) {
     props.closeCadastroItem();
   };
 
-  const receberImagem = (imagem) => {
-    setImagem(imagem);
-  };
-
   return (
     <div className="bg-white rounded-3xl p-12 gap-36 mb-4 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
       <form
@@ -126,7 +128,7 @@ function CadastroItem(props) {
             nome={name}
             valorTotal={price}
             imagem={imagem}
-            enviarVariavelImg={receberImagem}
+            setImagem={setImagem}
           />
         </div>
         <div>

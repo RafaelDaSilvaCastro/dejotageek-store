@@ -15,9 +15,7 @@ function CardVazio(props) {
       };
       reader.readAsDataURL(file);
 
-      const formData = new FormData();
-      formData.append('imagem', file)
-      props.enviarVariavelImg(formData)
+      props.setImagem(file);
 
 
     } else {
