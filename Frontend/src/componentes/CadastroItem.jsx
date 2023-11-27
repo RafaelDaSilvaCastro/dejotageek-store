@@ -11,7 +11,6 @@ function CadastroItem(props) {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState("");
-  const [idProduto, setIdProduto] = useState("");
   const navigate = useNavigate();
 
   const form = {
@@ -25,7 +24,6 @@ function CadastroItem(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
   };
 
   const postProduct = async () => {
@@ -36,11 +34,10 @@ function CadastroItem(props) {
         },
       });
 
-      if (response.status === 200) {
-        alert("Produto cadastrado com sucesso!");
+      if (response.status === 201) {
         setIdProduto(response.data.id)
-        console.log("22007" + response.id)
-        console.log("22008" + response)
+        postImage(response.data.id);
+
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -57,16 +54,16 @@ function CadastroItem(props) {
 
 
 
-  const postImage = async () => {
+  const postImage = async (id) => {
     try {
-      const response = await blogFetch.post(`images/productId=${idProduto}`, form, {
+      const response = await blogFetch.post(`images?productId=${id}`, form, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (response.status === 200) {
-        alert("Produto cadastrado com sucesso!");
+        alert("Imagem cadastrada com sucesso");
       }
     } catch (err) {
       if (err.response.status === 401) {

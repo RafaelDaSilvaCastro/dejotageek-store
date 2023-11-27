@@ -117,6 +117,7 @@ public class ProductService {
                 product.getPurchasePrice(),
                 product.getStock(),
                 product.getImage().getKey(),
+                product.getCategory().getName(),
                 product.getCreatedAt()
         );
     }

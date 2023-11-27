@@ -28,19 +28,24 @@ function Stock() {
     getProducts();
   }, []);
 
-  const loadImageForProduct = async (id) => {
+  const getImage = async (id) => {
     try {
-      const response = await blogFetch.get(`/images?productId=${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await blogFetch.get(
+        `/images?productId=${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          responseType: 'arraybuffer'
+        },
+      );
 
       if (response.status === 200) {
-        const blob = new Blob([response.data], { type: "image/jpeg" });
-        const url = URL.createObjectURL(blob);
-
+        const imageBlob = new Blob([response.data], {
+          type: response.headers['content-type'],
+        });
+        const imageUrl = URL.createObjectURL(imageBlob);
         setProducts((prevProducts) =>
           prevProducts.map((product) =>
-            product.id === id ? { ...product, image: url } : product
+            product.id === id ? { ...product, image: imageUrl } : product
           )
         );
       }
@@ -118,11 +123,10 @@ function Stock() {
       if (response.status === 200) {
         const data = response.data.content;
         data.forEach((product) => {
-          loadImageForProduct(product.id);
+          getImage(product.id);
         });
         setProducts(data);
         formatProductsDate();
-        console.log(data);
       }
     } catch (error) {
       if (error.response.status === 401) {

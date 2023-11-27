@@ -10,6 +10,7 @@ public record ReadProductDto(
         Double purchasePrice,
         Integer stock,
         String image,
+        String category,
         LocalDate createdAt
 ) {
 }
