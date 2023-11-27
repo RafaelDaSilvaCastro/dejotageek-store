@@ -23,11 +23,8 @@ public class Transactions extends EntityId {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "sale_price")
-    private Float salePrice;
-
-    @Column(name = "purchase_price")
-    private Float purchasePrice;
+    @Column(name = "price")
+    private Double price;
 
     @Column(name = "datetime")
     private LocalDateTime datetime;
@@ -36,11 +33,10 @@ public class Transactions extends EntityId {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public Transactions(TransactionsType type, Integer quantity, Float salePrice, Float purchasePrice) {
+    public Transactions(TransactionsType type, Integer quantity, Double price) {
         this.type = type;
         this.quantity = quantity;
-        this.salePrice = salePrice;
-        this.purchasePrice = purchasePrice;
+        this.price = price;
         this.datetime = LocalDateTime.now();
     }
 }

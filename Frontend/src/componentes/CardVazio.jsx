@@ -5,22 +5,26 @@ function CardVazio(props) {
   const [imagemCompra, setImagemCompra] = useState(
     ""
   );
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
 
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagemCompra(reader.result);
-        props.enviarVariavelImg(reader.result);
       };
       reader.readAsDataURL(file);
+
+      const formData = new FormData();
+      formData.append('imagem', file)
+      props.enviarVariavelImg(formData)
+
+
     } else {
       setImagemCompra("../../public/assets/imagem-vazia.png");
       props.enviarVariavelImg("../../public/assets/imagem-vazia.png");
     }
   };
-
 
   useEffect(() => {
     setImagemCompra(props.imagem)

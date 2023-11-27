@@ -150,7 +150,7 @@ function Stock() {
         applyFilter={() => handleSearch()}
         resetFilters={resetFilters}
       />
-      <div className="mb-36">
+      <div className="mb-1">
         <ul className="grid grid-cols-8 gap-4 justify-items-center items-center border-b border-cinza-claro pt-16 pb-2">
           <li className="">Imagem</li>
           <li className="">Nome</li>
@@ -163,7 +163,7 @@ function Stock() {
         </ul>
       </div>
       <div>
-        {products.map((item, index) => (
+        {products.map((item) => (
           <ItemLista
             key={item.id}
             imagem={item.image}

@@ -61,20 +61,19 @@ public class TransactionsService {
         return new Transactions(
                 dto.type(),
                 dto.quantity(),
-                dto.salePrice(),
-                dto.purchasePrice()
+                dto.price()
         );
     }
 
     private ReadTransactionsDto toDto(Transactions transactions) {
         return new ReadTransactionsDto(
-                transactions.getId(),
-                transactions.getType(),
+                transactions.getProduct().getName(),
                 transactions.getQuantity(),
-                transactions.getSalePrice(),
-                transactions.getPurchasePrice(),
+                transactions.getPrice(),
+                transactions.getPrice() * transactions.getQuantity(),
                 transactions.getDatetime(),
-                transactions.getProduct().getName()
+                transactions.getId(),
+                transactions.getType()
         );
     }
 }
