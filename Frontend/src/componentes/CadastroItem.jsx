@@ -11,6 +11,7 @@ function CadastroItem(props) {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState("");
+  const [idProduto, setIdProduto] = useState("");
   const navigate = useNavigate();
 
   const form = {
@@ -37,6 +38,9 @@ function CadastroItem(props) {
 
       if (response.status === 200) {
         alert("Produto cadastrado com sucesso!");
+        setIdProduto(response.data.id)
+        console.log("22007" + response.id)
+        console.log("22008" + response)
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -50,6 +54,43 @@ function CadastroItem(props) {
     }
   };
 
+
+
+
+  const postImage = async () => {
+    try {
+      const response = await blogFetch.post(`images/productId=${idProduto}`, form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        alert("Produto cadastrado com sucesso!");
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        navigate("/");
+        console.log("Token inválido");
+      }
+
+      if (err.response.status === 422) {
+        alert(err.response.data.errors[0].message);
+      }
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+
   const cleanForm = () => {
     setName("");
     setDescription("");
@@ -61,6 +102,9 @@ function CadastroItem(props) {
   const handlePostProduct = async () => {
     await postProduct();
     await props.onPostProduct();
+
+    //await postImage();
+
     cleanForm();
     props.closeCadastroItem();
   };

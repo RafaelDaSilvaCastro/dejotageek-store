@@ -2,18 +2,100 @@ import Card from "../../componentes/Card";
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import blogFetch from "../../axios/config";
+import { useNavigate } from 'react-router-dom';
 
 function CompraEVenda() {
-  const [selectedRadio, setSelectedRadio] = useState("Compra");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [purchasePrice, setPurchasePrice] = useState("");
-  const [category, setCategory] = useState("");
-  const [stock, setStock] = useState("");
+  const [token] = useState(sessionStorage.getItem("token"));
+  const [selectedRadio, setSelectedRadio] = useState("PURCHASE");
+  const navigate = useNavigate();
+  const [erro, setErro] = useState(false);
+  const [mensagemErro, setMensagemErro] = useState("");
 
   const handleRadioChange = (value) => {
     setSelectedRadio(value);
+  };
+
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+
+  const getProducts = async () => {
+    try {
+      const response = await blogFetch.get(
+        `/products?page=0&size=150`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const data = response.data.content;
+
+      if (response.status === 200) {
+        setProducts(data);
+        console.log(data);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/");
+        console.log("Token inválido");
+      }
+      if (error.response.status === 422) {
+        setErro(true);
+        setMensagemErro(error.response.data.errors[0].message);
+        console.log(error.response.data);
+        setTimeout(() => {
+          setErro(false);
+        }, 3000);
+      }
+    }
+  };
+
+
+
+  const getImage = async (id) => {
+    try {
+      const response = await blogFetch.get(
+        `/images?productId=${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          responseType: 'arraybuffer'
+        },
+      );
+
+      if (response.status === 200) {
+        const imageBlob = new Blob([response.data], {
+          type: response.headers['content-type'],
+        });
+        const imageUrl = URL.createObjectURL(imageBlob);
+        setImagem(imageUrl);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/");
+        console.log("Token inválido");
+      }
+    }
+  };
+
+
+  const [nome, setNome] = useState("");
+  const [precoUnitario, setprecoUnitario] = useState(0);
+  const [preco, setPreco] = useState(0);
+  const [quantidade, setQuantidade] = useState(0);
+  const [imagem, setImagem] = useState("../../public/assets/imagem-vazia.png");
+  const [codigo, setCodigo] = useState(null);
+  const [estoque, setEstoque] = useState(null);
+  const [products, setProducts] = useState([]);
+
+
+  const valorCompra = (precoUnitario, quantidade) => {
+    return precoUnitario * quantidade;
+  };
+
+  const valorVenda = (preco, quantidade) => {
+    return preco * quantidade;
   };
 
   const limparDados = () => {
@@ -24,34 +106,54 @@ function CompraEVenda() {
     setPreco(0);
     setprecoUnitario(0)
     setEstoque(0);
-    setData("");
   };
+
+  let form = {};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (quantidade > estoque && selectedRadio == "Venda") {
-      alert('Quantidade maior que a disponivel no estoque (${estoque})')
+    if (selectedRadio == 'SELL') {
+      form = {
+        type: selectedRadio,
+        quantity: quantidade,
+        price: preco,
+      };
     }
     else {
-      try {
-        console.log(form);
-        await blogFetch.post(
-          "/transacao",
-          form
-        );
-        console.log(form);
-        if (selectedRadio == "Venda") {
-          alert("Venda cadastrada!");
-        }
-        else {
-          alert("Compra cadastrada!");
-        }
+      form = {
+        type: selectedRadio,
+        quantity: quantidade,
+        price: precoUnitario,
+      };
+    }
 
-      } catch (error) {
-        console.error(error);
-        console.log(form);
-        alert("Não foi possível conectar!!");
+    try {
+      console.log(form);
+      await blogFetch.post(
+        `/transactions/create?productId=${codigo}`,
+        form,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log(form);
+      if (selectedRadio == "SELL") {
+        alert("Venda cadastrada!");
+      }
+      else {
+        alert("Compra cadastrada!");
+      }
+
+    } catch (error) {
+      if (error.response.status === 422) {
+        setErro(true);
+        setMensagemErro(error.response.data.errors[0].message);
+        console.log(error.response.data);
+        setTimeout(() => {
+          setErro(false);
+        }, 3000);
       }
     }
   };
@@ -61,24 +163,24 @@ function CompraEVenda() {
       <div className="flex gap-6 items-center">
         <button
           className={
-            selectedRadio === "Compra"
+            selectedRadio === "PURCHASE"
               ? "p-2 bg-vermelho-botao text-white rounded-3xl w-36 text-xl"
               : "text-black w-36 text-xl p-2"
           }
           onClick={() =>
-            handleRadioChange("Compra")}
+            handleRadioChange("PURCHASE")}
         >
           Compra
         </button>
 
         <button
           className={
-            selectedRadio === "Venda"
+            selectedRadio === "SELL"
               ? "p-2 bg-vermelho-botao text-white rounded-3xl w-36 text-xl"
               : "text-black w-36 text-xl p-2"
           }
           onClick={() =>
-            handleRadioChange("Venda")}
+            handleRadioChange("SELL")}
         >
           Venda
         </button>
@@ -107,17 +209,29 @@ function CompraEVenda() {
             id="nome"
             list="listaItens"
             required
-            onChange={(e) => setNome(e.target.value)}
+            onChange={async (e) => {
+              const selectedItem = products.find(item => item.name === e.target.value);
+              if (selectedItem) {
+                console.log(selectedItem)
+                setNome(selectedItem.name);
+                setCodigo(selectedItem.id);
+                setQuantidade(0);
+                setPreco(selectedItem.price);
+                await getImage(selectedItem.id);
+              };
+
+            }}
           />
 
           <datalist id="listaItens">
-            {posts.map(item => (
-              <option key={item.id_produto} value={item.nome} />
+            {products && products.map(item => (
+              <option key={item.id} value={item.name} />
             ))}
           </datalist>
 
 
-          {selectedRadio == 'Compra' ? (
+
+          {selectedRadio == 'PURCHASE' ? (
             <label
               htmlFor="precoUnitario"
               className="flex justify-between items-center text-cinza-claro pl-2"
@@ -132,6 +246,7 @@ function CompraEVenda() {
               />
             </label>
           ) : null}
+
 
 
           <label
@@ -149,7 +264,7 @@ function CompraEVenda() {
           </label>
           <div className="h-0.5 w-48 bg-cinza-claro ml-44"></div>
           <div className=" flex  justify-between items-center text-cinza-claro pl-2 pr-20">
-            {selectedRadio == 'Compra' ? (
+            {selectedRadio == 'PURCHASE' ? (
               <>
                 <p>Total</p>
                 <p>R$: {valorCompra(precoUnitario, quantidade)}</p>
@@ -178,6 +293,11 @@ function CompraEVenda() {
             </button>
           </div>
         </form>
+        {erro && (
+          <div className="fixed bottom-4 right-4 p-4 bg-red-500 text-white rounded shadow-lg z-50">
+            <p>{mensagemErro}</p>
+          </div>
+        )}
       </div>
     </div>
   );
