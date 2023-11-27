@@ -14,13 +14,13 @@ function ItemLista(props) {
     return (
         <div className="border-solid border-b border-cinza-claro cursor-context-menu">
             <ul className="grid grid-cols-7 gap-4 place-items-center rounded-3xl mt-1 mb-1 py-1 cursor-pointer">
-                <li className="text-center">{props.name}</li>
-                <li className="text-center">{props.quantity}</li>
-                <li className="text-center">R${props.price}</li>
-                <li className="text-center">R${props.total}</li>
-                <li className="text-center">{transformDate(props.datetime)}</li>
-                <li className="text-center">{props.id}</li>
-                <li className="text-center">{props.type}</li>
+                <li className="text-center text-cinza-grafico">{props.name}</li>
+                <li className="text-center text-cinza-grafico">{props.quantity}</li>
+                <li className="text-center text-cinza-grafico">R${props.price}</li>
+                <li className="text-center text-cinza-grafico">R${props.total}</li>
+                <li className="text-center text-cinza-grafico">{transformDate(props.datetime)}</li>
+                <li className="text-center text-cinza-grafico">{props.id}</li>
+                <li className="text-center text-cinza-grafico">{props.type}</li>
             </ul>
         </div>
     );

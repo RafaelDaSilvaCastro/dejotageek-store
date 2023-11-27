@@ -4,7 +4,9 @@ import br.com.dejota.dejotaApi.dtos.CreateTransactionDto;
 import br.com.dejota.dejotaApi.dtos.ReadTransactionsDto;
 import br.com.dejota.dejotaApi.enums.TransactionsType;
 import br.com.dejota.dejotaApi.exception.custom.ValidationException;
+import br.com.dejota.dejotaApi.model.Category;
 import br.com.dejota.dejotaApi.model.Product;
+import br.com.dejota.dejotaApi.model.QTransactions;
 import br.com.dejota.dejotaApi.model.Transactions;
 import br.com.dejota.dejotaApi.repository.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class TransactionsService {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     public void create(CreateTransactionDto dto, Long productId) {
         Product product = productService.findById(productId)
@@ -56,6 +61,23 @@ public class TransactionsService {
         return transactions.map(this::toDto);
     }
 
+    public Page<ReadTransactionsDto> findAllSales(Long category, Pageable pageable) {
+        QTransactions qTransactions = QTransactions.transactions;
+        Page<Transactions> transactions =
+                transactionsRepository.findAll(qTransactions.product.category.id.eq(category)
+                        .and(qTransactions.type.eq(TransactionsType.SELL)), pageable);
+
+        return transactions.map(this::toDto);
+    }
+
+    public Page<ReadTransactionsDto> findAllPurchases(Long category, Pageable pageable) {
+        QTransactions qTransactions = QTransactions.transactions;
+        Page<Transactions> transactions =
+                transactionsRepository.findAll(qTransactions.product.category.id.eq(category)
+                        .and(qTransactions.type.eq(TransactionsType.PURCHASE)), pageable);
+
+        return transactions.map(this::toDto);
+    }
 
     private Transactions toEntity(CreateTransactionDto dto) {
         return new Transactions(

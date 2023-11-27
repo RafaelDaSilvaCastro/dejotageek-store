@@ -34,4 +34,22 @@ public class TransactionsController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("datetime")));
         return new ResponseEntity<>(transactionsService.findAll(filter, pageable), HttpStatus.OK);
     }
+
+    @GetMapping("/sales")
+    public ResponseEntity<Page<ReadTransactionsDto>> findAllSales(@RequestParam("categoryId") Long categoryId,
+                                                                  @RequestParam(defaultValue = "0") int page,
+                                                                  @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("datetime")));
+        return new ResponseEntity<>(transactionsService.findAllSales(categoryId, pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/purchases")
+    public ResponseEntity<Page<ReadTransactionsDto>> findAllPurchases(@RequestParam("categoryId") Long categoryId,
+                                                                      @RequestParam(defaultValue = "0") int page,
+                                                                      @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("datetime")));
+        return new ResponseEntity<>(transactionsService.findAllPurchases(categoryId, pageable), HttpStatus.OK);
+    }
 }

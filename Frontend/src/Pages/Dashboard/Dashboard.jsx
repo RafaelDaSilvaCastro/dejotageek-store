@@ -14,6 +14,9 @@ function Dashboard() {
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(0);
   const [transactions, setTransactions] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [salesData, setSalesData] = useState({ labels: [], series: [] });
+  const [purchasesData, setPurchasesData] = useState({ labels: [], series: [] });
   const navigate = useNavigate();
 
   const getTransactions = async () => {
@@ -33,9 +36,77 @@ function Dashboard() {
     }
   }
 
+  const getCategories = async () => {
+    try {
+      const response = await blogFetch.get("/categories", { headers: { Authorization: `Bearer ${token}` } });
+
+      if (response.status === 200) {
+        setCategories(response.data.content);
+        console.log(response.data.content);
+      }
+
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/");
+        console.log("Token inválido");
+      }
+    }
+  }
+
+  const getSales = async () => {
+    try {
+      const promises = categories.map(async (category) => {
+        const response = await blogFetch.get(`/transactions/sales?categoryId=${category.id}`, { headers: { Authorization: `Bearer ${token}` } });
+        return response.data.content.length;
+      });
+  
+      const seriesData = await Promise.all(promises);
+  
+      setSalesData({
+        labels: categories.map((category) => category.name),
+        series: seriesData,
+      });
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.log("Token inválido");
+      } else {
+        console.error(error);
+      }
+    }
+  };
+  
+  const getPurchases = async () => {
+    try {
+      const promises = categories.map(async (category) => {
+        const response = await blogFetch.get(`/transactions/purchases?categoryId=${category.id}`, { headers: { Authorization: `Bearer ${token}` } });
+        return response.data.content.length;
+      });
+  
+      const seriesData = await Promise.all(promises);
+  
+      setPurchasesData({
+        labels: categories.map((category) => category.name),
+        series: seriesData,
+      });
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        console.log("Token inválido");
+      } else {
+        console.error(error);
+      }
+    }
+  };
+  
+
   React.useEffect(() => {
     getTransactions();
-  }, [filter, page]);
+    getCategories();
+  }, []);
+
+  React.useEffect(() => {
+    getSales();
+    getPurchases();
+  }, [categories]);
 
   return (
     <div className="flex flex-col">
@@ -47,8 +118,8 @@ function Dashboard() {
         </div>
         <div className="w-auto h-0.5 bg-cinza-barra mx-36"></div>
         <div className="flex items-center justify-evenly mx-36">
-          <GraficoPizza />
-          <GraficoPizza />
+          <GraficoPizza labels={salesData.labels} series={salesData.series} />
+          <GraficoPizza labels={purchasesData.labels} series={purchasesData.series} />
         </div>
       </div>
       <div className="flex flex-col mt-12 mb-8 gap-y-4 p-16 bg-white rounded-xl drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
@@ -57,13 +128,13 @@ function Dashboard() {
         </div>
         <div className="mb-36">
           <ul className="grid grid-cols-7 gap-4 justify-items-center items-center border-b border-cinza-claro pt-16 pb-2">
-            <li className="">Produto</li>
-            <li className="">Quantidade</li>
-            <li className="">Preço</li>
-            <li className="">Total</li>
-            <li className="">Data</li>
-            <li className="">Id</li>
-            <li className="">Tipo</li>
+            <li>Produto</li>
+            <li>Quantidade</li>
+            <li>Preço</li>
+            <li>Total</li>
+            <li>Data</li>
+            <li>Id</li>
+            <li>Tipo</li>
           </ul>
           {transactions.map((transaction) => (
             <ItemTransacao

@@ -5,6 +5,8 @@ import br.com.dejota.dejotaApi.dtos.ReadCategoryDto;
 import br.com.dejota.dejotaApi.model.Category;
 import br.com.dejota.dejotaApi.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,6 +25,11 @@ public class CategoryService {
         );
         repository.save(category);
         return toDto(category);
+    }
+
+    public Page<ReadCategoryDto> findAll(String filter, Pageable pageable) {
+        Page<Category> categories = repository.findAll(filter, Category.class, pageable);
+        return categories.map(this::toDto);
     }
 
     public Optional<Category> findById(Long id) {

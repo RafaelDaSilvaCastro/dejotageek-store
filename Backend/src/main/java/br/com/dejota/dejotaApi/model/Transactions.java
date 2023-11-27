@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "Transactions")
 public class Transactions extends EntityId {
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type")
     private TransactionsType type;
 
