@@ -1,11 +1,14 @@
 package br.com.dejota.dejotaApi.service;
 
 import br.com.dejota.dejotaApi.dtos.CreatePromotionDto;
+import br.com.dejota.dejotaApi.dtos.ReadPromotionDto;
 import br.com.dejota.dejotaApi.exception.custom.ValidationException;
 import br.com.dejota.dejotaApi.model.Product;
 import br.com.dejota.dejotaApi.model.Promotion;
 import br.com.dejota.dejotaApi.repository.PromotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,13 +41,9 @@ public class PromotionService {
         repository.save(promotion);
     }
 
-    private Promotion toEntity(CreatePromotionDto dto) {
-        return new Promotion(
-                dto.description(),
-                dto.percentage(),
-                dto.startDate(),
-                dto.endDate()
-        );
+    public Page<ReadPromotionDto> findAll(String filter, Pageable pageable) {
+        Page<Promotion> promotions = repository.findAll(filter, Promotion.class, pageable);
+        return promotions.map(this::toDto);
     }
 
     public void update(Long id, CreatePromotionDto dto, Long productId) {
@@ -68,5 +67,24 @@ public class PromotionService {
                 .orElseThrow(() -> new ValidationException("Promoção não encontrada"));
 
         repository.delete(promotion);
+    }
+
+    private Promotion toEntity(CreatePromotionDto dto) {
+        return new Promotion(
+                dto.description(),
+                dto.percentage(),
+                dto.startDate(),
+                dto.endDate()
+        );
+    }
+
+    private ReadPromotionDto toDto(Promotion promotion) {
+        return new ReadPromotionDto(
+                promotion.getDescription(),
+                promotion.getPercentage(),
+                promotion.getStartDate(),
+                promotion.getEndDate(),
+                promotion.getProduct().getName()
+        );
     }
 }
