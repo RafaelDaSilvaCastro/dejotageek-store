@@ -54,18 +54,18 @@ public class DejotaApiApplication {
 		userRepository.save(user);
 	}
 
-	@Bean
-	public void createCatergories() {
-		Category tshirt = new Category("TSHIRT", "Camisetas de todos os tipos", "Roupas");
-		Category actionFigure = new Category("ACTIONFIGURE", "Action Figures de todos os tipos", "Brinquedos");
-		Category decoration = new Category("DECORATION", "Decorações de todos os tipos", "Decoração");
-		Category accessories = new Category("ACCESSORIES", "Acessórios de todos os tipos", "Acessórios");
-
-		categoryRepository.save(tshirt);
-		categoryRepository.save(actionFigure);
-		categoryRepository.save(decoration);
-		categoryRepository.save(accessories);
-	}
+//	@Bean
+//	public void createCatergories() {
+//		Category tshirt = new Category("TSHIRT", "Camisetas de todos os tipos", "Roupas");
+//		Category actionFigure = new Category("ACTIONFIGURE", "Action Figures de todos os tipos", "Brinquedos");
+//		Category decoration = new Category("DECORATION", "Decorações de todos os tipos", "Decoração");
+//		Category accessories = new Category("ACCESSORIES", "Acessórios de todos os tipos", "Acessórios");
+//
+//		categoryRepository.save(tshirt);
+//		categoryRepository.save(actionFigure);
+//		categoryRepository.save(decoration);
+//		categoryRepository.save(accessories);
+//	}
 
 //	@Bean
 //	public RedisTemplate<String, Object> redisTemplate() {

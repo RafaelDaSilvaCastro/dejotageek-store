@@ -10,13 +10,13 @@ public record CreateProductDto(
         @NotBlank
         String description,
 
-        @NotBlank
+        @NotNull
         Double price,
 
-        @NotBlank
+        @NotNull
         Double purchasePrice,
 
-        @NotBlank
+        @NotNull
         Integer stock
 ) {
 }

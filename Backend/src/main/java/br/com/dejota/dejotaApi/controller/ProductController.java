@@ -6,6 +6,7 @@ import br.com.dejota.dejotaApi.model.Product;
 import br.com.dejota.dejotaApi.model.Promotion;
 import br.com.dejota.dejotaApi.service.ProductService;
 import br.com.dejota.dejotaApi.service.PromotionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +29,7 @@ public class ProductController {
     private PromotionService promotionService;
 
     @PostMapping("/create")
-    public ResponseEntity<ReadProductDto> create(@RequestBody CreateProductDto dto,
+    public ResponseEntity<ReadProductDto> create(@RequestBody @Valid CreateProductDto dto,
                                                  @RequestParam("categoryId") Long categoryId) {
         return new ResponseEntity<>(productService.create(dto, categoryId), HttpStatus.CREATED);
     }
@@ -48,7 +49,7 @@ public class ProductController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ReadProductDto> update(@PathVariable Long id,
-                                                 @RequestBody CreateProductDto dto,
+                                                 @RequestBody @Valid CreateProductDto dto,
                                                  @RequestParam("categoryId") Long categoryId) {
         productService.update(id, dto, categoryId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
