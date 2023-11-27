@@ -5,9 +5,8 @@ function CardVazio(props) {
   const [imagemCompra, setImagemCompra] = useState(
     ""
   );
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    props.enviarVariavelImg(imagemCompra);
 
     if (file) {
       const reader = new FileReader();
@@ -15,11 +14,15 @@ function CardVazio(props) {
         setImagemCompra(reader.result);
       };
       reader.readAsDataURL(file);
+
+      props.setImagem(file);
+
+
     } else {
       setImagemCompra("../../public/assets/imagem-vazia.png");
+      props.enviarVariavelImg("../../public/assets/imagem-vazia.png");
     }
   };
-
 
   useEffect(() => {
     setImagemCompra(props.imagem)

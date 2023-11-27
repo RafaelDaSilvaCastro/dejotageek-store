@@ -7,7 +7,7 @@ function ItemLista(props) {
     setSelecionado(!selecionado);
   };
 
-  const itemClasses = `grid grid-cols-7 gap-4 place-items-center rounded-3xl mt-1 mb-1 py-1 cursor-pointer  
+  const itemClasses = `grid grid-cols-8 gap-4 place-items-center rounded-3xl mt-1 mb-1 py-1 cursor-pointer  
   ${selecionado ? "ring-2 ring-vermelho-botao" : ""}`;
 
   return (
@@ -17,11 +17,12 @@ function ItemLista(props) {
           <img
             className="w-imagemTelaStock h-imagemTelaStock"
             src={props.imagem}
-            alt="imagem produto"
+            alt="img"
           />
         </li>
         <li className="text-center">{props.nome}</li>
         <li>{props.codigo}</li>
+        <li>{props.dataCadastro}</li>
         <li className="text-center">{props.descricao}</li>
         <li>{props.categoria}</li>
         <li>{props.preco}</li>

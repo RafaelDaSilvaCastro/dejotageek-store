@@ -1,132 +1,134 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import CardVazio from "./CardVazio";
 import blogFetch from "../axios/config";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CadastroItem(props) {
-  const [key, setKey] = useState("");
+  const [token] = useState(sessionStorage.getItem("token"));
   const [imagem, setImagem] = useState("../../public/assets/imagem-vazia.png");
-  const [nome, setNome] = useState("");
-  const [codigo, setCodigo] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [categoria, setCategoria] = useState("");
-  const [precoCompra, setPrecoCompra] = useState();
-  const [preco, setPreco] = useState();
-  const [estoque, setEstoque] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
+  const [stock, setStock] = useState("");
+  const navigate = useNavigate();
 
   const form = {
-    nome: nome,
-    descricao: descricao,
-    id_produto: codigo,
-    preco: preco,
-    estoque: 0,
-    categoria: categoria,
-    imagem: imagem,
-    precoCompra: precoCompra
+    name: name,
+    description: description,
+    price: price,
+    purchasePrice: 0,
+    category: category,
+    stock: stock,
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  };
 
-    if (codigo == null) {
-      try {
-        console.log(form);
-        await blogFetch.post(
-          "/produto",
-          form
-        );
-        console.log(form);
-        alert("Item adicionado!");
-        props.closeCadastroItem();
-      } catch (error) {
-        console.error(error);
-        console.log(form);
-        alert("Não foi possível conectar!!");
+  const postProduct = async () => {
+    try {
+      const response = await blogFetch.post(`/products/create?categoryId=${category}`, form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 201) {
+        console.log(response.data)
+        postImage(response.data.id);
+
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        navigate("/");
+        console.log("Token inválido");
+      }
+
+      if (err.response.status === 422) {
+        alert(err.response.data.errors[0].message);
       }
     }
-    else {
-      try {
-        console.log(form);
-        await blogFetch.put(
-          "/produto",
-          form
-        );
-        console.log(form);
-        alert("Item atualizado!");
-        props.closeCadastroItem();
-
-      } catch (error) {
-        console.error(error);
-        console.log(form);
-        alert("Não foi possível conectar!!");
-      }
-    }  
   };
 
 
-  useEffect(() => {
-    setImagem(props.imagem)
-    setNome(props.nome)
-    setCodigo(props.codigo)
-    setDescricao(props.descricao)
-    setCategoria(props.categoria)
-    setPreco(props.preco)
-    setEstoque(props.estoque)
-  }, []);
 
 
-  const limparDados = async (e) => {
-    if (codigo != null) {
-      e.preventDefault();
-      try {
-        let resultado = confirm("Deseja excluir o item?");
-        if (resultado == true) {
-          console.log(form);
-          await blogFetch.delete(
-            "/produto/" + codigo,
-          );
-          console.log(form)
-
-          props.closeCadastroItem();
-
-        }
-
-      } catch (error) {
-        console.error(error);
-        console.log(form)
-        alert("Não foi possível conectar!!");
+  const postImage = async (id) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", imagem);
+      formData.append("productId", id);
+  
+      const response = await blogFetch.post(`images`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
+      if (response.status === 204) {
+        alert("Imagem cadastrada com sucesso");
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        console.log(token);
+      }
+  
+      if (err.response.status === 422) {
+        alert(err.response.data.errors[0].message);
       }
     }
-
-    else {
-      setNome(null);
-      setDescricao(null);
-      setPreco(null);
-      setPrecoCompra(null)
-      setCategoria(null);
-    }
+  };
+  
 
 
+
+
+
+
+
+
+
+
+
+
+
+  const cleanForm = () => {
+    setName("");
+    setDescription("");
+    setPrice("");
+    setCategory("");
+    setStock("");
   };
 
-  //////////////////////////////
+  const handlePostProduct = async () => {
+    await postProduct();
+    await props.onPostProduct();
 
-  const receberImagem = (imagem) => {
-    setImagem(imagem);
+    //await postImage();
+
+    cleanForm();
+    props.closeCadastroItem();
+  };
+
+  const handleCloseCadastroItem = () => {
+    cleanForm();
+    props.closeCadastroItem();
   };
 
   return (
-    <div className="bg-white rounded-3xl p-12  gap-36 mb-4 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
+    <div className="bg-white rounded-3xl p-12 gap-36 mb-4 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]">
       <form
         onSubmit={(e) => handleSubmit(e)}
-        className="flex  gap-8 justify-center mt-4"
+        className="flex gap-8 justify-center mt-4"
       >
         <div className="ml-16">
           <CardVazio
-            nome={nome}
-            valorTotal={preco}
+            nome={name}
+            valorTotal={price}
             imagem={imagem}
-            enviarVariavelImg={receberImagem}
+            setImagem={setImagem}
           />
         </div>
         <div>
@@ -142,9 +144,9 @@ function CadastroItem(props) {
                 name="nome"
                 id="nome"
                 required
-                value={nome}
+                value={name}
                 key="nome"
-                onChange={(e) => setNome(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="mb-8">
@@ -158,9 +160,9 @@ function CadastroItem(props) {
                 name="descricao"
                 id="descricao"
                 required
-                value={descricao}
+                value={description}
                 key="descricao"
-                onChange={(e) => setDescricao(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </div>
           </div>
@@ -169,23 +171,23 @@ function CadastroItem(props) {
               id="categoria"
               name="Categoria"
               required
-              value={categoria}
-              className=" outline-none drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg h-10 w-44 p-2 bg-white text-cinza-claro"
+              value={category}
+              className="outline-none drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg h-10 w-44 p-2 bg-white text-cinza-claro"
               key="categoria"
-              onChange={(e) => setCategoria(e.target.value)}
+              onChange={(e) => setCategory(e.target.value)}
             >
               <option value="">Selecione uma categoria</option>
-              <option className="text-zinc-800" value="CAMISA">
-                CAMISA
+              <option className="text-zinc-800" value="1">
+                TSHIRT
               </option>
-              <option className="text-zinc-800" value="ACTIONFIGURE" selected>
+              <option className="text-zinc-800" value="2" selected>
                 ACTIONFIGURE
               </option>
-              <option className="text-zinc-800" value="DECORACAO">
-                DECORACAO
+              <option className="text-zinc-800" value="3">
+                DECORATION
               </option>
-              <option className="text-zinc-800" value="ACESSORIOS">
-                ACESSORIOS
+              <option className="text-zinc-800" value="4">
+                ACCESSORIES
               </option>
             </select>
             <label className="hidden" htmlFor="preco">
@@ -200,22 +202,40 @@ function CadastroItem(props) {
               placeholder="Preço"
               min="0"
               required
-              value={preco}
+              value={price}
               key="preco"
-              onChange={(e) => setPreco(e.target.value)}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+          </div>
+          <div className="mb-8">
+            <label className="hidden" htmlFor="estoque">
+              Estoque
+            </label>
+            <input
+              className="estoque outline-none rounded-lg w-40 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] p-2 placeholder:text-cinza-claro no-arrows"
+              type="number"
+              id="estoque"
+              name="estoque"
+              placeholder="Estoque"
+              min="0"
+              required
+              value={stock}
+              key="estoque"
+              onChange={(e) => setStock(e.target.value)}
             />
           </div>
           <div className="flex justify-around">
             <button
-              onClick={(e) => limparDados(e)}
+              onClick={() => handleCloseCadastroItem()}
               type="reset"
-              className=" hover:scale-105 duration-150 bg-vermelho-pessego rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
+              className="hover:scale-105 duration-150 bg-vermelho-pessego rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
             >
-              Excluir
+              Cancelar
             </button>
             <button
               type="submit"
-              className=" hover:scale-105 duration-150 bg-verde-caqui rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
+              className="hover:scale-105 duration-150 bg-verde-caqui rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
+              onClick={() => handlePostProduct()}
             >
               Salvar
             </button>
