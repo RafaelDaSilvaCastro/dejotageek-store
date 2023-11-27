@@ -45,8 +45,7 @@ public class ProductService {
         product.setCategory(category);
 
         if (product.getImage() == null) {
-            Image image = new Image("default", "13Dymy5OCMOwG1w5Xgcqxnzg3Rr9-RSM8");
-            imageRepository.save(image);
+            Image image = imageRepository.findById(1L);
 
             product.setImage(image);
         }

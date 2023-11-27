@@ -103,7 +103,7 @@ function Dashboard() {
   };
 
   const handleFilter = () => {
-    setFilter(`createdAt+between+${filterDateStart}+${filterDateEnd}`);
+    setFilter(`datetime+between+${filterDateStart}T00:00:00+and+${filterDateEnd}T23:59:59`);
     console.log(filter);
   }
 

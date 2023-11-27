@@ -2,9 +2,11 @@ package br.com.dejota.dejotaApi;
 
 import br.com.dejota.dejotaApi.enums.UserRole;
 import br.com.dejota.dejotaApi.model.Category;
+import br.com.dejota.dejotaApi.model.Image;
 import br.com.dejota.dejotaApi.model.Role;
 import br.com.dejota.dejotaApi.model.User;
 import br.com.dejota.dejotaApi.repository.CategoryRepository;
+import br.com.dejota.dejotaApi.repository.ImageRepository;
 import br.com.dejota.dejotaApi.repository.RoleRepository;
 import br.com.dejota.dejotaApi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,9 @@ public class DejotaApiApplication {
 	@Autowired
 	private RoleRepository roleRepository;
 
+	@Autowired
+	private ImageRepository imageRepository;
+
 	@Bean
 	public void createAdmin() {
 		User user = new User();
@@ -52,6 +57,12 @@ public class DejotaApiApplication {
 		user.setCreatedAt(Instant.now());
 
 		userRepository.save(user);
+	}
+
+	@Bean
+	public void createDefaultImage() {
+		Image image = new Image("default", "1hksm2ffg5B3pPtr4QJ1HnlmdclTmRkZk");
+		imageRepository.save(image);
 	}
 
 //	@Bean

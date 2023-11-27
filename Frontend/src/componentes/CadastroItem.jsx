@@ -275,7 +275,7 @@ function CadastroItem(props) {
             </datalist>
             <button
               onClick={() => setShowNovaCategoriaModal(true)}
-              className="bg-azul-celeste text-white rounded-lg h-10 px-4 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
+              className="hover:scale-105 duration-150 rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
             >
               Criar categoria
             </button>
