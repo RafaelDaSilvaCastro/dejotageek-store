@@ -30,17 +30,14 @@ function Stock() {
 
   const getImage = async (id) => {
     try {
-      const response = await blogFetch.get(
-        `/images?productId=${id}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          responseType: 'arraybuffer'
-        },
-      );
+      const response = await blogFetch.get(`/images?productId=${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: "arraybuffer",
+      });
 
       if (response.status === 200) {
         const imageBlob = new Blob([response.data], {
-          type: response.headers['content-type'],
+          type: response.headers["content-type"],
         });
         const imageUrl = URL.createObjectURL(imageBlob);
         setProducts((prevProducts) =>
@@ -63,7 +60,7 @@ function Stock() {
         ...product,
         createdAt: transformDate(product.createdAt),
       }))
-    );    
+    );
   };
 
   const transformDate = (date) => {
@@ -73,7 +70,7 @@ function Stock() {
     const day = dateArray[2].split("T")[0];
     const newDate = `${day}/${month}/${year}`;
     return newDate;
-}
+  };
 
   const handleSortBy = async (sortDirectionCustom, setSortDirectionCustom) => {
     setSortDirectionCustom((prevSortDirection) => {
@@ -221,7 +218,7 @@ function Stock() {
           </div>
         )}
       </div>
-      <div className="flex justify-right mt-4">
+      <div className="flex justify-right mt-4 mb-10">
         <select
           className="ml-2 p-2 border border-gray-300 rounded"
           value={pageSize}

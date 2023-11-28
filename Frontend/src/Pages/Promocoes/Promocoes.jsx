@@ -123,7 +123,7 @@ function Promocoes() {
   return (
     <div className="flex">
       {/* Formulário à esquerda */}
-      <div className="flex-1 p-4 bg-gray-200 rounded-md">
+      <div className="flex-1 p-4 rounded-md mr-20">
         <h1 className="text-2xl mb-4 font-bold">Criar Promoção</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -134,7 +134,7 @@ function Promocoes() {
               Produto:
             </label>
             <input
-              className="outline-none p-2 rounded-lg w-96 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
+              className="outline-none p-2 rounded-lg w-full h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
               placeholder="Nome"
               type="text"
               name="nome"
@@ -170,7 +170,7 @@ function Promocoes() {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="mt-1 p-2 border rounded-md w-full placeholder:text-cinza-claro"
+              className="mt-1 outline-none p-2 rounded-lg w-full h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
               placeholder="Descrição"
             />
           </div>
@@ -187,7 +187,7 @@ function Promocoes() {
               name="percentage"
               value={formData.percentage}
               onChange={handleChange}
-              className="mt-1 p-2 border rounded-md w-full placeholder:text-cinza-claro"
+              className="mt-1 outline-none p-2 rounded-lg w-full h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
               placeholder="%"
             />
           </div>
@@ -204,7 +204,7 @@ function Promocoes() {
               name="startDate"
               value={formData.startDate}
               onChange={handleChange}
-              className="mt-1 p-2 border rounded-md w-full"
+              className="mt-1 outline-none p-2 rounded-lg w-full h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] text-cinza-claro"
             />
           </div>
           <div>
@@ -220,7 +220,7 @@ function Promocoes() {
               name="endDate"
               value={formData.endDate}
               onChange={handleChange}
-              className="mt-1 p-2 border rounded-md w-full"
+              className="mt-1 outline-none p-2 rounded-lg w-full h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] text-cinza-claro"
             />
           </div>
           <button
