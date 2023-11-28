@@ -28,6 +28,9 @@ public class Role extends EntityId {
     @OneToMany(mappedBy = "role")
     private List<User> users;
 
+    @OneToMany(mappedBy = "role")
+    private List<Employee> employees;
+
     public Role(UserRole role) {
         this.role = role;
     }
