@@ -65,24 +65,24 @@ public class DejotaApiApplication {
 		imageRepository.save(image);
 	}
 
-	@Bean
-	public RedisTemplate<String, Object> redisTemplate() {
-		RedisTemplate<String, Object> template = new RedisTemplate<>();
-		template.setConnectionFactory(jedisConnectionFactory());
-		return template;
-	}
-
-	@Bean
-	public JedisConnectionFactory jedisConnectionFactory() {
-		RedisStandaloneConfiguration rediConfig = new RedisStandaloneConfiguration();
-		rediConfig.setHostName("oregon-redis.render.com");
-		rediConfig.setPort(6379);
-		rediConfig.setPassword("xVHbBS5AzEVclnXx1mluwn8NfctmxBdg");
-		rediConfig.setUsername("red-clh6cfmf27hc739p33l0");
-		JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfig = JedisClientConfiguration.builder();
-		jedisClientConfig.connectTimeout(Duration.ofSeconds(120));
-		jedisClientConfig.useSsl();
-
-		return new JedisConnectionFactory(rediConfig, jedisClientConfig.build());
-	}
+//	@Bean
+//	public RedisTemplate<String, Object> redisTemplate() {
+//		RedisTemplate<String, Object> template = new RedisTemplate<>();
+//		template.setConnectionFactory(jedisConnectionFactory());
+//		return template;
+//	}
+//
+//	@Bean
+//	public JedisConnectionFactory jedisConnectionFactory() {
+//		RedisStandaloneConfiguration rediConfig = new RedisStandaloneConfiguration();
+//		rediConfig.setHostName("oregon-redis.render.com");
+//		rediConfig.setPort(6379);
+//		rediConfig.setPassword("xVHbBS5AzEVclnXx1mluwn8NfctmxBdg");
+//		rediConfig.setUsername("red-clh6cfmf27hc739p33l0");
+//		JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfig = JedisClientConfiguration.builder();
+//		jedisClientConfig.connectTimeout(Duration.ofSeconds(120));
+//		jedisClientConfig.useSsl();
+//
+//		return new JedisConnectionFactory(rediConfig, jedisClientConfig.build());
+//	}
 }
