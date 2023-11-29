@@ -155,6 +155,31 @@ function Stock() {
     setCurrentPage(0);
   };
 
+  const [imagem, setImagem] = useState("");
+  const [nome, setNome] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [preco, setPreco] = useState("");
+  const [estoque, setEstoque] = useState("");
+  const [editExcluir, setEditExcluir] = useState(false);
+
+  const EditItem = (imagem, nome, codigo, descricao, categoria, preco, estoque) => {
+    console.log("teste")
+    setImagem(imagem);
+    setNome(nome);
+    setCodigo(codigo);
+    setDescricao(descricao);
+    setCategoria(categoria);
+    setPreco(preco);
+    setEstoque(estoque);
+    setEditExcluir(true)
+    setMostraCadastroItem(true);
+  }
+
+
+
+
   return (
     <div>
       <PesquisaFiltro
@@ -193,6 +218,7 @@ function Stock() {
             categoria={item.category}
             preco={item.price}
             estoque={item.stock}
+            editItem={EditItem}
           />
         ))}
       </div>
@@ -213,6 +239,14 @@ function Stock() {
               <CadastroItem
                 closeCadastroItem={closeCadastroItem}
                 onPostProduct={getProducts}
+                imagem={imagem}
+                nome={nome}
+                codigo={codigo}
+                descricao={descricao}
+                categoria={categoria}
+                estoque={estoque}
+                preco={preco}
+                editExcluir={editExcluir}
               />
             </div>
           </div>

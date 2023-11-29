@@ -29,7 +29,7 @@ public class Role extends EntityId {
     private List<User> users;
 
     @OneToMany(mappedBy = "role")
-    private List<Employee> employees;
+    private List<Employees> employees;
 
     public Role(UserRole role) {
         this.role = role;

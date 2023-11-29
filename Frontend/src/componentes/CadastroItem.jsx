@@ -10,6 +10,8 @@ function CadastroItem(props) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [codigo, setCodigo] = useState("");
+  const [categoria, setCategoria] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categorias, setCategorias] = useState([]);
   const [descricao, setDescricao] = useState("");
@@ -180,6 +182,106 @@ function CadastroItem(props) {
     }
   };
 
+
+
+
+
+
+  const handleExcluirCadastroItem = async (e) => {
+
+    try {
+      const response = await blogFetch.put(
+        `/products/update/${codigo}`,
+        {
+          name: name,
+          description: description,
+          price: price,
+          purchasePrice: price,
+          stock: stock
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log(response.status);
+        clearCategoria();
+        cleanForm();
+        props.closeCadastroItem();
+        setAcerto(true);
+        setMensagem("Item Editado!");
+        setTimeout(() => {
+          setAcerto(false);
+        }, 3000);
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        navigate("/");
+        console.log("Token inválido");
+      }
+
+      if (err.response.status === 422) {
+        setErro(true);
+        setMensagemErro(err.response.data.errors[0].message);
+        setTimeout(() => {
+          setErro(false);
+        }, 3000);
+      }
+    }
+  };
+
+
+
+
+
+  const handleEditProduct = async (e) => {
+
+    try {
+      const response = await blogFetch.put(
+        `/products/delete/${codigo}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 201) {
+        console.log(response.status);
+        clearCategoria();
+        cleanForm();
+        props.closeCadastroItem();
+        setAcerto(true);
+        setMensagem("Item Deletado!");
+        setTimeout(() => {
+          setAcerto(false);
+        }, 3000);
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        navigate("/");
+        console.log("Token inválido");
+      }
+
+      if (err.response.status === 422) {
+        setErro(true);
+        setMensagemErro(err.response.data.errors[0].message);
+        setTimeout(() => {
+          setErro(false);
+        }, 3000);
+      }
+    }
+  };
+
+
+
+
+
+
+
   const getCategorias = async () => {
     try {
       const response = await blogFetch.get(`/categories`, {
@@ -196,7 +298,25 @@ function CadastroItem(props) {
   }
 
   React.useEffect(() => {
+    setImagem(props.imagem);
+    setName(props.nome);
+    setCodigo(props.codigo);
+    setDescription(props.descricao);
+    setCategoria(props.categoria);
+    setStock(props.estoque);
+    setPrice(props.preco);
+
+
     getCategorias();
+
+    if (categoria != "") {
+      const selectedItem = categorias.find(item => item.name === categoria);
+      if (selectedItem) {
+        console.log(selectedItem)
+        setCategoryId(selectedItem.id);
+      };
+    }
+
   }, []);
 
   return (
@@ -220,7 +340,7 @@ function CadastroItem(props) {
                 Nome
               </label>
               <input
-                className="nome outline-none p-2 rounded-lg w-96 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
+                className="nome outline-none p-2 rounded-lg w-full h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
                 placeholder="Nome"
                 type="text"
                 name="nome"
@@ -235,7 +355,7 @@ function CadastroItem(props) {
                 Descrição
               </label>
               <input
-                className="descricao outline-none rounded-lg w-96 h-28 p-2 pb-20 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
+                className="descricao outline-none rounded-lg w-full h-28 p-2 pb-20 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
                 placeholder="Descrição"
                 type="text"
                 name="descricao"
@@ -251,12 +371,13 @@ function CadastroItem(props) {
               Categoria
             </label>
             <input
-              className="outline-none p-2 rounded-lg w-96 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
+              className="outline-none p-2 rounded-lg w-45 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] placeholder:text-cinza-claro"
               placeholder="Categorias"
               type="text"
               name="nome"
               id="categoria"
               list="listaCategoria"
+              value={categoria}
               required
               onChange={async (e) => {
                 const selectedItem = categorias.find(item => item.name === e.target.value);
@@ -275,15 +396,17 @@ function CadastroItem(props) {
             </datalist>
             <button
               onClick={() => setShowNovaCategoriaModal(true)}
-              className="hover:scale-105 duration-150 rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
+              className="bg-cinza-claro text-white drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] rounded-lg px-7 py-3 flex items-center hover:scale-105 duration-150 w-45 h-10"
             >
               Criar categoria
             </button>
+          </div>
+          <div className="categoria flex gap-10 mb-12">
             <label className="hidden" htmlFor="preco">
               Preço R$
             </label>
             <input
-              className="preco outline-none rounded-lg w-40 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] p-2 placeholder:text-cinza-claro no-arrows"
+              className="preco outline-none rounded-lg w-45 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] p-2 placeholder:text-cinza-claro no-arrows"
               type="number"
               id="preco"
               name="preco"
@@ -294,38 +417,43 @@ function CadastroItem(props) {
               key="preco"
               onChange={(e) => setPrice(e.target.value)}
             />
-          </div>
-          <div className="mb-8">
-            <label className="hidden" htmlFor="estoque">
-              Estoque
-            </label>
-            <input
-              className="estoque outline-none rounded-lg w-40 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] p-2 placeholder:text-cinza-claro no-arrows"
-              type="number"
-              id="estoque"
-              name="estoque"
-              placeholder="Estoque"
-              min="0"
-              value={stock}
-              key="estoque"
-              onChange={(e) => setStock(e.target.value)}
-            />
+            <div className="mb-8">
+              <label className="hidden" htmlFor="estoque">
+                Estoque
+              </label>
+              <input
+                className="estoque outline-none rounded-lg w-40 h-10 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)] p-2 placeholder:text-cinza-claro no-arrows"
+                type="number"
+                id="estoque"
+                name="estoque"
+                placeholder="Estoque"
+                min="0"
+                value={stock}
+                key="estoque"
+                onChange={(e) => setStock(e.target.value)}
+              />
+            </div>
           </div>
           <div className="flex justify-around">
             <button
-              onClick={() => handleCloseCadastroItem()}
+              onClick={() => {
+                props.editExcluir ? handleExcluirCadastroItem() : handleCloseCadastroItem();
+              }}
               type="reset"
               className="hover:scale-105 duration-150 bg-vermelho-pessego rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
             >
-              Cancelar
+              {props.editExcluir ? "Excluir" : "Cancelar"}
             </button>
             <button
               type="submit"
               className="hover:scale-105 duration-150 bg-verde-caqui rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
-              onClick={() => handlePostProduct()}
+              onClick={() => {
+                props.editExcluir ? handleEditProduct() : handlePostProduct()
+              }}
             >
               Salvar
             </button>
+
           </div>
         </div>
       </form>

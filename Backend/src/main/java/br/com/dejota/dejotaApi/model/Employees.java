@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Employees")
-public class Employee extends EntityId {
+public class Employees extends EntityId {
 
     @Column(name = "name")
     private String name;
@@ -35,7 +35,7 @@ public class Employee extends EntityId {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    public Employee(String name, String cpf, String phone, String email) {
+    public Employees(String name, String cpf, String phone, String email) {
         this.name = name;
         this.cpf = cpf;
         this.phone = phone;
