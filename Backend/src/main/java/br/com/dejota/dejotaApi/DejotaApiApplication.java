@@ -59,12 +59,6 @@ public class DejotaApiApplication {
 		userRepository.save(user);
 	}
 
-	@Bean
-	public void createDefaultImage() {
-		Image image = new Image("default", "1hksm2ffg5B3pPtr4QJ1HnlmdclTmRkZk");
-		imageRepository.save(image);
-	}
-
 //	@Bean
 //	public RedisTemplate<String, Object> redisTemplate() {
 //		RedisTemplate<String, Object> template = new RedisTemplate<>();

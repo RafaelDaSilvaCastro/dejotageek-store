@@ -49,10 +49,9 @@ public class ProductController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ReadProductDto> update(@PathVariable Long id,
-                                                 @RequestBody @Valid CreateProductDto dto,
-                                                 @RequestParam("categoryId") Long categoryId) {
-        productService.update(id, dto, categoryId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                                                 @RequestBody @Valid CreateProductDto dto) {
+        ReadProductDto product = productService.update(id, dto);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

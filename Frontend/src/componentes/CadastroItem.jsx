@@ -186,8 +186,7 @@ function CadastroItem(props) {
 
 
 
-
-  const handleExcluirCadastroItem = async (e) => {
+  const handleEditProduct = async (e) => {
 
     try {
       const response = await blogFetch.put(
@@ -206,16 +205,16 @@ function CadastroItem(props) {
         }
       );
 
-      if (response.status === 201) {
-        console.log(response.status);
+      if (response.status === 200) {
+        postImage(response.data.id);
         clearCategoria();
         cleanForm();
-        props.closeCadastroItem();
         setAcerto(true);
         setMensagem("Item Editado!");
         setTimeout(() => {
           setAcerto(false);
         }, 3000);
+        props.closeCadastroItem();
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -237,10 +236,10 @@ function CadastroItem(props) {
 
 
 
-  const handleEditProduct = async (e) => {
+  const handleExcluirCadastroItem = async (e) => {
 
     try {
-      const response = await blogFetch.put(
+      const response = await blogFetch.delete(
         `/products/delete/${codigo}`,
         {
           headers: {

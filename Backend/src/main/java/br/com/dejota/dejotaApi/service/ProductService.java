@@ -45,7 +45,8 @@ public class ProductService {
         product.setCategory(category);
 
         if (product.getImage() == null) {
-            Image image = imageRepository.findById(1L);
+            Image image = new Image("default", "1hksm2ffg5B3pPtr4QJ1HnlmdclTmRkZk");
+            imageRepository.save(image);
 
             product.setImage(image);
         }
@@ -55,21 +56,19 @@ public class ProductService {
         return toDto(product);
     }
 
-    public void update(Long id, CreateProductDto dto, Long categoryId) {
+    public ReadProductDto update(Long id, CreateProductDto dto) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ValidationException("Produto não encontrado"));
-
-        Category category = categoryService.findById(categoryId)
-                .orElseThrow(() -> new ValidationException("Categoria não encontrada"));
 
         product.setName(dto.name());
         product.setDescription(dto.description());
         product.setPrice(dto.price());
         product.setPurchasePrice(dto.purchasePrice());
         product.setStock(dto.stock());
-        product.setCategory(category);
 
         productRepository.save(product);
+
+        return toDto(product);
     }
 
     public void delete(Long id) {
