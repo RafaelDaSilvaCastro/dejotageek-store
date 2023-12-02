@@ -55,6 +55,7 @@ function CadastroItem(props) {
         setTimeout(() => {
           setAcerto(false);
         }, 3000);
+        window.location.reload();
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -91,6 +92,7 @@ function CadastroItem(props) {
         setTimeout(() => {
           setAcerto(false);
         }, 3000);
+        window.location.reload();
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -159,12 +161,12 @@ function CadastroItem(props) {
         setShowNovaCategoriaModal(false);
         getCategorias();
         clearCategoria();
-
         setAcerto(true);
         setMensagem("Categoria cadastrada com sucesso!");
         setTimeout(() => {
           setAcerto(false);
         }, 3000);
+        window.location.reload();
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -214,6 +216,7 @@ function CadastroItem(props) {
         setTimeout(() => {
           setAcerto(false);
         }, 3000);
+        window.location.reload();
         props.closeCadastroItem();
       }
     } catch (err) {
@@ -248,7 +251,7 @@ function CadastroItem(props) {
         }
       );
 
-      if (response.status === 201) {
+      if (response.status === 204) {
         console.log(response.status);
         clearCategoria();
         cleanForm();
@@ -258,6 +261,7 @@ function CadastroItem(props) {
         setTimeout(() => {
           setAcerto(false);
         }, 3000);
+        window.location.reload();
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -376,7 +380,7 @@ function CadastroItem(props) {
               name="nome"
               id="categoria"
               list="listaCategoria"
-              value={categoria}
+              //value={categoria}
               required
               onChange={async (e) => {
                 const selectedItem = categorias.find(item => item.name === e.target.value);
