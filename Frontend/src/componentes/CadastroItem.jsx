@@ -166,7 +166,7 @@ function CadastroItem(props) {
         setTimeout(() => {
           setAcerto(false);
         }, 3000);
-        window.location.reload();
+        
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -351,6 +351,7 @@ function CadastroItem(props) {
                 value={name}
                 key="nome"
                 onChange={(e) => setName(e.target.value)}
+                required
               />
             </div>
             <div className="mb-8">
@@ -366,6 +367,7 @@ function CadastroItem(props) {
                 value={description}
                 key="descricao"
                 onChange={(e) => setDescription(e.target.value)}
+                required
               />
             </div>
           </div>
@@ -419,6 +421,7 @@ function CadastroItem(props) {
               value={price}
               key="preco"
               onChange={(e) => setPrice(e.target.value)}
+              required
             />
             <div className="mb-8">
               <label className="hidden" htmlFor="estoque">
@@ -434,6 +437,7 @@ function CadastroItem(props) {
                 value={stock}
                 key="estoque"
                 onChange={(e) => setStock(e.target.value)}
+                required
               />
             </div>
           </div>
@@ -451,7 +455,13 @@ function CadastroItem(props) {
               type="submit"
               className="hover:scale-105 duration-150 bg-verde-caqui rounded-lg h-10 w-44 drop-shadow-[0px_3px_7px_rgba(0,0,0,0.25)]"
               onClick={() => {
-                props.editExcluir ? handleEditProduct() : handlePostProduct()
+                if(name !== '' && description !== '' && categoryId !== '' && stock !== '' && price !== ''){
+                  props.editExcluir ? handleEditProduct() : handlePostProduct()
+                }
+                else{
+                  alert('Preencha todos os campos obrigatórios antes de criar um item')
+                }
+
               }}
             >
               Salvar
@@ -461,33 +471,64 @@ function CadastroItem(props) {
         </div>
       </form>
       {showNovaCategoriaModal && (
-        <Modal onClose={() => setShowNovaCategoriaModal(false)}>
-          <label htmlFor="novaCategoria">Nova Categoria:</label>
-          <input
-            type="text"
-            id="novaCategoria"
-            name="novaCategoria"
-            value={novaCategoria}
-            onChange={(e) => setNovaCategoria(e.target.value)}
-          />
-          <label htmlFor="descricao">Descrição:</label>
-          <input
-            type="text"
-            id="descricao"
-            name="descricao"
-            value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-          />
-          <label htmlFor="categoriaPai">Categoria Pai:</label>
-          <input
-            type="text"
-            id="categoriaPai"
-            name="categoriaPai"
-            value={categoriaPai}
-            onChange={(e) => setCategoriaPai(e.target.value)}
-          />
-          <button type="submit" onClick={handleNovaCategoriaSubmit}>Criar Categoria</button>
-        </Modal>
+  <Modal onClose={() => setShowNovaCategoriaModal(false)}>
+    <div className="mb-4">
+      <label htmlFor="novaCategoria" className="block text-sm font-medium text-gray-700">
+        Nova Categoria:
+      </label>
+      <input
+        type="text"
+        id="novaCategoria"
+        name="novaCategoria"
+        value={novaCategoria}
+        onChange={(e) => setNovaCategoria(e.target.value)}
+        className="mt-1 p-2 w-full border border-black rounded"
+      />
+    </div>
+    <div className="mb-4">
+      <label htmlFor="descricao" className="block text-sm font-medium text-gray-700">
+        Descrição:
+      </label>
+      <input
+        type="text"
+        id="descricao"
+        name="descricao"
+        value={descricao}
+        onChange={(e) => setDescricao(e.target.value)}
+        className="mt-1 p-2 w-full border border-black rounded"
+      />
+    </div>
+    <div className="mb-4">
+      <label htmlFor="categoriaPai" className="block text-sm font-medium text-gray-700">
+        Categoria Pai:
+      </label>
+      <input
+        type="text"
+        id="categoriaPai"
+        name="categoriaPai"
+        value={categoriaPai}
+        onChange={(e) => setCategoriaPai(e.target.value)}
+        className="mt-1 p-2 w-full border border-black rounded"
+      />
+    </div>
+    <div className="flex justify-end mt-4">
+      <button
+        type="button"
+        onClick={() => setShowNovaCategoriaModal(false)}
+        className="mr-2 px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        onClick={handleNovaCategoriaSubmit}
+        className="px-4 py-2 bg-vermelho-pessego text-white rounded hover:bg-red-600 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200"
+      >
+        Criar Categoria
+      </button>
+    </div>
+  </Modal>
+
       )}
 
       {acerto && (
